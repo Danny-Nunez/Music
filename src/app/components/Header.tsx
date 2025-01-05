@@ -438,6 +438,7 @@ export default function Header() {
                 </div>
               </div>
             ) : (
+              <div className="pt-10 border-t border-gray-800 pb-2">
               <Link
                 href="/auth/signin"
                 onClick={handleNavLinkClick}
@@ -445,6 +446,7 @@ export default function Header() {
               >
                 Sign in
               </Link>
+              </div>
             )}
           </nav>
         </div>
