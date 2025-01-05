@@ -24,13 +24,13 @@ const isMobile = () => {
 export default function Player() {
   const { data: session } = useSession();
   const playerRef = useRef<YT.Player | null>(null);
-  const [isMuted, setIsMuted] = useState(isMobile());
-  const [hasInitialUnmute, setHasInitialUnmute] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const { currentTrack, queue, isPlaying, setIsPlaying, playNext, playPrevious } = usePlayerStore();
 
   // Check for 30-second limit for non-authenticated users
@@ -47,7 +47,6 @@ export default function Player() {
           zIndex: 10000
         },
       });
-      // Show modal after a short delay to allow toast to be visible
       setTimeout(() => {
         setShowSignInModal(true);
       }, 1000);
@@ -59,10 +58,7 @@ export default function Player() {
     setIsPlayerReady(false);
     setCurrentTime(0);
     setDuration(0);
-    if (isMobile() && !hasInitialUnmute) {
-      setIsMuted(true);
-    }
-  }, [currentTrack?.videoId, hasInitialUnmute]);
+  }, [currentTrack?.videoId]);
 
   // Handle play/pause
   useEffect(() => {
@@ -71,28 +67,18 @@ export default function Player() {
   
     const handlePlay = async () => {
       try {
-        const player = playerRef.current;
-        if (!player || !isPlayerReady || !currentTrack) return;
-    
-        const state = await player.getPlayerState();
-        if (isPlaying && state !== 1) {
+        if (isPlaying) {
           await player.playVideo();
-          // If we haven't done the initial unmute and we're on mobile
-          if (isMobile() && !hasInitialUnmute && document.body.classList.contains('had-playback-interaction')) {
-            await player.unMute();
-            setIsMuted(false);
-            setHasInitialUnmute(true);
-          }
-        } else if (!isPlaying && state === 1) {
+        } else {
           await player.pauseVideo();
         }
       } catch (error) {
-        console.warn('Player is not ready to play yet. Suppressing error:', error);
+        console.warn('Player is not ready to play yet:', error);
       }
     };
     
     handlePlay();
-  }, [isPlaying, isPlayerReady, currentTrack, hasInitialUnmute]);
+  }, [isPlaying, isPlayerReady, currentTrack]);
 
   // Update current time
   useEffect(() => {
@@ -112,63 +98,47 @@ export default function Player() {
     return () => clearInterval(interval);
   }, [isPlaying, isDragging, isPlayerReady, currentTrack]);
 
-  const handlePlaybackInteraction = async () => {
-    document.body.classList.add('had-playback-interaction');
-    if (playerRef.current && isPlayerReady) {
-      try {
-        if (isPlaying) {
-          await playerRef.current.playVideo();
-          // Handle initial unmute after user interaction
-          if (isMobile() && !hasInitialUnmute) {
-            await playerRef.current.unMute();
-            setIsMuted(false);
-            setHasInitialUnmute(true);
-          }
-        } else {
-          await playerRef.current.pauseVideo();
-        }
-      } catch (error) {
-        console.error('Error during playback interaction:', error);
-      }
+  const handleUserInteraction = async () => {
+    if (!hasUserInteracted) {
+      setHasUserInteracted(true);
+      document.body.classList.add('had-playback-interaction');
     }
   };
 
   const togglePlay = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
+    
+    await handleUserInteraction();
     setIsPlaying(!isPlaying);
-    await handlePlaybackInteraction();
   };
 
   const toggleMute = async () => {
     if (!playerRef.current || !isPlayerReady || !currentTrack) return;
 
+    await handleUserInteraction();
     try {
       if (isMuted) {
         await playerRef.current.unMute();
-        setHasInitialUnmute(true);
       } else {
         await playerRef.current.mute();
       }
       setIsMuted(!isMuted);
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error toggling mute:', error.message);
-      }
+      console.error('Error toggling mute:', error);
     }
   };
 
   const handleSeek = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
+    await handleUserInteraction();
     const time = Number(e.target.value);
     setCurrentTime(time);
     
     try {
       await playerRef.current.seekTo(time);
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error seeking:', error.message);
-      }
+      console.error('Error seeking:', error);
     }
   };
 
@@ -194,23 +164,15 @@ export default function Player() {
         if (playerRef.current) {
           const duration = await playerRef.current.getDuration();
           setDuration(duration);
-          // Check if we need to handle initial unmute
-          if (isMobile() && !hasInitialUnmute && document.body.classList.contains('had-playback-interaction')) {
-            await playerRef.current.unMute();
-            setIsMuted(false);
-            setHasInitialUnmute(true);
-          }
         }
       } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error getting duration:', error.message);
-        }
+        console.error('Error getting duration:', error);
       }
     } else if (event.data === 2) { // Video paused
       setIsPlaying(false);
     } else if (event.data === -1 || event.data === 5) { // Unstarted or video cued
       setIsPlayerReady(true);
-      if (isPlaying && document.body.classList.contains('had-playback-interaction')) {
+      if (isPlaying && hasUserInteracted) {
         playerRef.current?.playVideo();
       }
     }
@@ -221,15 +183,8 @@ export default function Player() {
     setIsPlayerReady(true);
   
     try {
-      // On mobile, we don't autoplay until user interaction
-      if (isPlaying && (!isMobile() || document.body.classList.contains('had-playback-interaction'))) {
+      if (isPlaying && hasUserInteracted) {
         await event.target.playVideo();
-        // Handle unmuting if needed
-        if (isMobile() && !hasInitialUnmute && document.body.classList.contains('had-playback-interaction')) {
-          await event.target.unMute();
-          setIsMuted(false);
-          setHasInitialUnmute(true);
-        }
       }
     } catch (error) {
       console.warn('Playback failed, waiting for user interaction:', error);
@@ -245,24 +200,24 @@ export default function Player() {
   const handlePrevious = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
+    await handleUserInteraction();
     if (currentTime > 3) {
       try {
         await playerRef.current.seekTo(0);
         setCurrentTime(0);
       } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error seeking to start:', error.message);
-        }
+        console.error('Error seeking to start:', error);
       }
     } else {
       playPrevious();
     }
   };
 
-  const handleNext = () => {
-    if (queue.length > 0) {
-      playNext();
-    }
+  const handleNext = async () => {
+    if (!queue.length) return;
+    
+    await handleUserInteraction();
+    playNext();
   };
 
   const handleError = () => {
@@ -369,7 +324,7 @@ export default function Player() {
                 height: '0',
                 width: '0',
                 playerVars: {
-                  autoplay: isMobile() ? 0 : 1, // Disable autoplay on mobile
+                  autoplay: 0, // Disable autoplay completely
                   controls: 0,
                   disablekb: 1,
                   enablejsapi: 1,
@@ -377,10 +332,9 @@ export default function Player() {
                   iv_load_policy: 3,
                   modestbranding: 1,
                   origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1, // Required for iOS
+                  playsinline: 1,
                   rel: 0,
-                  showinfo: 0,
-                  mute: isMobile() ? 1 : 0 // Initially muted on mobile to allow autoplay
+                  showinfo: 0
                 },
               }}
               onStateChange={handleStateChange}
