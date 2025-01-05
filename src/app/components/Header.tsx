@@ -441,7 +441,7 @@ export default function Header() {
               <Link
                 href="/auth/signin"
                 onClick={handleNavLinkClick}
-                className="block text-white pt-10 transition-colors"
+                className="bg-white text-black text-sm font-semibold px-4 py-2 rounded-full hover:bg-gray-300 transition-colors"
               >
                 Sign in
               </Link>
