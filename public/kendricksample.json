@@ -1,0 +1,1253 @@
+{
+    "responseContext": {
+        "visitorData": "CgtWU0lnbWthYnJGQSi30sq7BjIKCgJVUxIEGgAgXQ%3D%3D"
+    },
+    "contents": {
+        "sectionListRenderer": {
+            "contents": [
+                {
+                    "musicAnalyticsSectionRenderer": {
+                        "content": {
+                            "perspectiveMetadata": {
+                                "entityId": "/m/0g9x698",
+                                "name": "Kendrick Lamar",
+                                "requestParams": {
+                                    "perspective": "ARTIST",
+                                    "entityParams": {
+                                        "entity": "ARTIST",
+                                        "id": "/m/0g9x698",
+                                        "channelId": "UC3lBXcrKFnFAFkfVk5WuKcQ"
+                                    },
+                                    "dateParams": {
+                                        "startTime": "2024-12-01T00:00:00Z",
+                                        "endTime": "2024-12-28T00:00:00Z"
+                                    },
+                                    "artistParams": {
+                                        "id": "/m/0g9x698"
+                                    }
+                                },
+                                "isLaunched": true,
+                                "heroMetadata": {
+                                    "title": "Kendrick Lamar",
+                                    "heroBannerImageUrl": "https://lh3.googleusercontent.com/hMjzHmIuTV0XPlvRSjl3wMR6NP-uF-fqF6kkandkFX-hEVp6d3tw-FQG9_smAq0tFwNBT6QLQR-Hkwge"
+                                },
+                                "channelId": "UC3lBXcrKFnFAFkfVk5WuKcQ",
+                                "channelHandle": "kendricklamar"
+                            },
+                            "locations": [
+                                {
+                                    "region": "CITY",
+                                    "locationViews": [
+                                        {
+                                            "id": "0x80c2c75ddc27da13:0xe22fdf6f254608f4",
+                                            "name": "Los Angeles",
+                                            "viewCount": "8816736",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSpl-wV2JZUTFpZCDe9QuY8jCJ6Uhy_m1415lQbiZmGAId4DHXWRnU9ng9xL6mB3xEI7g1Pna2N8coPXIWMaZzItJ71a6yCu_Yylr4JZsYCXg",
+                                                        "width": 225,
+                                                        "height": 146
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRzWnpQV9LPPw6lDvun2I-6kI1zyNI_ATz7scUE_wibNHDMyulMXPhr-Qrh062w0yS27QqraxDa364nwbedGUGs5KaEC-aNm4U",
+                                                        "width": 2048,
+                                                        "height": 1332
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x89c24fa5d33f083b:0xc80b8f06e177fe62",
+                                            "name": "New York",
+                                            "viewCount": "6064670",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSmwoHi7HVVhfGycXQXXszgq14G8bamIo3W9oBxTmX5YhVCnRtkkKOnnPLoIHMGZD-dEMNTHGhKN_eZgxliCqmIzKv6Nx5vf6t6vl62M4wvPQ",
+                                                        "width": 225,
+                                                        "height": 131
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR3R2sRHEkFwHbuVm1nYOG77Ve97_fpxkftyChm3bZGq_uRztVOy7q4vz6qjv04VLnN24LoxGr2aNCGvWunK6cdAqktvYYpL5g",
+                                                        "width": 2048,
+                                                        "height": 1201
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x880e2c3cd0f4cbed:0xafe0a6ad09c0c000",
+                                            "name": "Chicago",
+                                            "viewCount": "4400785",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRGxLgwv_q2qLq_Gi2WNc77Hoshq9xxojL5fLMdyaqYOBrwCrlh4obYcdYq4BxgILt2xWctkoSSRzQCBQ6TuW3VbDebmoGdxh32-XqjPqTnVg",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQ8b2mxVzlH1uTMK2V7pWB8ChUvLAFcGVLvtDzdMB6_Ou0KMaUgRzRuYej2X4PL2ege7cyDuH3108hFOzRTKRZG6-7u-5m6V2g",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x88f5045d6993098d:0x66fede2f990b630b",
+                                            "name": "Atlanta",
+                                            "viewCount": "3690636",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcR7XyYDEZLmnYi2ey3aRnGkqioSjVf6Q0wMFQuPEh8I272A1vwqilPxBdwg5M3LNW2KIcNEwUpjD380hrbVUHCj-mDvLTwUmamh2C_8sbmWow",
+                                                        "width": 225,
+                                                        "height": 148
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTvyld_6bsNQhRKJi5K1skTFUwWEtwBrfLJP9YuNekoaL57u-qH4CeWWJz8nfy_T7r47TAUXf8yfm0ZAjMkgFVxOZuN07PmU6M",
+                                                        "width": 2048,
+                                                        "height": 1355
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x8640b8b4488d8501:0xca0d02def365053b",
+                                            "name": "Houston",
+                                            "viewCount": "3507824",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSPGJNPAmeNmxDaieBxqaTKnGgoVUvfheLA2x0RmeY7DDxlJzZ32kjj4_Ank2a3n4FGlY1JTbA8HW7CgDrXMwy39QMf_UqNZGXTtTKOu9yyMg",
+                                                        "width": 225,
+                                                        "height": 168
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQgPUHpBKciOv2EPbnTW4Ry2nnTju44CL20ve-jOy7ZDUUzk2TJKTZJDutxvhyAZsCI_b9BzxTI7ht4VFIpPPvU6Fhm0dLYKao",
+                                                        "width": 2048,
+                                                        "height": 1535
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x864c19f77b45974b:0xb9ec9ba4f647678f",
+                                            "name": "Dallas",
+                                            "viewCount": "3378355",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRd7cEMdfm8cQDJzlqQEihgWF6QHUnalyvcebkORw5LzNnkRfnG6dbluIolZy3urEEeYm1Yp9o37pQ3ds_m6QutM1w0dVJPPxUOgsCXUfgSjQ",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTXarJXXJgSlMVvsyxiiOReO5nladdXRRVtB2X4Bvabp1X-Qdm8ba0hSuPfpapdmVRw4QiEXZr6ZMA_-JeM9-YqMBk3w_lGK2Q",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x872b12ed50a179cb:0x8c69c7f8354a1bac",
+                                            "name": "Phoenix",
+                                            "viewCount": "3241491",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQ7JNBRA2oSmAisXMKCgYik0wKkXtezThsQk6QbIikEAtggeagqigGK1yV4N_L9tkoFxJhPozbn_eUkhfQb86zocvhffCj8o70LKcXmf9XXBA",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcRDh4abkb1w9dYv7ptBdP312PhqbZS_t6DOzm8mxN338gY4P5IniUgHeyjBRDZQR9uNEQt1nAPF5NmVjVbnEQddi0FllSqYqyE",
+                                                        "width": 2048,
+                                                        "height": 1367
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x80c8c45e5468d0ed:0xf98463eab8414b62",
+                                            "name": "Las Vegas",
+                                            "viewCount": "3105463",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcT3DZ4I6NwqTDg18FD7bawjisJeFCswbDY5k-R_Oo-AYBN6dY6acdmLminbzs6dQyD7fMHueiSYmwwpFIxOqf5ybfVO6LvScSQb5e3Gnhi8qA",
+                                                        "width": 225,
+                                                        "height": 148
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSkjHrYsaVFwEj8Z7tWBv583rmkUHPLshzEjR30qaBaxnynfcqLXNQurtD6yERoblvrk2cAls4F4b0sb7fUpA9khD1QgFI5eAM",
+                                                        "width": 2048,
+                                                        "height": 1356
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x357ca28b61c565cd:0x858aedb4e4ea83eb",
+                                            "name": "Seoul",
+                                            "viewCount": "3035636",
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x80d9530fad921e4b:0xd3a21fdfd15df79",
+                                            "name": "San Diego",
+                                            "viewCount": "3016818",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcS6lKPBu_gA3tmia7hEdUDjNl7Kw648yi6zLY4Pf9nY27M3CO0EFzlW2oAzVy6zUi-20JU1AgK8rp37ISV1xbs16uDWDFAgDZRwaXZ4D_jQ9w",
+                                                        "width": 225,
+                                                        "height": 146
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQzJhO5hkzCiLiNcqAAOsiG9VEX-OZiUrhHm4YwKZb3OC_z_JWipvqwm3o8CirT1Q6gdkPS3shGsTYCOWPQRdCUXKY3MxlAvdc",
+                                                        "width": 2048,
+                                                        "height": 1332
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x80859a6d00690021:0x4a501367f076adff",
+                                            "name": "San Francisco",
+                                            "viewCount": "2762909",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSMWZu7jh0tKikGU-MAg7u6VvLZSrBqZe8Zy2ziRHeukzGz2opKQFZanY-qUVlzB1v58zVO6IiZZZC0L5eKvYsf9HOuigFfpe4RHFZ78xsAEg",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQcOKJNRU8Hh-4FMSqYSNFzMunEfIIrgwAfqCsOa0w3KW7EBLzu4xhwERhKyq-K1Im3v7oo5dFSKxZsIy7bBJgyQvLD-q5-bc0",
+                                                        "width": 2048,
+                                                        "height": 1360
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x47d8a00baf21de75:0x52963a5addd52a99",
+                                            "name": "London",
+                                            "viewCount": "2590311",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQshIudJQ8j-IMtMdsIoMVIa4M6v45JtjztXc6qD0nAqxckw_Sau_SwIEDccsY8NGFdCb9u7GZVVUKHdD9lOs3WM5N-Pz1fzG1T1rpqtCgRMg",
+                                                        "width": 225,
+                                                        "height": 156
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcRbiZqGvbT7mBMMGpL9x-uw3_mjFqgxG09AVwhoK3Krw2n-tPmIljpkelKdjYigeBuY7k-b7W1NqTX0G-8Jeukjh-m19TczswI",
+                                                        "width": 2048,
+                                                        "height": 1420
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x8824ca0110cb1d75:0x5776864e35b9c4d2",
+                                            "name": "Detroit",
+                                            "viewCount": "2584457",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcR4LWOTDG9a2NZcq9cFvFX0hfQ6zy0fi6kfzJ0bmXgZ5LYci82xaK29TjhJ7Y2ZubIxB6PTMEQv0u9Zonf8fs6gr3mUQP9Lb_NePTwDGEqnWw",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTCMKXhNFNs435TA01q2CyaRKUk6l6TJkg7-v9yul5iwkmgIiAY0l4-uEmAQg1GBCJxNZl0mVjhj21mVxp_43_Jtz2DecHUi4w",
+                                                        "width": 2048,
+                                                        "height": 1365
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x5490102c93e83355:0x102565466944d59a",
+                                            "name": "Seattle",
+                                            "viewCount": "2459772",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSeCfhymm5k-fj4gI_DpQ7T5rm52HDfFewrEAf8XveJzXlDxXdWTtfDdBSXfhui9q7VED4zlpwpuPs0u2KJ5uDJkmE7nICPdqFA81dhOgRhEQ",
+                                                        "width": 225,
+                                                        "height": 154
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRZl5Iioesi31hGI9EoyMy8NWAPRNQGK-CJDS0XVbIsvly-c06EZvMAMh5EW4pu4O-A_hCIqz4MzCWrIaagq-_Cxi5xa5p4gSE",
+                                                        "width": 2048,
+                                                        "height": 1406
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x809ac672b28397f9:0x921f6aaa74197fdb",
+                                            "name": "Sacramento",
+                                            "viewCount": "2445847",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSMgm0m2izuqq1100TeuEWe7vwNBmkKKYVGmE7P0eFCtMuL7uV4nUvL17Yl4Om6-gl7YQzdxnMvtxJvOMP9rpbJe4uctkx2pRgFoQxmmioftQ",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcTozlmx688Uy8MQQyDLr38ysGZ2JF9EJkaJjBwVBGtCGGHxh2pm7LmEnWppg6rX27Lq84YcDqxiHFRjbIIgQj8I9ndHyz-tXsQ",
+                                                        "width": 2048,
+                                                        "height": 1365
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "region": "COUNTRY",
+                                    "locationViews": [
+                                        {
+                                            "id": "0x54eab584e432360b:0x1c3bb99243deb742",
+                                            "name": "United States",
+                                            "viewCount": "168872184",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQLsWXJNOk0nrQZ1zESX34e1J52q4f52E3clZgTLuToPOvlnZXE81gES93G0O7qEK3YtnrVrDuPnJtEvP_nC4g3cKQqss9bV_-H_HkpuORjzw",
+                                                        "width": 225,
+                                                        "height": 141
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTjYoDY6t-eUzMJc9kjDV64rcbbO3h4yUa-CO_fPuZ-USWjGhtTwsbtrkoL6zMQn74oYo0N8r4EnSpdnFhPNLFGfOyeRCnv77I",
+                                                        "width": 2048,
+                                                        "height": 1287
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x324053215f87de63:0x784790ef7a29da57",
+                                            "name": "Philippines",
+                                            "viewCount": "16641731",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTT4sj6s83a62o3A331wLPS9Z7pLb0TmFG-DItpNNk8tdEYf3eDc5Qs__ixYuwZvS4huqYPBkI3o9EeJ4iXOXCqwGjv9zaLETq1QXnzZ8-4Cw",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTWu8BxWSZziOf-_Gu1vGm16MC5xT6YPwJ6rycBUDLYhYNJWeMLYNj5VA7FAscP3_N-5_LnB-VW24L2gqdk1sw0Qp6WHUuO8sM",
+                                                        "width": 2048,
+                                                        "height": 1363
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x30635ff06b92b791:0xd78c4fa1854213a6",
+                                            "name": "India",
+                                            "viewCount": "12206177",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcS9u0-v3lFjefkyyt9E8JNJLuVep94KC-gzi1fQS_KGI3wQ9eq0Ue3yR_ywO_tGE5_7KYnx3LebWD95ZXPbbvy8X0XZCH8mcTVe1jrtIGxyDw",
+                                                        "width": 225,
+                                                        "height": 132
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRywVFjEQXKEg4ocoTni2rpSgdfckfyp_IFbyM9yFYhAc0XviRmaYaAYgur7DbQ1v_TaxHf1KGWa0vQarTu4SHCYLjbYzru8rM",
+                                                        "width": 2048,
+                                                        "height": 1206
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x1c34a689d9ee1251:0xe85d630c1fa4e8a0",
+                                            "name": "South Africa",
+                                            "viewCount": "9929184",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcT9OpptjryUf3lrKBwhavWsZ38vrbQRJR3jxJ0Ssu_qR43bFxEPFjy_eiYArdXTIwWUfjVwEcaycSWwej93PvKYB1JNvyarZ_snayoKkGDFlQ",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR3DsSTANtiUXNyLu6ZsBLn8K4Q99F-ld07Irp2PuAjdh2FXg9PKt_HZR6fTR06-lxhZQuv-LbmFNJEfkFxDPahVUmhqwMi4-o",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x4b0d03d337cc6ad9:0x9968b72aa2438fa5",
+                                            "name": "Canada",
+                                            "viewCount": "9656503",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQiB2uHWir035ZSW1kDzWdmV0Gp4W8LKjqw5YSzT6dQEy3jFnWTIq2PMf0yBlPruiBJjhR3PWqUjUHxBRQGq_TYSuSLLYZV7yLGxnMOikP9ww",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcS-tR9Nyy74XMhXJ4HU2zOigpwGRLNcCleazf7DSLvCoxwmjeCk5269nJDXBiQCvNMiCzHJeaDfOT4kbkA-pEP6GJAF_S1bMN4",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x25a3b1142c791a9:0xc4f8a0433288257a",
+                                            "name": "United Kingdom",
+                                            "viewCount": "8702064",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTI6myex5ucto3-9JtBomjEhurvRJtT8FSfEoD9eM8OsMr3LuZDx0SFEHYevoCgPto754PC3-v01ryfcanBLActi3U-wGotiU_SoDvBwABe7A",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRICUgUUdod5VdNJpLzXi0j8BF8P6m-nGCIV7U6K8U43STh1CEBP5gDEO0EG2bg2s0_7zzrQUrWe-0L8m-WJ3pEVM_Ncq87D9I",
+                                                        "width": 2048,
+                                                        "height": 1360
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x9c59c7ebcc28cf:0x295a1506f2293e63",
+                                            "name": "Brazil",
+                                            "viewCount": "7838130",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQHDuHStE7M0vNgNFeZVNghU5i-u0KCEh8HPoyShpIKkc2_5p4e_NI2g1BZuBJvxhuFgMUafSqGn8p5UYsLBqDu7lCo9c7VDoQ5IzzAPJUWcA",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSZqaBUEGpBbzkZGoTbAJk0As_20XjZoDJAv7UVJvH2WeFnXbsIxC6GZ-QzJkqPWmJfBTQa1o9m8ld6zUAbDSoDWTPMFEW84mI",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x84043a3b88685353:0xed64b4be6b099811",
+                                            "name": "Mexico",
+                                            "viewCount": "6289445",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcT5UDgCYd1oCeibicVp-6dM5mSX4E7zsp3fKAbmpI633u_vc7siJx5kVacQIPy3OHQ5cH-cVo1YEUUb40DD_OT6qfyqZa23DDZlF3tEyPh8SQ",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQCDxFcuZg4AP--5-uj9ofWiUB9yzqJMR3oEXLkDE9k60sYkjoKafKh3uRkZViDWaxwX3NDcdn-NaSut3ZSpKL1q07NVTDT7Q8",
+                                                        "width": 2048,
+                                                        "height": 1360
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x2b2bfd076787c5df:0x538267a1955b1352",
+                                            "name": "Australia",
+                                            "viewCount": "5556998",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSxjKBLQd0y_97FW2CS7D-sd7llBuh0NvA41ggR6wR3WPhnrhLy7MQces4mioPJZMBKhPOT0zq6VIUNdHoQeVjn1JB4pO7-x1RdM-abf6xOVQ",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRhTaJyuD3ta3AlCHDJbec1I9MtI5OIMP98IFGtnWBUJ8FnojjW_3YCeNpBi1SaTAgTDAwzdEv-E8SeGhHG41q_udHjEuMoYbw",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x356455ebcb11ba9b:0x91249b00ba88db4b",
+                                            "name": "South Korea",
+                                            "viewCount": "5396103",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcT_jPOTi0JLoEYxKzRsIG5HpDbJXnRNfTL1sDgidPcCsHaoMU-IXqCAmZ0i3qPmQmtwUX1pwnE0aSKZMDOk3B6QIjeq3qSpK31-amgu3KLdVg",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSJBWPwmhvgTf2IxOIJh69Yq7qzH3_2HrvI8C7oYra9qqMejua3_5zCOIcupEE7OjY7no-kKUk-M29IFN28nsFJ7s6Sf-UqwKs",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0xd54a02933785731:0x6bfd3f96c747d9f7",
+                                            "name": "France",
+                                            "viewCount": "4387440",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSCeIKRcl8leExTc1c7sSVhQ3ji-h10gBOWQtknEflsryg6waHRqkLbNp7HfF6xQ8-GTwNNhst1KuWVn_txFJMLF1Qx7iy0gZ5y8r4wsal6Rg",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTzjRdcqSRbR8QsovuzhjUM2gWf1GdPejoChJ4OLXy_4BNAosRAUh6-Lsx58r3KGSeBaxQWKdX_yUvGlyXY2zecpJEZo5A7F8U",
+                                                        "width": 2048,
+                                                        "height": 1365
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x304d8df747424db1:0x9ed72c880757e802",
+                                            "name": "Thailand",
+                                            "viewCount": "4010539",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSGGRVvbJ-U6fP06yOUA5EqLL7D9LBmf3zumbMRPyyAU23aOlS6vnRm47ir_OJlcI0sluyvu25dmHNYcnz-XcTapYj5RSGtsFNmbaCs22KixQ",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcRH7hToP-AkasgCLnxNt4WGpTZypVB5jnxkOoMWH_m5JCRPxFUOhg82FvyUkhRITUXZ25pNOvqLaI9_beXQrwtt2qna190EG3A",
+                                                        "width": 2048,
+                                                        "height": 1360
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x2c4c07d7496404b7:0xe37b4de71badf485",
+                                            "name": "Indonesia",
+                                            "viewCount": "3768476",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSlOUiDD1aB2FsUk3E-8cO-ZxlPRe6OoPTfd8txgXFW5a8GUFhMmGInkEDubOuhnPFXqMm1SvrKy5TQx-2pxvq6jJgyI7QBo75bV0Eny_00UA",
+                                                        "width": 225,
+                                                        "height": 144
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQDM1EprTh71smEzp-AAA7BALKCucIFanHWArbF6gmU5YlTF4veCDCMTJ5J2LrnwYkP7JD3Suqav_w25QtC5smMgX24vUxmX04",
+                                                        "width": 2048,
+                                                        "height": 1314
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x479a721ec2b1be6b:0x75e85d6b8e91e55b",
+                                            "name": "Germany",
+                                            "viewCount": "3643363",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRHLDnqlUR4YXXTRxItV1i7VII-fb6WLPd06auR0ipLElTz32TbXTvq3FmSg7veNm76oGoW0jo7fLWtlMBi3BbbSmyEnVaEOJTGWlUWvQ8d_g",
+                                                        "width": 225,
+                                                        "height": 150
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcS0mAEuVhMIIatf8vOpd9kc2kkbmgzDhFPvwMu6wnmixoFq5wjlZKdXEdpPNN4ciZyc_IdXV4PQ1JsAkuyIlCA91Tryw1RId0Y",
+                                                        "width": 2048,
+                                                        "height": 1366
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        },
+                                        {
+                                            "id": "0x14b0155c964f2671:0x40d9dbd42a625f2a",
+                                            "name": "Türkiye",
+                                            "viewCount": "3040022",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcRngkBM_xjPo2Lh5kk4GQfTYC2LZx5TLxQ7wbMG4ZeNw3W7v10QIkoGNly_lnSagz_WpZZF3BBOjWNhqwObI91ygtJfioca8Qk7ClAI74wfFA",
+                                                        "width": 225,
+                                                        "height": 149
+                                                    },
+                                                    {
+                                                        "url": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSHFQx8kuQ1RwZaGhOeyU8G_6bep8Q22gCtSafV-iZTFmQ9U0qZv93IXYHhZSJPRSvbquQ4tVAhGhDaR7gWflz5xPTXWE-Pyj4",
+                                                        "width": 2048,
+                                                        "height": 1363
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "dates": [
+                                {
+                                    "interval": "DAY",
+                                    "dateViews": [
+                                        {
+                                            "date": "2024-12-01",
+                                            "viewCount": "12883596"
+                                        },
+                                        {
+                                            "date": "2024-12-02",
+                                            "viewCount": "14298340"
+                                        },
+                                        {
+                                            "date": "2024-12-03",
+                                            "viewCount": "14282173"
+                                        },
+                                        {
+                                            "date": "2024-12-04",
+                                            "viewCount": "14474554"
+                                        },
+                                        {
+                                            "date": "2024-12-05",
+                                            "viewCount": "14134275"
+                                        },
+                                        {
+                                            "date": "2024-12-06",
+                                            "viewCount": "14624902"
+                                        },
+                                        {
+                                            "date": "2024-12-07",
+                                            "viewCount": "13388611"
+                                        },
+                                        {
+                                            "date": "2024-12-08",
+                                            "viewCount": "11481163"
+                                        },
+                                        {
+                                            "date": "2024-12-09",
+                                            "viewCount": "12650731"
+                                        },
+                                        {
+                                            "date": "2024-12-10",
+                                            "viewCount": "12597135"
+                                        },
+                                        {
+                                            "date": "2024-12-11",
+                                            "viewCount": "12339658"
+                                        },
+                                        {
+                                            "date": "2024-12-12",
+                                            "viewCount": "12352048"
+                                        },
+                                        {
+                                            "date": "2024-12-13",
+                                            "viewCount": "12926709"
+                                        },
+                                        {
+                                            "date": "2024-12-14",
+                                            "viewCount": "12102119"
+                                        },
+                                        {
+                                            "date": "2024-12-15",
+                                            "viewCount": "10421286"
+                                        },
+                                        {
+                                            "date": "2024-12-16",
+                                            "viewCount": "11395734"
+                                        },
+                                        {
+                                            "date": "2024-12-17",
+                                            "viewCount": "11812256"
+                                        },
+                                        {
+                                            "date": "2024-12-18",
+                                            "viewCount": "11735188"
+                                        },
+                                        {
+                                            "date": "2024-12-19",
+                                            "viewCount": "11823743"
+                                        },
+                                        {
+                                            "date": "2024-12-20",
+                                            "viewCount": "12628262"
+                                        },
+                                        {
+                                            "date": "2024-12-21",
+                                            "viewCount": "11846236"
+                                        },
+                                        {
+                                            "date": "2024-12-22",
+                                            "viewCount": "10762312"
+                                        },
+                                        {
+                                            "date": "2024-12-23",
+                                            "viewCount": "11844727"
+                                        },
+                                        {
+                                            "date": "2024-12-24",
+                                            "viewCount": "11731184"
+                                        },
+                                        {
+                                            "date": "2024-12-25",
+                                            "viewCount": "9879248"
+                                        },
+                                        {
+                                            "date": "2024-12-26",
+                                            "viewCount": "10794856"
+                                        },
+                                        {
+                                            "date": "2024-12-27",
+                                            "viewCount": "11488276"
+                                        },
+                                        {
+                                            "date": "2024-12-28",
+                                            "viewCount": "11045237"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "trackTypes": [
+                                {
+                                    "listType": "TOP_VIEWS",
+                                    "trackViews": [
+                                        {
+                                            "id": "G:KnTaGdimvnQ",
+                                            "name": "Not Like Us",
+                                            "viewCount": "37993856",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/8qk3C_zpd2FXHVN8BpMBFL6h9J5BlKlbcKOlvDMvIgBWBsAblDoTjU98RGbFH9DxtnN1X5zRzc9sSvWr=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "H58vbez_m4E",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "phLb_SoPBlA"
+                                        },
+                                        {
+                                            "id": "G:lzQWpYro8Uc",
+                                            "name": "tv off (feat. Lefty GunPlay)",
+                                            "viewCount": "35674495",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "U8F5G5wR1mk",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "Rh3bJKkEhk8"
+                                        },
+                                        {
+                                            "id": "G:yehM8EmgYUQ",
+                                            "name": "luther",
+                                            "viewCount": "34141979",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "HfWLgELllZs",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                },
+                                                {
+                                                    "kgMid": "/m/0ttl474",
+                                                    "name": "SZA"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "XVveECQmiAk"
+                                        },
+                                        {
+                                            "id": "G:tNXRUN6ddgg",
+                                            "name": "squabble up",
+                                            "viewCount": "29545349",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "fuV4yQWdn_4",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "U0KTVVMvcc4"
+                                        },
+                                        {
+                                            "id": "G:GEQkB-UNtPo",
+                                            "name": "All the Stars",
+                                            "viewCount": "14471640",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/7WL2nSAzkdfNf9o9MJzGv8zXYqT46XSEnhHWAPr7UPMKT3INypOyAT-m2fo0qlTBRG2C47BBZz5oAqHvNQ=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "JQbjS0_ZfJ0",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                },
+                                                {
+                                                    "kgMid": "/m/0ttl474",
+                                                    "name": "SZA"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "vdXsLt0o_9g"
+                                        },
+                                        {
+                                            "id": "G:Q-DX9rZr0uU",
+                                            "name": "wacced out murals",
+                                            "viewCount": "12421259",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "YwUQ_5iV9pY",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "O0Id0olaeFw"
+                                        },
+                                        {
+                                            "id": "G:AY98jdovO1Y",
+                                            "name": "Like That",
+                                            "viewCount": "12128186",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/iK4TWjZaRAdsFz-82MySDF4lezd8L1nHUhf_gQCer--MPuBosqVrWW-8E1yGLah_rajPfywpODvBbGMoZA=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "N9bKBAA22Go",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0hhwdgn",
+                                                    "name": "Future"
+                                                },
+                                                {
+                                                    "kgMid": "/m/0skynxd",
+                                                    "name": "Metro Boomin"
+                                                },
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "Rr1Cdli5nE8"
+                                        },
+                                        {
+                                            "id": "G:17PDgAd2kl4",
+                                            "name": "HUMBLE.",
+                                            "viewCount": "11501409",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/B1bVbj-AbBIJxL7RHJ2B7F9fLCv2reqD-9hPQAQf77cbWpf_a0KQM-d2zHoKCXBbjtKYBlc3-18zK4I=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "tvTRZJ-4EyI",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "H4RELGc9su8"
+                                        },
+                                        {
+                                            "id": "G:9LwVO_sH6sE",
+                                            "name": "reincarnated",
+                                            "viewCount": "8677055",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "Ek7UvQPCQnE",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "rGqcIf-RFt4"
+                                        },
+                                        {
+                                            "id": "G:OTXtYZ_m36w",
+                                            "name": "LOVE. (feat. Zacari)",
+                                            "viewCount": "7695570",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/B1bVbj-AbBIJxL7RHJ2B7F9fLCv2reqD-9hPQAQf77cbWpf_a0KQM-d2zHoKCXBbjtKYBlc3-18zK4I=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "ox7RsX1Ee34",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "XKkV2j9DbIQ"
+                                        },
+                                        {
+                                            "id": "G:AsppEx5bqdQ",
+                                            "name": "hey now (feat. Dody6)",
+                                            "viewCount": "7657046",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "9PumlOWjXMM",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "ZnG0WdA6wug"
+                                        },
+                                        {
+                                            "id": "G:mkS3Bigcjbk",
+                                            "name": "Swimming Pools (Drank)",
+                                            "viewCount": "7111460",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/huhwBm9DlWWpNM0UV0qyRFvNnrCn2qW1Mhp-Etc6PJ9t3W7SRN5FzRNqxKtq17Z577Do3GdYZbUBFtQ=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "B5YNiCfWC3A",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "T_OWvLDIyno"
+                                        },
+                                        {
+                                            "id": "G:_Lp-tH1Epw8",
+                                            "name": "peekaboo (feat. AzChike)",
+                                            "viewCount": "7090720",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "cbHkzwa0QmM",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "dJOtB4lZzMc"
+                                        },
+                                        {
+                                            "id": "G:QXH4hX8CVFQ",
+                                            "name": "heart pt. 6",
+                                            "viewCount": "6547258",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "m-PO1_fzxVM",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "HFwqHVxBXao"
+                                        },
+                                        {
+                                            "id": "G:CjhEImpKjuU",
+                                            "name": "PRIDE.",
+                                            "viewCount": "6353757",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://i.ytimg.com/vi/J87pJrxvJ5E/hqdefault.jpg",
+                                                        "width": 480,
+                                                        "height": 360
+                                                    },
+                                                    {
+                                                        "url": "https://i.ytimg.com/vi/J87pJrxvJ5E/mqdefault.jpg",
+                                                        "width": 320,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "J87pJrxvJ5E",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true
+                                        },
+                                        {
+                                            "id": "G:COzP8i9tf6I",
+                                            "name": "Money Trees (feat. Jay Rock)",
+                                            "viewCount": "6087360",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/Fz9_8koA1VbRz51kyUaOHIVDQu7LCx2W0lDjytEXz4KPGL3VIV5LS2F0uISIHHCvqQpbgHl3oCWIG6I=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "bBNpSXAYteM",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "0nF69UTw99E"
+                                        },
+                                        {
+                                            "id": "G:DzB4CHBTz_E",
+                                            "name": "man at the garden",
+                                            "viewCount": "6014943",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "wiALRpD0Ztg",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "T9Sw9s_VMSI"
+                                        },
+                                        {
+                                            "id": "G:nRvleB6S4Qw",
+                                            "name": "euphoria",
+                                            "viewCount": "5735567",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/BCe91dgtUrRKjeN4iGDHVwoP_bXk9xFqJ9Gbs4xmYJ9BecNaFumdTdVpeUDhM_u8ZCqmeGIGZUy7h-x7=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "NPqDIwWMtxg",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "fAqa1ozCuj8"
+                                        },
+                                        {
+                                            "id": "G:3EGoz3yTZnw",
+                                            "name": "dodger blue (feat. Wallie the Sensei, Siete7x & Roddy Ricch)",
+                                            "viewCount": "5688032",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "c7y2ziOBA1s",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "fpho72p5n2w"
+                                        },
+                                        {
+                                            "id": "G:Yaaak3NBccc",
+                                            "name": "gloria",
+                                            "viewCount": "5179302",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/oeqS763H5PDQ7RL3gUnJlvDgZx6MYr5VE7bV7MBanuv7hgB-98wF1JYy-KI-Zxurxc5trLpksuPNUcY=w180-h180-l90-rj",
+                                                        "width": 180,
+                                                        "height": 180
+                                                    }
+                                                ]
+                                            },
+                                            "encryptedVideoId": "G5YwhjCywvw",
+                                            "artists": [
+                                                {
+                                                    "kgMid": "/m/0g9x698",
+                                                    "name": "Kendrick Lamar"
+                                                },
+                                                {
+                                                    "kgMid": "/m/0ttl474",
+                                                    "name": "SZA"
+                                                }
+                                            ],
+                                            "isVisible": true,
+                                            "atvExternalVideoId": "oBcZSHdGmR8"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "trackingParams": "CAEQui8iEwiUoLW01c-KAxW90j8EHacoDI4="
+        }
+    },
+    "trackingParams": "CAAQhGciEwiUoLW01c-KAxW90j8EHacoDI4="
+}

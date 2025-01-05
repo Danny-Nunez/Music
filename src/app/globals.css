@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Swiper Custom Styles */
+.popular-artists-swiper {
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.popular-artists-swiper .swiper-wrapper {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.popular-artists-swiper .swiper-slide {
+  flex-shrink: 0 !important;
+}
+
+.popular-artists-swiper .swiper-button-next,
+.popular-artists-swiper .swiper-button-prev {
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .popular-artists-swiper .swiper-button-next,
+  .popular-artists-swiper .swiper-button-prev {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.popular-artists-swiper .swiper-button-next:hover,
+.popular-artists-swiper .swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.popular-artists-swiper .swiper-button-next:after,
+.popular-artists-swiper .swiper-button-prev:after {
+  font-size: 14px;
+}
+
+@media (min-width: 640px) {
+  .popular-artists-swiper .swiper-button-next:after,
+  .popular-artists-swiper .swiper-button-prev:after {
+    font-size: 20px;
+  }
+}
+
+.popular-artists-swiper .swiper-wrapper {
+  margin: 0 auto;
+  max-width: calc(100% - 10px);
+}
+
+@media (min-width: 640px) {
+  .popular-artists-swiper .swiper-wrapper {
+    max-width: 100%;
+  }
+}
+
+.popular-artists-swiper .swiper-button-next {
+  right: 0;
+}
+
+.popular-artists-swiper .swiper-button-prev {
+  left: 0;
+}
+
+.popular-artists-swiper .swiper-button-disabled {
+  opacity: 0;
+  cursor: default;
+}
+
+
+  
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Custom range input styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  height: 4px;
+}
+
+/* Track styles */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: #4B5563;
+  height: 4px;
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #4B5563;
+  height: 4px;
+  border-radius: 2px;
+}
+
+/* Thumb styles */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -6px;
+  background-color: #EF4444;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb {
+  border: none;
+  background-color: #EF4444;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+/* Hover styles */
+input[type="range"]:hover::-webkit-slider-thumb {
+  background-color: #DC2626;
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+  background-color: #DC2626;
+}
+
+/* Focus styles */
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+/* Progress bar effect */
+input[type="range"] {
+  background: linear-gradient(to right, #EF4444 0%, #EF4444 50%, #4B5563 50%, #4B5563 100%);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: transparent;
+}
+
+input[type="range"]::-moz-range-track {
+  background: transparent;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Overlap hero section */
+.hero-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: -50px; /* Adjust as needed */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  .playlist-name,
+  .playlist-text {
+    text-align: left;
+  }
+}
