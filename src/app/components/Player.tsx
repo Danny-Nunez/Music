@@ -15,12 +15,6 @@ import {
   SpeakerXMarkIcon,
 } from '@heroicons/react/24/solid';
 
-// Check if we're on a mobile device
-const isMobile = () => {
-  if (typeof window === 'undefined') return false;
-  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-};
-
 export default function Player() {
   const { data: session } = useSession();
   const playerRef = useRef<YT.Player | null>(null);
@@ -102,6 +96,16 @@ export default function Player() {
     if (!hasUserInteracted) {
       setHasUserInteracted(true);
       document.body.classList.add('had-playback-interaction');
+      // Ensure player is ready for playback after first interaction
+      if (playerRef.current && isPlayerReady) {
+        try {
+          if (isPlaying) {
+            await playerRef.current.playVideo();
+          }
+        } catch (error) {
+          console.warn('Error during initial playback:', error);
+        }
+      }
     }
   };
 
@@ -324,7 +328,7 @@ export default function Player() {
                 height: '0',
                 width: '0',
                 playerVars: {
-                  autoplay: 0, // Disable autoplay completely
+                  autoplay: 0, // Let user interaction control playback
                   controls: 0,
                   disablekb: 1,
                   enablejsapi: 1,
@@ -332,9 +336,10 @@ export default function Player() {
                   iv_load_policy: 3,
                   modestbranding: 1,
                   origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1,
+                  playsinline: 1, // Required for iOS inline playback
                   rel: 0,
-                  showinfo: 0
+                  showinfo: 0,
+                  mute: 0 // Let user control audio state
                 },
               }}
               onStateChange={handleStateChange}
