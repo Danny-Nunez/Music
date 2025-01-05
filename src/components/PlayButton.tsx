@@ -26,8 +26,7 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
     setIsPlaying, 
     setHasUserInteracted,
     isMobileDevice,
-    incrementForcePlayAttempts,
-    forcePlayAttempts
+    incrementForcePlayAttempts
   } = usePlayerStore();
 
   const handlePlay = useCallback(async () => {
@@ -76,16 +75,9 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
 
     // For mobile devices, we need to be more aggressive with playback
     if (isMobileDevice) {
-      // Increment force play attempts
       incrementForcePlayAttempts();
-      
-      // Force play state after a short delay
-      setTimeout(() => {
-        setIsPlaying(true);
-      }, 100);
-    } else {
-      setIsPlaying(true);
     }
+    setIsPlaying(true);
   }, [
     track, 
     allTracks, 

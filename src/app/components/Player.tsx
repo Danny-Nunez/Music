@@ -199,10 +199,26 @@ export default function Player() {
       if (isPlaying) {
         try {
           if (isMobileDevice && forcePlayAttempts > 0) {
+            // For mobile with force attempts, be more aggressive
             await playerRef.current?.unMute();
             await playerRef.current?.playVideo();
-            resetForcePlayAttempts();
-          } else if (hasUserInteracted) {
+            
+            // Only do one retry for state changes
+            if (forcePlayAttempts > 0) {
+              setTimeout(async () => {
+                if (playerRef.current && isPlaying) {
+                  try {
+                    await playerRef.current.unMute();
+                    await playerRef.current.playVideo();
+                    resetForcePlayAttempts();
+                  } catch (error) {
+                    console.warn('Mobile state change retry failed:', error);
+                  }
+                }
+              }, 300);
+            }
+          } else {
+            // For desktop, just play normally
             await playerRef.current?.playVideo();
           }
         } catch (error) {
@@ -219,15 +235,31 @@ export default function Player() {
     try {
       if (isPlaying) {
         if (isMobileDevice && forcePlayAttempts > 0) {
+          // For mobile, try multiple times with unmute
           await event.target.unMute();
           await event.target.playVideo();
-          resetForcePlayAttempts();
-        } else if (hasUserInteracted) {
+          
+          // Only do retry attempts if we're still in force play mode
+          if (forcePlayAttempts > 0) {
+            setTimeout(async () => {
+              if (isPlaying && playerRef.current) {
+                try {
+                  await event.target.unMute();
+                  await event.target.playVideo();
+                  resetForcePlayAttempts();
+                } catch (error) {
+                  console.warn('Mobile retry attempt failed:', error);
+                }
+              }
+            }, 500);
+          }
+        } else {
+          // For desktop, just play normally
           await event.target.playVideo();
         }
       }
     } catch (error) {
-      console.warn('Playback failed:', error);
+      console.warn('Playback attempt failed:', error);
     }
   };
 
