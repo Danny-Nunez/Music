@@ -9,7 +9,10 @@ export const emitPlaylistUpdated = (playlistId: string, newName: string) => {
   window.dispatchEvent(event);
 };
 
-export const emitPlaylistCreated = (playlist: { id: string; name: string; songs: any[] }) => {
+import { Video } from '../types/video';
+
+
+export const emitPlaylistCreated = (playlist: { id: string; name: string; songs: Video[] }) => {
   const event = new CustomEvent(PLAYLIST_CREATED_EVENT, {
     detail: { playlist }
   });
