@@ -26,6 +26,12 @@ export default function Player() {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const { currentTrack, queue, isPlaying, setIsPlaying, playNext, playPrevious } = usePlayerStore();
 
+  // Check if we're on a mobile device
+  const isMobile = () => {
+    if (typeof window === 'undefined') return false;
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  };
+
   // Check for 30-second limit for non-authenticated users
   useEffect(() => {
     if (!session && currentTime >= 30 && isPlaying) {
@@ -62,24 +68,21 @@ export default function Player() {
     const handlePlay = async () => {
       try {
         const player = playerRef.current;
-        if (!player || !isPlayerReady || !currentTrack) return; // Ensure the player is ready and track exists
+        if (!player || !isPlayerReady || !currentTrack) return;
     
         const state = await player.getPlayerState();
-        if (isPlaying && state !== 1) { // 1: Playing
+        if (isPlaying && state !== 1) {
           await player.playVideo();
-        } else if (!isPlaying && state === 1) { // 1: Playing, but pause requested
+        } else if (!isPlaying && state === 1) {
           await player.pauseVideo();
         }
       } catch (error) {
-        // Suppress errors caused by unready player states
         console.warn('Player is not ready to play yet. Suppressing error:', error);
       }
     };
     
-  
     handlePlay();
   }, [isPlaying, isPlayerReady, currentTrack]);
-  
 
   // Update current time
   useEffect(() => {
@@ -99,11 +102,26 @@ export default function Player() {
     return () => clearInterval(interval);
   }, [isPlaying, isDragging, isPlayerReady, currentTrack]);
 
-  const togglePlay = () => {
+  const handlePlaybackInteraction = async () => {
+    document.body.classList.add('had-playback-interaction');
+    if (playerRef.current && isPlayerReady) {
+      try {
+        if (isPlaying) {
+          await playerRef.current.playVideo();
+        } else {
+          await playerRef.current.pauseVideo();
+        }
+      } catch (error) {
+        console.error('Error during playback interaction:', error);
+      }
+    }
+  };
+
+  const togglePlay = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
     setIsPlaying(!isPlaying);
+    await handlePlaybackInteraction();
   };
-  
 
   const toggleMute = async () => {
     if (!playerRef.current || !isPlayerReady || !currentTrack) return;
@@ -146,17 +164,8 @@ export default function Player() {
   };
 
   const handleStateChange = async (event: YT.PlayerEvent) => {
-    // YouTube Player States:
-    // -1 (unstarted)
-    // 0 (ended)
-    // 1 (playing)
-    // 2 (paused)
-    // 3 (buffering)
-    // 5 (video cued)
-    
     if (event.data === 0) { // Video ended
       if (queue.length > 0) {
-        // Play next track and ensure it starts playing
         playNext();
         setIsPlaying(true);
       } else {
@@ -178,10 +187,23 @@ export default function Player() {
       setIsPlaying(false);
     } else if (event.data === -1 || event.data === 5) { // Unstarted or video cued
       setIsPlayerReady(true);
-      // If we're supposed to be playing, start playing
-      if (isPlaying) {
+      if (isPlaying && document.body.classList.contains('had-playback-interaction')) {
         playerRef.current?.playVideo();
       }
+    }
+  };
+
+  const handleReady = async (event: YT.PlayerEvent) => {
+    playerRef.current = event.target;
+    setIsPlayerReady(true);
+  
+    try {
+      // On mobile, we don't autoplay until user interaction
+      if (isPlaying && (!isMobile() || document.body.classList.contains('had-playback-interaction'))) {
+        await event.target.playVideo();
+      }
+    } catch (error) {
+      console.warn('Playback failed, waiting for user interaction:', error);
     }
   };
 
@@ -195,7 +217,6 @@ export default function Player() {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
     if (currentTime > 3) {
-      // If more than 3 seconds into the song, restart it
       try {
         await playerRef.current.seekTo(0);
         setCurrentTime(0);
@@ -215,15 +236,6 @@ export default function Player() {
     }
   };
 
-  const handleReady = (event: YT.PlayerEvent) => {
-    playerRef.current = event.target;
-    setIsPlayerReady(true);
-  
-    if (isPlaying) {
-      event.target.playVideo();
-    }
-  };
-  
   const handleError = () => {
     setIsPlayerReady(false);
   
@@ -328,7 +340,7 @@ export default function Player() {
                 height: '0',
                 width: '0',
                 playerVars: {
-                  autoplay: 1,
+                  autoplay: isMobile() ? 0 : 1, // Disable autoplay on mobile
                   controls: 0,
                   disablekb: 1,
                   enablejsapi: 1,
@@ -336,9 +348,10 @@ export default function Player() {
                   iv_load_policy: 3,
                   modestbranding: 1,
                   origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1,
+                  playsinline: 1, // Required for iOS
                   rel: 0,
-                  showinfo: 0
+                  showinfo: 0,
+                  mute: isMobile() ? 1 : 0 // Initially muted on mobile to allow autoplay
                 },
               }}
               onStateChange={handleStateChange}
