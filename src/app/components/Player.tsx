@@ -24,15 +24,18 @@ export default function Player() {
   const [isDragging, setIsDragging] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
-  const {
-    currentTrack,
-    queue,
-    isPlaying,
-    setIsPlaying,
-    playNext,
+  const { 
+    currentTrack, 
+    queue, 
+    isPlaying, 
+    setIsPlaying, 
+    playNext, 
     playPrevious,
     hasUserInteracted,
-    setHasUserInteracted
+    setHasUserInteracted,
+    isMobileDevice,
+    forcePlayAttempts,
+    resetForcePlayAttempts
   } = usePlayerStore();
 
   // Check for 30-second limit for non-authenticated users
@@ -70,7 +73,14 @@ export default function Player() {
     const handlePlay = async () => {
       try {
         if (isPlaying) {
-          await player.playVideo();
+          if (isMobileDevice && forcePlayAttempts > 0) {
+            // For mobile, we need to be more aggressive
+            await player.unMute();
+            await player.playVideo();
+            resetForcePlayAttempts();
+          } else {
+            await player.playVideo();
+          }
         } else {
           await player.pauseVideo();
         }
@@ -80,7 +90,7 @@ export default function Player() {
     };
     
     handlePlay();
-  }, [isPlaying, isPlayerReady, currentTrack]);
+  }, [isPlaying, isPlayerReady, currentTrack, isMobileDevice, forcePlayAttempts, resetForcePlayAttempts]);
 
   // Update current time
   useEffect(() => {
@@ -103,17 +113,18 @@ export default function Player() {
   const handleUserInteraction = async () => {
     if (!hasUserInteracted) {
       setHasUserInteracted(true);
-      // Ensure player is ready for playback after first interaction
-      if (playerRef.current && isPlayerReady) {
-        try {
-          // Always try to play after first interaction if we're supposed to be playing
-          if (isPlaying) {
-            await playerRef.current.unMute(); // Ensure audio is unmuted
-            await playerRef.current.playVideo();
-          }
-        } catch (error) {
-          console.warn('Error during initial playback:', error);
+    }
+
+    if (playerRef.current && isPlayerReady) {
+      try {
+        if (isPlaying) {
+          await playerRef.current.unMute();
+          await playerRef.current.playVideo();
+        } else {
+          await playerRef.current.pauseVideo();
         }
+      } catch (error) {
+        console.warn('Error during playback interaction:', error);
       }
     }
   };
@@ -122,21 +133,7 @@ export default function Player() {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
     
     await handleUserInteraction();
-    
-    try {
-      if (!isPlaying) {
-        // If we're about to play and have user interaction, ensure we're unmuted
-        if (hasUserInteracted) {
-          await playerRef.current.unMute();
-        }
-        await playerRef.current.playVideo();
-      } else {
-        await playerRef.current.pauseVideo();
-      }
-      setIsPlaying(!isPlaying);
-    } catch (error) {
-      console.warn('Error toggling playback:', error);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   const toggleMute = async () => {
@@ -201,12 +198,11 @@ export default function Player() {
       setIsPlayerReady(true);
       if (isPlaying) {
         try {
-          if (hasUserInteracted) {
+          if (isMobileDevice && forcePlayAttempts > 0) {
             await playerRef.current?.unMute();
             await playerRef.current?.playVideo();
-          } else {
-            // If no user interaction yet, play muted
-            await playerRef.current?.mute();
+            resetForcePlayAttempts();
+          } else if (hasUserInteracted) {
             await playerRef.current?.playVideo();
           }
         } catch (error) {
@@ -221,17 +217,17 @@ export default function Player() {
     setIsPlayerReady(true);
   
     try {
-      if (isPlaying && hasUserInteracted) {
-        await event.target.unMute(); // Ensure we're unmuted if user has interacted
-        await event.target.playVideo();
-      } else if (isPlaying) {
-        // If we're supposed to be playing but haven't had interaction,
-        // prepare for playback but stay muted
-        await event.target.mute();
-        await event.target.playVideo();
+      if (isPlaying) {
+        if (isMobileDevice && forcePlayAttempts > 0) {
+          await event.target.unMute();
+          await event.target.playVideo();
+          resetForcePlayAttempts();
+        } else if (hasUserInteracted) {
+          await event.target.playVideo();
+        }
       }
     } catch (error) {
-      console.warn('Playback failed, waiting for user interaction:', error);
+      console.warn('Playback failed:', error);
     }
   };
 
@@ -368,7 +364,7 @@ export default function Player() {
                 height: '0',
                 width: '0',
                 playerVars: {
-                  autoplay: 0, // Let user interaction control playback
+                  autoplay: 0,
                   controls: 0,
                   disablekb: 1,
                   enablejsapi: 1,
@@ -376,10 +372,9 @@ export default function Player() {
                   iv_load_policy: 3,
                   modestbranding: 1,
                   origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1, // Required for iOS inline playback
+                  playsinline: 1,
                   rel: 0,
-                  showinfo: 0,
-                  mute: 0 // Let user control audio state
+                  showinfo: 0
                 },
               }}
               onStateChange={handleStateChange}

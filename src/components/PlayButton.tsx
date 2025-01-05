@@ -20,11 +20,20 @@ interface PlayButtonProps {
 }
 
 export default function PlayButton({ track, allTracks = [], className = '' }: PlayButtonProps) {
-  const { setCurrentTrack, setQueue, setIsPlaying, setHasUserInteracted } = usePlayerStore();
+  const { 
+    setCurrentTrack, 
+    setQueue, 
+    setIsPlaying, 
+    setHasUserInteracted,
+    isMobileDevice,
+    incrementForcePlayAttempts,
+    forcePlayAttempts
+  } = usePlayerStore();
 
-  const handlePlay = useCallback(() => {
+  const handlePlay = useCallback(async () => {
     // Set user interaction first
     setHasUserInteracted(true);
+
     // Format current track
     const formattedTrack = {
       id: track.encryptedVideoId,
@@ -65,15 +74,35 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
       setQueue([formattedTrack]);
     }
 
-    setIsPlaying(true);
-  }, [track, allTracks, setCurrentTrack, setQueue, setIsPlaying]);
+    // For mobile devices, we need to be more aggressive with playback
+    if (isMobileDevice) {
+      // Increment force play attempts
+      incrementForcePlayAttempts();
+      
+      // Force play state after a short delay
+      setTimeout(() => {
+        setIsPlaying(true);
+      }, 100);
+    } else {
+      setIsPlaying(true);
+    }
+  }, [
+    track, 
+    allTracks, 
+    setCurrentTrack, 
+    setQueue, 
+    setIsPlaying, 
+    setHasUserInteracted,
+    isMobileDevice,
+    incrementForcePlayAttempts
+  ]);
 
   return (
     <button
       onClick={handlePlay}
       className={`flex items-center justify-center bg-black/60 transition-opacity ${className}`}
     >
-     <PlayIcon className="h-8 w-8" />
+      <PlayIcon className="h-8 w-8" />
     </button>
   );
 }
