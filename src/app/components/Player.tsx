@@ -15,22 +15,23 @@ import {
   SpeakerXMarkIcon,
 } from '@heroicons/react/24/solid';
 
+// Check if we're on a mobile device
+const isMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+};
+
 export default function Player() {
   const { data: session } = useSession();
   const playerRef = useRef<YT.Player | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(isMobile());
+  const [hasInitialUnmute, setHasInitialUnmute] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
   const { currentTrack, queue, isPlaying, setIsPlaying, playNext, playPrevious } = usePlayerStore();
-
-  // Check if we're on a mobile device
-  const isMobile = () => {
-    if (typeof window === 'undefined') return false;
-    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  };
 
   // Check for 30-second limit for non-authenticated users
   useEffect(() => {
@@ -58,7 +59,10 @@ export default function Player() {
     setIsPlayerReady(false);
     setCurrentTime(0);
     setDuration(0);
-  }, [currentTrack?.videoId]);
+    if (isMobile() && !hasInitialUnmute) {
+      setIsMuted(true);
+    }
+  }, [currentTrack?.videoId, hasInitialUnmute]);
 
   // Handle play/pause
   useEffect(() => {
@@ -73,6 +77,12 @@ export default function Player() {
         const state = await player.getPlayerState();
         if (isPlaying && state !== 1) {
           await player.playVideo();
+          // If we haven't done the initial unmute and we're on mobile
+          if (isMobile() && !hasInitialUnmute && document.body.classList.contains('had-playback-interaction')) {
+            await player.unMute();
+            setIsMuted(false);
+            setHasInitialUnmute(true);
+          }
         } else if (!isPlaying && state === 1) {
           await player.pauseVideo();
         }
@@ -82,7 +92,7 @@ export default function Player() {
     };
     
     handlePlay();
-  }, [isPlaying, isPlayerReady, currentTrack]);
+  }, [isPlaying, isPlayerReady, currentTrack, hasInitialUnmute]);
 
   // Update current time
   useEffect(() => {
@@ -108,6 +118,12 @@ export default function Player() {
       try {
         if (isPlaying) {
           await playerRef.current.playVideo();
+          // Handle initial unmute after user interaction
+          if (isMobile() && !hasInitialUnmute) {
+            await playerRef.current.unMute();
+            setIsMuted(false);
+            setHasInitialUnmute(true);
+          }
         } else {
           await playerRef.current.pauseVideo();
         }
@@ -129,6 +145,7 @@ export default function Player() {
     try {
       if (isMuted) {
         await playerRef.current.unMute();
+        setHasInitialUnmute(true);
       } else {
         await playerRef.current.mute();
       }
@@ -177,6 +194,12 @@ export default function Player() {
         if (playerRef.current) {
           const duration = await playerRef.current.getDuration();
           setDuration(duration);
+          // Check if we need to handle initial unmute
+          if (isMobile() && !hasInitialUnmute && document.body.classList.contains('had-playback-interaction')) {
+            await playerRef.current.unMute();
+            setIsMuted(false);
+            setHasInitialUnmute(true);
+          }
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -201,6 +224,12 @@ export default function Player() {
       // On mobile, we don't autoplay until user interaction
       if (isPlaying && (!isMobile() || document.body.classList.contains('had-playback-interaction'))) {
         await event.target.playVideo();
+        // Handle unmuting if needed
+        if (isMobile() && !hasInitialUnmute && document.body.classList.contains('had-playback-interaction')) {
+          await event.target.unMute();
+          setIsMuted(false);
+          setHasInitialUnmute(true);
+        }
       }
     } catch (error) {
       console.warn('Playback failed, waiting for user interaction:', error);
