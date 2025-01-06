@@ -441,7 +441,7 @@ export default function Header() {
               <div className="pt-10 border-t border-gray-800 pb-2">
               <Link
                 href="/auth/signin"
-                onClick={handleNavLinkClick}
+                onClick={() => setShowSignInModal(true)}
                 className="bg-white text-black text-sm font-semibold px-4 py-2 rounded-full hover:bg-gray-300 transition-colors"
               >
                 Sign in
