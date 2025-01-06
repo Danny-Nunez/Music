@@ -341,7 +341,7 @@ export default function Player() {
                 alt={currentTrack.title}
                 className="w-12 h-12 rounded object-cover"
               />
-              <div className="max-w-[200px] md:max-w-[900px]" >
+              <div className="max-w-[100px] md:max-w-[900px]" >
                 <h3 className="text-white font-medium truncate">{currentTrack.title}</h3>
                 {currentTrack.artist && (
                   <p className="text-gray-400 text-sm truncate">{currentTrack.artist}</p>
