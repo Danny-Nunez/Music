@@ -24,6 +24,7 @@ export default function Player() {
   const [isDragging, setIsDragging] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
+  const [hadButtonInteraction, setHadButtonInteraction] = useState(false);
   const { 
     currentTrack, 
     queue, 
@@ -37,7 +38,7 @@ export default function Player() {
   } = usePlayerStore();
 
   // Handle mobile autoplay with mute/unmute
-  const handleMobileAutoplay = async () => {
+  const handleMobileAutoplay = async (fromUserAction = false) => {
     if (!playerRef.current || !isMobileDevice) return;
 
     try {
@@ -45,14 +46,29 @@ export default function Player() {
       await playerRef.current.mute();
       await playerRef.current.playVideo();
       
-      // Unmute after a delay if we have user interaction
-      if (hasUserInteracted) {
+      // Unmute if we've had any button interaction or user interaction
+      if (fromUserAction || hadButtonInteraction || hasUserInteracted) {
         setTimeout(async () => {
           if (playerRef.current && isPlaying) {
-            await playerRef.current.unMute();
-            await playerRef.current.playVideo();
+            try {
+              await playerRef.current.unMute();
+              await playerRef.current.playVideo();
+            } catch (error) {
+              console.warn('Error during unmute:', error);
+              // Try one more time after a longer delay
+              setTimeout(async () => {
+                try {
+                  if (playerRef.current && isPlaying) {
+                    await playerRef.current.unMute();
+                    await playerRef.current.playVideo();
+                  }
+                } catch (retryError) {
+                  console.warn('Retry unmute failed:', retryError);
+                }
+              }, 1000);
+            }
           }
-        }, 1000);
+        }, 500);
       }
     } catch (error) {
       console.warn('Error during mobile autoplay:', error);
@@ -95,7 +111,7 @@ export default function Player() {
       try {
         if (isPlaying) {
           if (isMobileDevice) {
-            await handleMobileAutoplay();
+            await handleMobileAutoplay(hadButtonInteraction);
           } else {
             await player.playVideo();
           }
@@ -108,7 +124,7 @@ export default function Player() {
     };
     
     handlePlay();
-  }, [isPlaying, isPlayerReady, currentTrack, isMobileDevice, hasUserInteracted]);
+  }, [isPlaying, isPlayerReady, currentTrack, isMobileDevice, hadButtonInteraction]);
 
   // Update current time
   useEffect(() => {
@@ -132,6 +148,7 @@ export default function Player() {
     if (!hasUserInteracted) {
       setHasUserInteracted(true);
     }
+    setHadButtonInteraction(true);
 
     if (playerRef.current && isPlayerReady) {
       try {
@@ -150,6 +167,7 @@ export default function Player() {
   const togglePlay = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
     
+    setHadButtonInteraction(true);
     if (isMobileDevice) {
       await handleUserInteraction();
     }
@@ -159,10 +177,7 @@ export default function Player() {
   const toggleMute = async () => {
     if (!playerRef.current || !isPlayerReady || !currentTrack) return;
 
-    if (isMobileDevice) {
-      await handleUserInteraction();
-    }
-
+    setHadButtonInteraction(true);
     try {
       if (isMuted) {
         await playerRef.current.unMute();
@@ -178,10 +193,7 @@ export default function Player() {
   const handleSeek = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
-    if (isMobileDevice) {
-      await handleUserInteraction();
-    }
-
+    setHadButtonInteraction(true);
     const time = Number(e.target.value);
     setCurrentTime(time);
     
@@ -208,7 +220,7 @@ export default function Player() {
         
         // For mobile, handle autoplay for next track
         if (isMobileDevice) {
-          await handleMobileAutoplay();
+          await handleMobileAutoplay(hadButtonInteraction);
         }
       } else {
         setIsPlaying(false);
@@ -219,6 +231,11 @@ export default function Player() {
         if (playerRef.current) {
           const duration = await playerRef.current.getDuration();
           setDuration(duration);
+          
+          // Try to unmute if we've had interaction
+          if (isMobileDevice && (hadButtonInteraction || hasUserInteracted)) {
+            await playerRef.current.unMute();
+          }
         }
       } catch (error) {
         console.error('Error getting duration:', error);
@@ -230,7 +247,7 @@ export default function Player() {
       if (isPlaying) {
         try {
           if (isMobileDevice) {
-            await handleMobileAutoplay();
+            await handleMobileAutoplay(hadButtonInteraction);
           } else {
             await playerRef.current?.playVideo();
           }
@@ -248,7 +265,7 @@ export default function Player() {
     try {
       if (isPlaying) {
         if (isMobileDevice) {
-          await handleMobileAutoplay();
+          await handleMobileAutoplay(hadButtonInteraction);
         } else {
           await event.target.playVideo();
         }
@@ -267,10 +284,7 @@ export default function Player() {
   const handlePrevious = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
-    if (isMobileDevice) {
-      await handleUserInteraction();
-    }
-
+    setHadButtonInteraction(true);
     if (currentTime > 3) {
       try {
         await playerRef.current.seekTo(0);
@@ -281,7 +295,7 @@ export default function Player() {
     } else {
       playPrevious();
       if (isMobileDevice) {
-        await handleMobileAutoplay();
+        await handleMobileAutoplay(true);
       }
     }
   };
@@ -289,9 +303,10 @@ export default function Player() {
   const handleNext = async () => {
     if (!queue.length) return;
     
+    setHadButtonInteraction(true);
     playNext();
     if (isMobileDevice) {
-      await handleMobileAutoplay();
+      await handleMobileAutoplay(true);
     }
   };
 
@@ -301,7 +316,7 @@ export default function Player() {
     if (queue.length > 0) {
       playNext();
       if (isMobileDevice) {
-        handleMobileAutoplay();
+        handleMobileAutoplay(hadButtonInteraction);
       }
     } else {
       setIsPlaying(false);
@@ -341,10 +356,10 @@ export default function Player() {
                 alt={currentTrack.title}
                 className="w-12 h-12 rounded object-cover"
               />
-              <div className="max-w-[100px] md:max-w-[900px]" >
-                <h3 className="text-white font-medium truncate">{currentTrack.title}</h3>
+              <div>
+                <h3 className="text-white font-medium">{currentTrack.title}</h3>
                 {currentTrack.artist && (
-                  <p className="text-gray-400 text-sm truncate">{currentTrack.artist}</p>
+                  <p className="text-gray-400 text-sm">{currentTrack.artist}</p>
                 )}
               </div>
             </div>
