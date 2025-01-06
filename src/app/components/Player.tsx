@@ -1,6 +1,13 @@
 'use client';
 
+declare global {
+  interface Window {
+    YT: typeof YT;
+  }
+}
+
 import { useEffect, useRef, useState } from 'react';
+import type { Player } from '../../types/youtube';
 import { useSession } from 'next-auth/react';
 import YouTube from 'react-youtube';
 import SignInModal from '../../components/SignInModal';
@@ -48,27 +55,28 @@ export default function Player() {
       
       // Unmute if we've had any button interaction or user interaction
       if (fromUserAction || hadButtonInteraction || hasUserInteracted) {
-        setTimeout(async () => {
-          if (playerRef.current && isPlaying) {
-            try {
-              await playerRef.current.unMute();
-              await playerRef.current.playVideo();
-            } catch (error) {
-              console.warn('Error during unmute:', error);
-              // Try one more time after a longer delay
-              setTimeout(async () => {
-                try {
-                  if (playerRef.current && isPlaying) {
-                    await playerRef.current.unMute();
-                    await playerRef.current.playVideo();
-                  }
-                } catch (retryError) {
-                  console.warn('Retry unmute failed:', retryError);
-                }
-              }, 1000);
+        const attemptUnmute = async (attempt = 1) => {
+          if (!playerRef.current || !isPlaying) return;
+          
+          try {
+            // Wait for player to be ready
+            const state = await playerRef.current.getPlayerState();
+            if (state !== YT.PlayerState.PLAYING) {
+              throw new Error('Player not ready');
+            }
+
+            await playerRef.current.unMute();
+            await playerRef.current.playVideo();
+          } catch (error) {
+            console.warn(`Unmute attempt ${attempt} failed:`, error);
+            if (attempt < 3) {
+              setTimeout(() => attemptUnmute(attempt + 1), 500 * attempt);
             }
           }
-        }, 500);
+        };
+
+        // Initial attempt with slight delay
+        setTimeout(() => attemptUnmute(1), 500);
       }
     } catch (error) {
       console.warn('Error during mobile autoplay:', error);
@@ -198,7 +206,7 @@ export default function Player() {
     setCurrentTime(time);
     
     try {
-      await playerRef.current.seekTo(time);
+      await playerRef.current.seekTo(time, true);
     } catch (error) {
       console.error('Error seeking:', error);
     }
@@ -212,8 +220,8 @@ export default function Player() {
     setIsDragging(false);
   };
 
-  const handleStateChange = async (event: YT.PlayerEvent) => {
-    if (event.data === 0) { // Video ended
+  const handleStateChange = async (event: { data: YT.PlayerState }) => {
+    if (event.data === YT.PlayerState.ENDED) { // Video ended
       if (queue.length > 0) {
         playNext();
         setIsPlaying(true);
@@ -287,7 +295,7 @@ export default function Player() {
     setHadButtonInteraction(true);
     if (currentTime > 3) {
       try {
-        await playerRef.current.seekTo(0);
+        await playerRef.current.seekTo(0, true);
         setCurrentTime(0);
       } catch (error) {
         console.error('Error seeking to start:', error);
