@@ -7,6 +7,7 @@ import Providers from '../components/Providers';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Player from './components/Player';
+import Footer from './components/Footer';
 import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -29,9 +30,12 @@ export default function RootLayout({
             <Sidebar />
             <div className="flex-1 flex flex-col pl-0 md:pl-64">
               <Header />
-              <main className="flex-1 pt-20 pb-24">
-                {children}
-              </main>
+              <div className="flex-1 overflow-y-auto">
+                <main className="pt-20">
+                  {children}
+                </main>
+                <Footer />
+              </div>
               <Player />
             </div>
           </div>

@@ -237,7 +237,7 @@ export default function PlaylistPage() {
   return (
     <div className="flex-1 overflow-y-auto bg-gradient-to-b from-zinc-900 to-black text-white mx-4 rounded-xl mb-8 max-w-screen-lg">
     {/* Hero Banner */}
-<div className="relative h-[200px] md:h-[250px] w-full flex flex-col md:flex-row items-center md:items-stretch">
+<div className="relative h-[180px] md:h-[250px] w-full flex flex-col md:flex-row items-center ">
   {playlist.songs.length >= 4 ? (
     <div className="grid grid-cols-2 grid-rows-2 gap-1 w-full md:w-1/4 h-full">
       {playlist.songs.slice(0, 4).map((song, index) => (
