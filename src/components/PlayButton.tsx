@@ -24,15 +24,13 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
     setCurrentTrack, 
     setQueue, 
     setIsPlaying, 
-    setHasUserInteracted,
-    isMobileDevice,
-    incrementForcePlayAttempts
+    setHasUserInteracted
   } = usePlayerStore();
 
   const handlePlay = useCallback(async () => {
-    // Set user interaction first
+    // Set user interaction and start playing
     setHasUserInteracted(true);
-
+    
     // Format current track
     const formattedTrack = {
       id: track.encryptedVideoId,
@@ -73,21 +71,9 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
       setQueue([formattedTrack]);
     }
 
-    // For mobile devices, we need to be more aggressive with playback
-    if (isMobileDevice) {
-      incrementForcePlayAttempts();
-    }
+    // Start playing
     setIsPlaying(true);
-  }, [
-    track, 
-    allTracks, 
-    setCurrentTrack, 
-    setQueue, 
-    setIsPlaying, 
-    setHasUserInteracted,
-    isMobileDevice,
-    incrementForcePlayAttempts
-  ]);
+  }, [track, allTracks, setCurrentTrack, setQueue, setIsPlaying, setHasUserInteracted]);
 
   return (
     <button

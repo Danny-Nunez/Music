@@ -15,14 +15,11 @@ interface PlayerStore {
   volume: number;
   hasUserInteracted: boolean;
   isMobileDevice: boolean;
-  forcePlayAttempts: number;
   setCurrentTrack: (track: Track) => void;
   setQueue: (songs: Track[]) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   setVolume: (volume: number) => void;
   setHasUserInteracted: (hasInteracted: boolean) => void;
-  incrementForcePlayAttempts: () => void;
-  resetForcePlayAttempts: () => void;
   playNext: () => void;
   playPrevious: () => void;
 }
@@ -34,7 +31,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   volume: 100,
   hasUserInteracted: false,
   isMobileDevice: typeof window !== 'undefined' ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false,
-  forcePlayAttempts: 0,
   
   setCurrentTrack: (track: Track) => {
     const normalizedTrack = {
@@ -44,8 +40,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     };
     set({ 
       currentTrack: normalizedTrack,
-      isPlaying: true, // Auto-play when setting a new track
-      forcePlayAttempts: 0 // Reset attempts when setting new track
+      isPlaying: true // Auto-play when setting a new track
     });
 
     // If the track isn't in the queue, add it
@@ -69,8 +64,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     if (!currentTrack && normalizedSongs.length > 0) {
       set({ 
         currentTrack: normalizedSongs[0],
-        isPlaying: true,
-        forcePlayAttempts: 0
+        isPlaying: true
       });
     }
   },
@@ -85,13 +79,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       document.body.classList.add('had-playback-interaction');
     }
   },
-
-  incrementForcePlayAttempts: () => {
-    const { forcePlayAttempts } = get();
-    set({ forcePlayAttempts: forcePlayAttempts + 1 });
-  },
-
-  resetForcePlayAttempts: () => set({ forcePlayAttempts: 0 }),
   
   playNext: () => {
     const { queue, currentTrack } = get();
@@ -105,15 +92,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       // If current track not in queue or is last track, play first track
       set({ 
         currentTrack: queue[0],
-        isPlaying: true,
-        forcePlayAttempts: 0
+        isPlaying: true
       });
     } else {
       // Play next track in queue
       set({ 
         currentTrack: queue[currentIndex + 1],
-        isPlaying: true,
-        forcePlayAttempts: 0
+        isPlaying: true
       });
     }
   },
@@ -130,15 +115,13 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
       // If current track not in queue or is first track, play last track
       set({ 
         currentTrack: queue[queue.length - 1],
-        isPlaying: true,
-        forcePlayAttempts: 0
+        isPlaying: true
       });
     } else {
       // Play previous track in queue
       set({ 
         currentTrack: queue[currentIndex - 1],
-        isPlaying: true,
-        forcePlayAttempts: 0
+        isPlaying: true
       });
     }
   }

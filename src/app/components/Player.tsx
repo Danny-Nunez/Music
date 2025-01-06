@@ -33,10 +33,31 @@ export default function Player() {
     playPrevious,
     hasUserInteracted,
     setHasUserInteracted,
-    isMobileDevice,
-    forcePlayAttempts,
-    resetForcePlayAttempts
+    isMobileDevice
   } = usePlayerStore();
+
+  // Handle mobile autoplay with mute/unmute
+  const handleMobileAutoplay = async () => {
+    if (!playerRef.current || !isMobileDevice) return;
+
+    try {
+      // Start muted
+      await playerRef.current.mute();
+      await playerRef.current.playVideo();
+      
+      // Unmute after a delay if we have user interaction
+      if (hasUserInteracted) {
+        setTimeout(async () => {
+          if (playerRef.current && isPlaying) {
+            await playerRef.current.unMute();
+            await playerRef.current.playVideo();
+          }
+        }, 1000);
+      }
+    } catch (error) {
+      console.warn('Error during mobile autoplay:', error);
+    }
+  };
 
   // Check for 30-second limit for non-authenticated users
   useEffect(() => {
@@ -73,11 +94,8 @@ export default function Player() {
     const handlePlay = async () => {
       try {
         if (isPlaying) {
-          if (isMobileDevice && forcePlayAttempts > 0) {
-            // For mobile, we need to be more aggressive
-            await player.unMute();
-            await player.playVideo();
-            resetForcePlayAttempts();
+          if (isMobileDevice) {
+            await handleMobileAutoplay();
           } else {
             await player.playVideo();
           }
@@ -90,7 +108,7 @@ export default function Player() {
     };
     
     handlePlay();
-  }, [isPlaying, isPlayerReady, currentTrack, isMobileDevice, forcePlayAttempts, resetForcePlayAttempts]);
+  }, [isPlaying, isPlayerReady, currentTrack, isMobileDevice, hasUserInteracted]);
 
   // Update current time
   useEffect(() => {
@@ -132,14 +150,19 @@ export default function Player() {
   const togglePlay = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
     
-    await handleUserInteraction();
+    if (isMobileDevice) {
+      await handleUserInteraction();
+    }
     setIsPlaying(!isPlaying);
   };
 
   const toggleMute = async () => {
     if (!playerRef.current || !isPlayerReady || !currentTrack) return;
 
-    await handleUserInteraction();
+    if (isMobileDevice) {
+      await handleUserInteraction();
+    }
+
     try {
       if (isMuted) {
         await playerRef.current.unMute();
@@ -155,7 +178,10 @@ export default function Player() {
   const handleSeek = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
-    await handleUserInteraction();
+    if (isMobileDevice) {
+      await handleUserInteraction();
+    }
+
     const time = Number(e.target.value);
     setCurrentTime(time);
     
@@ -179,6 +205,11 @@ export default function Player() {
       if (queue.length > 0) {
         playNext();
         setIsPlaying(true);
+        
+        // For mobile, handle autoplay for next track
+        if (isMobileDevice) {
+          await handleMobileAutoplay();
+        }
       } else {
         setIsPlaying(false);
       }
@@ -198,27 +229,9 @@ export default function Player() {
       setIsPlayerReady(true);
       if (isPlaying) {
         try {
-          if (isMobileDevice && forcePlayAttempts > 0) {
-            // For mobile with force attempts, be more aggressive
-            await playerRef.current?.unMute();
-            await playerRef.current?.playVideo();
-            
-            // Only do one retry for state changes
-            if (forcePlayAttempts > 0) {
-              setTimeout(async () => {
-                if (playerRef.current && isPlaying) {
-                  try {
-                    await playerRef.current.unMute();
-                    await playerRef.current.playVideo();
-                    resetForcePlayAttempts();
-                  } catch (error) {
-                    console.warn('Mobile state change retry failed:', error);
-                  }
-                }
-              }, 300);
-            }
+          if (isMobileDevice) {
+            await handleMobileAutoplay();
           } else {
-            // For desktop, just play normally
             await playerRef.current?.playVideo();
           }
         } catch (error) {
@@ -234,27 +247,9 @@ export default function Player() {
   
     try {
       if (isPlaying) {
-        if (isMobileDevice && forcePlayAttempts > 0) {
-          // For mobile, try multiple times with unmute
-          await event.target.unMute();
-          await event.target.playVideo();
-          
-          // Only do retry attempts if we're still in force play mode
-          if (forcePlayAttempts > 0) {
-            setTimeout(async () => {
-              if (isPlaying && playerRef.current) {
-                try {
-                  await event.target.unMute();
-                  await event.target.playVideo();
-                  resetForcePlayAttempts();
-                } catch (error) {
-                  console.warn('Mobile retry attempt failed:', error);
-                }
-              }
-            }, 500);
-          }
+        if (isMobileDevice) {
+          await handleMobileAutoplay();
         } else {
-          // For desktop, just play normally
           await event.target.playVideo();
         }
       }
@@ -272,7 +267,10 @@ export default function Player() {
   const handlePrevious = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
 
-    await handleUserInteraction();
+    if (isMobileDevice) {
+      await handleUserInteraction();
+    }
+
     if (currentTime > 3) {
       try {
         await playerRef.current.seekTo(0);
@@ -282,14 +280,19 @@ export default function Player() {
       }
     } else {
       playPrevious();
+      if (isMobileDevice) {
+        await handleMobileAutoplay();
+      }
     }
   };
 
   const handleNext = async () => {
     if (!queue.length) return;
     
-    await handleUserInteraction();
     playNext();
+    if (isMobileDevice) {
+      await handleMobileAutoplay();
+    }
   };
 
   const handleError = () => {
@@ -297,6 +300,9 @@ export default function Player() {
   
     if (queue.length > 0) {
       playNext();
+      if (isMobileDevice) {
+        handleMobileAutoplay();
+      }
     } else {
       setIsPlaying(false);
     }
@@ -335,10 +341,10 @@ export default function Player() {
                 alt={currentTrack.title}
                 className="w-12 h-12 rounded object-cover"
               />
-              <div>
-                <h3 className="text-white font-medium">{currentTrack.title}</h3>
+              <div className="max-w-[200px] md:max-w-[900px]" >
+                <h3 className="text-white font-medium truncate">{currentTrack.title}</h3>
                 {currentTrack.artist && (
-                  <p className="text-gray-400 text-sm">{currentTrack.artist}</p>
+                  <p className="text-gray-400 text-sm truncate">{currentTrack.artist}</p>
                 )}
               </div>
             </div>
@@ -396,7 +402,7 @@ export default function Player() {
                 height: '0',
                 width: '0',
                 playerVars: {
-                  autoplay: 0,
+                  autoplay: isMobileDevice ? 1 : 0, // Enable autoplay for mobile
                   controls: 0,
                   disablekb: 1,
                   enablejsapi: 1,
@@ -404,9 +410,10 @@ export default function Player() {
                   iv_load_policy: 3,
                   modestbranding: 1,
                   origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1,
+                  playsinline: 1, // Required for iOS
                   rel: 0,
-                  showinfo: 0
+                  showinfo: 0,
+                  mute: isMobileDevice ? 1 : 0 // Start muted on mobile
                 },
               }}
               onStateChange={handleStateChange}
