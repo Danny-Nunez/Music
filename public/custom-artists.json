@@ -1,0 +1,181 @@
+{
+    "responseContext": {
+        "visitorData": "CgtQZ013Z0l6T0ZldyjOnMi7BjIKCgJVUxIEGgAgSg%3D%3D"
+    },
+    "contents": {
+        "sectionListRenderer": {
+            "contents": [
+                {
+                    "musicAnalyticsSectionRenderer": {
+                        "content": {
+                            "artists": [
+                                {
+                                    "listType": "TOP_VIEWS_CHART",
+                                    "artistViews": [
+                                        {
+                                            "id": "/m/0bt9mm",
+                                            "name": "Mobb Deep",
+                                            "viewCount": "12200000",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/yrQvFE7Z_VO0T0RTJuTk1wzvbdtwsqqg8cS4zNRI2C-Cum3nSPAKBG8cUIVowNA-HneAOa0_VBBH-0_J=w175-h175-p"
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true,
+                                            "chartEntryMetadata": {
+                                                "currentPosition": 101,
+                                                "previousPosition": 100,
+                                                "percentViewsChange": -0.0076450817,
+                                                "periodsOnChart": 264
+                                            },
+                                            "isVisible": true,
+                                            "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIugBCAISkwEKC1lvdW5nIERvbHBoEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veTVJbmlUa1ViVFk5cTgzT2xtdkJmRWZtOS1HNVQ3dFpqXzc4b0NYb0xWWDZyLVBuNGlSYVdoWWIyM0VHTGUyeElWSW1seHNwamdMYnUyWT13OTAwLWg5MDAtcBoDMTAwKgAaOAoSV2Vla2x5IFRvcCBBcnRpc3RzEg1Vbml0ZWQgU3RhdGVzGhFEZWNlbWJlciAyNiwgMjAyNDgBIhIKByNGODQ0NDQSByMwMDAwMDAoAQ"
+                                        },
+                                        {
+                                            "id": "/m/01v40wd",
+                                            "name": "Nas",
+                                            "viewCount": "23200000",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/lqOS3kDPrySVufjJfPFXI3Sz9uummUdG-OT8e5Z5JCarmQI3cxDwD6b0nT0lVbaIRClO6wpn6hml-Mc=w175-h175-p"
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true,
+                                            "chartEntryMetadata": {
+                                                "currentPosition": 102,
+                                                "previousPosition": 101,
+                                                "percentViewsChange": -0.0076450817,
+                                                "periodsOnChart": 264
+                                            },
+                                            "isVisible": true,
+                                            "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIugBCAISkwEKC1lvdW5nIERvbHBoEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veTVJbmlUa1ViVFk5cTgzT2xtdkJmRWZtOS1HNVQ3dFpqXzc4b0NYb0xWWDZyLVBuNGlSYVdoWWIyM0VHTGUyeElWSW1seHNwamdMYnUyWT13OTAwLWg5MDAtcBoDMTAwKgAaOAoSV2Vla2x5IFRvcCBBcnRpc3RzEg1Vbml0ZWQgU3RhdGVzGhFEZWNlbWJlciAyNiwgMjAyNDgBIhIKByNGODQ0NDQSByMwMDAwMDAoAQ"
+                                        },
+                                        {
+                                            "id": "/m/0brxvv",
+                                            "name": "Mase",
+                                            "viewCount": "2700000",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/8t04_DENh_Dqgc0_IyRY8kAT1ybytwl4OiqOAlrAmewXkajfyXRVwp1OcaD8dtIwSqGeJ0K29Fd26h5e=w175-h175-p"
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true,
+                                            "chartEntryMetadata": {
+                                                "currentPosition": 102,
+                                                "previousPosition": 101,
+                                                "percentViewsChange": -0.0076450817,
+                                                "periodsOnChart": 264
+                                            },
+                                            "isVisible": true,
+                                            "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIugBCAISkwEKC1lvdW5nIERvbHBoEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veTVJbmlUa1ViVFk5cTgzT2xtdkJmRWZtOS1HNVQ3dFpqXzc4b0NYb0xWWDZyLVBuNGlSYVdoWWIyM0VHTGUyeElWSW1seHNwamdMYnUyWT13OTAwLWg5MDAtcBoDMTAwKgAaOAoSV2Vla2x5IFRvcCBBcnRpc3RzEg1Vbml0ZWQgU3RhdGVzGhFEZWNlbWJlciAyNiwgMjAyNDgBIhIKByNGODQ0NDQSByMwMDAwMDAoAQ"
+                                        },
+                                        {
+                                            "id": "/m/023d_b",
+                                            "name": "Ace of Base",
+                                            "viewCount": "21900000",
+                                            "thumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://lh3.googleusercontent.com/pRqm4pUi9ybiuU7wuD0JnMirBpDhAo4jda1b_PWwqfe4w8cC3eoS3VqkNpzP0-0T8CIx9YGgAuWz4Vg=w175-h175-p"
+                                                    }
+                                                ]
+                                            },
+                                            "isLaunched": true,
+                                            "chartEntryMetadata": {
+                                                "currentPosition": 103,
+                                                "previousPosition": 102,
+                                                "percentViewsChange": -0.0076450817,
+                                                "periodsOnChart": 264
+                                            },
+                                            "isVisible": true,
+                                            "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIugBCAISkwEKC1lvdW5nIERvbHBoEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veTVJbmlUa1ViVFk5cTgzT2xtdkJmRWZtOS1HNVQ3dFpqXzc4b0NYb0xWWDZyLVBuNGlSYVdoWWIyM0VHTGUyeElWSW1seHNwamdMYnUyWT13OTAwLWg5MDAtcBoDMTAwKgAaOAoSV2Vla2x5IFRvcCBBcnRpc3RzEg1Vbml0ZWQgU3RhdGVzGhFEZWNlbWJlciAyNiwgMjAyNDgBIhIKByNGODQ0NDQSByMwMDAwMDAoAQ"
+                                        }
+                                    ],
+                                    "heroMetadata": {
+                                        "title": "Kendrick Lamar",
+                                        "viewCount": "38047222",
+                                        "heroBannerImageUrl": "https://lh3.googleusercontent.com/hMjzHmIuTV0XPlvRSjl3wMR6NP-uF-fqF6kkandkFX-hEVp6d3tw-FQG9_smAq0tFwNBT6QLQR-Hkwge"
+                                    },
+                                    "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                                    "endDate": "2024-12-26"
+                                }
+                            ],
+                            "perspectiveMetadata": {
+                                "requestParams": {
+                                    "perspective": "CHART_DETAILS",
+                                    "chartParams": {
+                                        "countryCode": "us",
+                                        "chartType": "CHART_TYPE_ARTISTS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY"
+                                    }
+                                },
+                                "availableChartsInfo": [
+                                    {
+                                        "chartType": "CHART_TYPE_SHORTS_TRACKS_BY_VIEWS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                                        "earliestEndDate": "2022-10-20",
+                                        "latestEndDate": "2024-12-26"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_VIDEOS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                                        "earliestEndDate": "2017-09-21",
+                                        "latestEndDate": "2024-12-26"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_SHORTS_TRACKS_BY_USAGE",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                                        "earliestEndDate": "2023-11-02",
+                                        "latestEndDate": "2024-12-26"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_ARTISTS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                                        "earliestEndDate": "2017-09-21",
+                                        "latestEndDate": "2024-12-26"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_SHORTS_TRACKS_BY_VIEWS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_DAILY",
+                                        "earliestEndDate": "2022-10-19",
+                                        "latestEndDate": "2024-12-28"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_TRACKS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                                        "earliestEndDate": "2017-09-21",
+                                        "latestEndDate": "2024-12-26"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_SHORTS_TRACKS_BY_USAGE",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_DAILY",
+                                        "earliestEndDate": "2023-11-06",
+                                        "latestEndDate": "2024-12-28"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_VIDEOS",
+                                        "chartPeriodType": "CHART_PERIOD_TYPE_DAILY",
+                                        "earliestEndDate": "2023-11-06",
+                                        "latestEndDate": "2024-12-28"
+                                    },
+                                    {
+                                        "chartType": "CHART_TYPE_TRENDING_VIDEOS"
+                                    }
+                                ],
+                                "backgroundColor": "#F84444"
+                            }
+                        }
+                    }
+                }
+            ],
+            "trackingParams": "CAEQui8iEwiVtrPWwc6KAxX61T8EHSI5C6Y="
+        }
+    },
+    "trackingParams": "CAAQhGciEwiVtrPWwc6KAxX61T8EHSI5C6Y="
+}

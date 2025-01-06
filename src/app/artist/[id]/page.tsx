@@ -110,6 +110,10 @@ export default function ArtistPage() {
         if (!artistEntry) {
           artistEntry = await fetchFromJson('/dominican100-artists.json');
         }
+
+        if (!artistEntry) {
+          artistEntry = await fetchFromJson('/custom-artists.json');
+        }
   
         if (!artistEntry) {
           throw new Error('Artist not found in both JSON files');
