@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { usePlayerStore } from '../../store/playerStore';
