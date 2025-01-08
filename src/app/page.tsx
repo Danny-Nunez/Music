@@ -5,6 +5,7 @@ import { PlayIcon } from '@heroicons/react/24/outline';
 import { usePlayerStore } from '../store/playerStore';
 import AddToPlaylistButton from '../components/AddToPlaylistButton';
 import PopularArtists from './components/PopularArtists';
+import RadioCards from './components/RadioCards';
 
 interface Song {
   id: string;
@@ -81,6 +82,10 @@ export default function Home() {
       
       
       <div className="p-4 bg-gradient-to-b from-zinc-900 to-black rounded-xl mx-4 max-w-screen-lg">
+      
+      <div className="mb-10">
+        <RadioCards />
+      </div>
 
       <div className="mb-10">
         <PopularArtists />
