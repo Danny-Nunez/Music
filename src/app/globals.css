@@ -29,6 +29,26 @@
   transition: all 0.2s ease;
 }
 
+.radio-cards-swiper .swiper-button-next,
+.radio-cards-swiper .swiper-button-prev {
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.radio-cards-swiper .swiper-button-next:hover,
+.radio-cards-swiper .swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+.radio-cards-swiper .swiper-button-next:after,
+.radio-cards-swiper .swiper-button-prev:after {
+  font-size: 14px;
+}
+
 @media (min-width: 640px) {
   .popular-artists-swiper .swiper-button-next,
   .popular-artists-swiper .swiper-button-prev {
