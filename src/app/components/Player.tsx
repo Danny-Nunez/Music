@@ -334,7 +334,7 @@ export default function Player() {
   if (!currentTrack) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 p-4">
+    <div className="fixed z-90 bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 p-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
