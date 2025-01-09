@@ -54,7 +54,7 @@ export default function PopularArtists() {
   }, []);
 
   return (
-    <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] max-w-[350px] overflow-hidden scrollbar-hide">
+    <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] sm:max-w-[480px] max-w-[340px] overflow-hidden scrollbar-hide">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">Popular Artists</h2>
       </div>
@@ -81,7 +81,7 @@ export default function PopularArtists() {
           <div className="flex flex-col items-center">
   <div className="relative mb-2">
     {/* Border Animation Container */}
-    <div className="absolute inset-0 z-10 rounded-full border-2 border-transparent overflow-hidden">
+    <div className="absolute inset-0 rounded-full border-2 border-transparent overflow-hidden">
       <div className="absolute inset-0 rounded-full bg-transparent group-hover:bg-fill-circle transition-all"></div>
     </div>
     {/* Image Container */}

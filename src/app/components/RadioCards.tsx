@@ -40,7 +40,7 @@ const radioStreams: RadioStream[] = [
 export default function RadioCards() {
   const { currentTrack, isPlaying, setCurrentTrack, setIsPlaying } = usePlayerStore();
   return (
-    <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] max-w-[350px] overflow-hidden scrollbar-hide">
+    <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] sm:max-w-[480px] max-w-[340px] overflow-hidden scrollbar-hide">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">Live Radio</h2>
       </div>
