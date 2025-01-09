@@ -54,7 +54,7 @@ export default function PopularArtists() {
   }, []);
 
   return (
-    <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] max-w-[400px] overflow-hidden scrollbar-hide">
+    <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] max-w-[350px] overflow-hidden scrollbar-hide">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">Popular Artists</h2>
       </div>

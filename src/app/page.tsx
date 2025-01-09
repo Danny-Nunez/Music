@@ -89,13 +89,13 @@ export default function Home() {
       <div className="p-4 bg-gradient-to-b from-zinc-900 to-black rounded-xl mx-4 max-w-screen-lg">
         
 
-        <div className="mb-10">
+       <div className="mb-10">
           <PopularArtists />
         </div>
 
         <div className="mb-10">
           <RadioCards />
-        </div>
+        </div> 
 
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-white">Trending Songs</h1>
