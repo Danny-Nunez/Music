@@ -338,8 +338,15 @@ export default function Player() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400 w-12 text-right">
-              {formatTime(currentTime)}
+            <span className="text-xs text-gray-400 w-12 text-right relative">
+              {currentTrack?.artist === 'Live Radio' ? (
+                <>
+                  Live
+                  <span className="ml-1 w-2 h-2 bg-red-500 rounded-full animate-pulse inline-block" />
+                </>
+              ) : (
+                formatTime(currentTime)
+              )}
             </span>
             <input
               type="range"
@@ -352,9 +359,11 @@ export default function Player() {
               className="flex-1 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
               disabled={!isPlayerReady}
             />
-            <span className="text-xs text-gray-400 w-12">
-              {formatTime(duration)}
-            </span>
+            {currentTrack?.artist !== 'Live Radio' && (
+              <span className="text-xs text-gray-400 w-12">
+                {formatTime(duration)}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center justify-between">

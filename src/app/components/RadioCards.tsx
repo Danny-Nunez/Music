@@ -3,6 +3,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { usePlayerStore } from '../../store/playerStore';
+import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -37,7 +38,7 @@ const radioStreams: RadioStream[] = [
 ];
 
 export default function RadioCards() {
-  const { setCurrentTrack } = usePlayerStore();
+  const { currentTrack, isPlaying, setCurrentTrack, setIsPlaying } = usePlayerStore();
   return (
     <div className="relative px-0 sm:px-0 py-2 ml-0 xl:max-w-[1024px] lg:max-w-[768px] md:max-w-[640px] max-w-[400px] overflow-hidden scrollbar-hide">
       <div className="flex justify-between items-center mb-4">
@@ -60,13 +61,18 @@ export default function RadioCards() {
           <SwiperSlide key={stream.id}>
             <button
               onClick={() => {
-                setCurrentTrack({
-                  id: stream.videoId,
-                  videoId: stream.videoId,
-                  title: stream.title,
-                  artist: 'Live Radio',
-                  thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
-                });
+                if (currentTrack?.videoId === stream.videoId) {
+                  setIsPlaying(!isPlaying);
+                } else {
+                  setCurrentTrack({
+                    id: stream.videoId,
+                    videoId: stream.videoId,
+                    title: stream.title,
+                    artist: 'Live Radio',
+                    thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
+                  });
+                  setIsPlaying(true);
+                }
               }}
               className="block group text-center w-full"
             >
@@ -78,7 +84,17 @@ export default function RadioCards() {
                       alt={stream.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    {currentTrack?.videoId === stream.videoId && (
+                      <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          {isPlaying ? (
+                            <PauseIcon className="h-12 w-12 text-white" />
+                          ) : (
+                            <PlayIcon className="h-12 w-12 text-white" />
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="w-full px-2">
