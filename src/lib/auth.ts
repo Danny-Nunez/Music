@@ -7,6 +7,22 @@ import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { DbUser } from "../types/user";
 
+// Add resetPassword function
+export async function resetPassword(email: string): Promise<void> {
+  const response = await fetch('/api/auth/reset-password', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to reset password');
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   debug: true,
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -16,67 +32,52 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          prompt: "select_account"
-        }
-      }
+          prompt: "select_account",
+        },
+      },
     }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
-          console.log('Attempting to authorize with credentials:', { email: credentials?.email });
-
           if (!credentials?.email || !credentials?.password) {
-            console.log('Missing credentials');
             throw new Error('Please provide both email and password');
           }
 
-          const user = await prisma.user.findUnique({
-            where: {
-              email: credentials.email
-            }
-          }) as DbUser | null;
-
-          console.log('Found user:', user ? 'Yes' : 'No');
+          const user = (await prisma.user.findUnique({
+            where: { email: credentials.email },
+          })) as DbUser | null;
 
           if (!user || !user.password) {
-            console.log('User not found or no password');
             throw new Error('Invalid email or password');
           }
 
-          const isCorrectPassword = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
-          console.log('Password check result:', isCorrectPassword);
+          const isCorrectPassword = await bcrypt.compare(credentials.password, user.password);
 
           if (!isCorrectPassword) {
-            console.log('Incorrect password');
             throw new Error('Invalid email or password');
           }
 
-          console.log('Authorization successful');
           return {
             id: user.id,
             name: user.name || "",
             email: user.email || "",
             image: user.image || "",
-            emailVerified: user.emailVerified
+            emailVerified: user.emailVerified,
           };
         } catch (error) {
           console.error('Authorization error:', error);
           throw error;
         }
-      }
-    })
+      },
+    }),
   ],
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {

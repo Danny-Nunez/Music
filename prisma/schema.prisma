@@ -44,6 +44,8 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  resetToken    String?
+  resetTokenExp DateTime?
   accounts      Account[]
   sessions      Session[]
   playlists     Playlist[]

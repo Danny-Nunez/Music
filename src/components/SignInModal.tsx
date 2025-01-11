@@ -149,6 +149,14 @@ export default function SignInModal({ onClose }: SignInModalProps) {
                 )}
               </button>
             </div>
+            <div className="text-right">
+              <a
+                href="/auth/forgot-password"
+                className="text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                Forgot password?
+              </a>
+            </div>
             <button
               type="submit"
               disabled={isLoading}

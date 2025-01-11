@@ -11,4 +11,6 @@ export interface DbUser {
   emailVerified: Date | null;
   image: string | null;
   password: string | null;
+  resetToken: string | null;
+  resetTokenExp: Date | null;
 }

@@ -221,6 +221,11 @@ input[type="range"]::-moz-range-track {
   display: none; /* Chrome, Safari, Edge */
 }
 
+/* styles/globals.css or equivalent */
+#react-hot-toast {
+  z-index: 10000; /* Higher than your modal's z-index */
+}
+
 
 /* Mobile view adjustments */
 @media (max-width: 768px) {

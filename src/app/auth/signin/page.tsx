@@ -39,12 +39,27 @@ export default function SignIn() {
         setIsRegistering(false);
         resetForm();
       } else {
-        const result = await signIn('credentials', {
+        const credentials = {
           email,
-          password,
-          callbackUrl: '/',
-          redirect: true
+          password
+        };
+        
+        console.log('Signing in with credentials:', credentials);
+        
+        const result = await signIn('credentials', {
+          ...credentials,
+          redirect: false
         });
+
+        console.log('SignIn result:', result);
+
+        if (result?.error) {
+          throw new Error(result.error);
+        }
+
+        if (result?.url) {
+          window.location.href = result.url;
+        }
 
         // The redirect will happen automatically, but if there's an error it will return here
         if (result?.error) {
