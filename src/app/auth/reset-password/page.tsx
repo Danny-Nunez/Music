@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,16 +9,16 @@ import { Label } from '@/components/ui/label';
 
 export default function ResetPassword() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [token, setToken] = useState<string | null>(null);
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Extract the token from the query string
+  // Extract token from URL on mount
   useEffect(() => {
-    const tokenFromUrl = searchParams?.get('token');
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get('token');
     setToken(tokenFromUrl);
-  }, [searchParams]);
+  }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
