@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { updateCharts } from '../../../lib/update-charts';
+import { updateArtists } from '@/lib/update-artists';
 
 export async function GET() {
-  const result = await updateCharts();
+  const result = await updateArtists();
   return NextResponse.json(result);
 }

@@ -1,0 +1,2164 @@
+{
+    "responseContext": {
+      "visitorData": "CgtVZTlpNk5Bd2NGNCjfroe8BjIKCgJVUxIEGgAgDQ%3D%3D"
+    },
+    "contents": {
+      "sectionListRenderer": {
+        "contents": [
+          {
+            "musicAnalyticsSectionRenderer": {
+              "content": {
+                "artists": [
+                  {
+                    "listType": "TOP_VIEWS_CHART",
+                    "artistViews": [
+                      {
+                        "id": "/m/01s8l_3",
+                        "name": "Diomedes Díaz",
+                        "viewCount": "27286863",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/O0s8f7-DtspXKtSbDPPlb4iJpoYKUB6uxXozlRW27dhbdkg2r4geiSGTgXrnUd1LgVMOhbE2JwsKrmW-"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 1,
+                          "previousPosition": 1,
+                          "percentViewsChange": -0.00663118,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKDkRpb21lZGVzIETDrWF6En5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vTzBzOGY3LUR0c3BYS3RTYkRQUGxiNGlKcG9ZS1VCNnV4WG96bFJXMjdkaGJka2cycjRnZWlTR1RnWHJuVWQxTGdWTU9oYkUySndzS3JtVy09dzkwMC1oOTAwLXAaATEqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11ggbnjqvv",
+                        "name": "Blessd",
+                        "viewCount": "21769645",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/37jnh0_r7fcGUBM892tzRP7b_123HdVaHW6nDl2XZip84MGazR82pfOr5A2DkCD6_HCspBzeYq6BlQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 2,
+                          "previousPosition": 3,
+                          "percentViewsChange": -0.0706943,
+                          "periodsOnChart": 202
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItkBCAISiwEKBkJsZXNzZBJ8aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLzM3am5oMF9yN2ZjR1VCTTg5MnR6UlA3Yl8xMjNIZFZhSFc2bkRsMlhaaXA4NE1HYXpSODJwZk9yNUEyRGtDRDZfSENzcEJ6ZVlxNkJsUT13OTAwLWg5MDAtcBoBMioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11r_g2xf82",
+                        "name": "Heredero",
+                        "viewCount": "20545856",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjUrBghwiagiBnMxH9TX-Bpry0gWsLzNyENoMoR2mBA1B3d-WHoM"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 3,
+                          "previousPosition": 2,
+                          "percentViewsChange": -0.24276729,
+                          "periodsOnChart": 19
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIscBCAISegoISGVyZWRlcm8SaWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpVckJnaHdpYWdpQm5NeEg5VFgtQnByeTBnV3NMek55RU5vTW9SMm1CQTFCM2QtV0hvTT13OTAwLWg5MDAtcBoBMyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/03gvskq",
+                        "name": "Binomio de Oro de América",
+                        "viewCount": "18062550",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjVd04J7EQlcU1u9ps4iuRPdiCmaGnLUU6jIRZXwMvH5KKhQ1KNq"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 4,
+                          "previousPosition": 5,
+                          "percentViewsChange": -0.02178321,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItsBCAISjQEKG0Jpbm9taW8gZGUgT3JvIGRlIEFtZcyBcmljYRJpaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValZkMDRKN0VRbGNVMXU5cHM0aXVSUGRpQ21hR25MVVU2aklSWlh3TXZINUtLaFExS05xPXc5MDAtaDkwMC1wGgE0KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11dymwhgcz",
+                        "name": "Feid",
+                        "viewCount": "17445545",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/CJzeR5n7JZJgXHfR3BdlKMMV2_lRq_WRoxBT0dcOZVjx4bDhCvrrmjQiIPSSkSUUhjKNNUWFFm90kdHq"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 5,
+                          "previousPosition": 4,
+                          "percentViewsChange": -0.05722083,
+                          "periodsOnChart": 265
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItkBCAISiwEKBEZlaWQSfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9DSnplUjVuN0paSmdYSGZSM0JkbEtNTVYyX2xScV9XUm94QlQwZGNPWlZqeDRiRGhDdnJybWpRaUlQU1NrU1VVaGpLTk5VV0ZGbTkwa2RIcT13OTAwLWg5MDAtcBoBNSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/027vrfj",
+                        "name": "Darío Gómez",
+                        "viewCount": "16369529",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjVWYWQMn7I-cpZRMlMc6ElJ9C4aD7vAhLCi6fASy29bDypvTkg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 6,
+                          "previousPosition": 7,
+                          "percentViewsChange": 0.017910201,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIssBCAISfgoNRGFyw61vIEfDs21lehJoaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValZXWVdRTW43SS1jcFpSTWxNYzZFbEo5QzRhRDd2QWhMQ2k2ZkFTeTI5YkR5cHZUa2c9dzkwMC1oOTAwLXAaATYqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11fssf65gn",
+                        "name": "Luis Alfonso",
+                        "viewCount": "15991214",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/_9zQMnOXkkbLBaEl32ojcIHKolJz-5ecggJAzFHcwqJdhUEMGUvp4OF0ZZmyWbjn2Ex23QUyNuf1LEI"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 7,
+                          "previousPosition": 8,
+                          "percentViewsChange": 0.0067642624,
+                          "periodsOnChart": 155
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuABCAISkgEKDEx1aXMgQWxmb25zbxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL185elFNbk9Ya2tiTEJhRWwzMm9qY0lIS29sSnotNWVjZ2dKQXpGSGN3cUpkaFVFTUdVdnA0T0YwWlpteVdiam4yRXgyM1FVeU51ZjFMRUk9dzkwMC1oOTAwLXAaATcqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11j0j0zryr",
+                        "name": "Jessi Uribe",
+                        "viewCount": "15127822",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/fDx-XF4Cd4_K3RanzW5zWzNceTjW2KTjWg2rcB2_BelTDyIa6GlQOfh0kZHlSzyq64O1DUDJ4QAxPnZr"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 8,
+                          "previousPosition": 6,
+                          "percentViewsChange": -0.17435874,
+                          "periodsOnChart": 368
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuABCAISkgEKC0plc3NpIFVyaWJlEn5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vZkR4LVhGNENkNF9LM1JhbnpXNXpXek5jZVRqVzJLVGpXZzJyY0IyX0JlbFREeUlhNkdsUU9maDBrWkhsU3p5cTY0TzFEVURKNFFBeFBuWnI9dzkwMC1oOTAwLXAaATgqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11bt_1zp4n",
+                        "name": "KAROL G",
+                        "viewCount": "13898545",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/PAril_5wB_6SlkkoRPY46X2pCr3Wi3jbz1KlTetLt7HlNRpar-5QwGSTeAvKWFdbVvwCBMHLBhvBFqMY"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 9,
+                          "previousPosition": 11,
+                          "percentViewsChange": -0.014308981,
+                          "periodsOnChart": 422
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItwBCAISjgEKB0tBUk9MIEcSfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9QQXJpbF81d0JfNlNsa2tvUlBZNDZYMnBDcjNXaTNqYnoxS2xUZXRMdDdIbE5ScGFyLTVRd0dTVGVBdktXRmRiVnZ3Q0JNSExCaHZCRnFNWT13OTAwLWg5MDAtcBoBOSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11c6cbmt0k",
+                        "name": "Ryan Castro",
+                        "viewCount": "13838123",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/2IKkVzfyH2KLDYFQ2RWPSNJNjEvqn0A5uBuVsfstG7HZlPpLMo38ObEukNq5QUtW8cwcP-s2PqgqVA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 10,
+                          "previousPosition": 10,
+                          "percentViewsChange": -0.019749485,
+                          "periodsOnChart": 208
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKC1J5YW4gQ2FzdHJvEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vMklLa1Z6ZnlIMktMRFlGUTJSV1BTTkpOakV2cW4wQTV1QnVWc2ZzdEc3SFpsUHBMTW8zOE9iRXVrTnE1UVV0Vzhjd2NQLXMyUHFncVZBPXc5MDAtaDkwMC1wGgIxMCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11gdq15782",
+                        "name": "Bad Bunny",
+                        "viewCount": "12577329",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/ploU_4iWpDoJlX3FOlwwd_yQcex0I8A0_665lePXAEBbNp1zn5g42eNwg5Q7lvYc2mG2--UNIYcIhww"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 11,
+                          "previousPosition": 14,
+                          "percentViewsChange": 0.06802896,
+                          "periodsOnChart": 431
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt4BCAISkAEKCUJhZCBCdW5ueRJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL3Bsb1VfNGlXcERvSmxYM0ZPbHd3ZF95UWNleDBJOEEwXzY2NWxlUFhBRUJiTnAxem41ZzQyZU53ZzVRN2x2WWMybUcyLS1VTklZY0lod3c9dzkwMC1oOTAwLXAaAjExKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01qcksf",
+                        "name": "Los Diablitos",
+                        "viewCount": "11775921",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/Mm8Je1vDqdIOEPA_arR88Tyn-2cRuyybir1DpGQYOvFut7eBdRHo-XRLpO6jDs4rvSA0DdCh3BngBKdpcQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 12,
+                          "previousPosition": 13,
+                          "percentViewsChange": -0.042916026,
+                          "periodsOnChart": 425
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuYBCAISmAEKDUxvcyBEaWFibGl0b3MSgAFodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vTW04SmUxdkRxZElPRVBBX2FyUjg4VHluLTJjUnV5eWJpcjFEcEdRWU92RnV0N2VCZFJIby1YUkxwTzZqRHM0cnZTQTBEZENoM0JuZ0JLZHBjUT13OTAwLWg5MDAtcBoCMTIqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11b7_v1rz5",
+                        "name": "Anuel AA",
+                        "viewCount": "11702848",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/IfB8nJpv7PWCWfJREgJvams3jfnVlOcZPypXdrMRMDNUYgPwq4TQgoQhczJwC_vNlBQFkXkE_tlEwCw"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 13,
+                          "previousPosition": 12,
+                          "percentViewsChange": -0.05714563,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt0BCAISjwEKCEFudWVsIEFBEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vSWZCOG5KcHY3UFdDV2ZKUkVnSnZhbXMzamZuVmxPY1pQeXBYZHJNUk1ETlVZZ1B3cTRUUWdvUWhjekp3Q192TmxCUUZrWGtFX3RsRXdDdz13OTAwLWg5MDAtcBoCMTMqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11bx8pxv_4",
+                        "name": "Pastor Lopez",
+                        "viewCount": "11521477",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/cWMevUoAeltibFu_OcYQxBHBv-wgKPxKkpt03XvLlumTm7Mu-6-cRU2JMvqVPe004VPJ-oRdBvlt0Z7y5g"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 14,
+                          "previousPosition": 9,
+                          "percentViewsChange": -0.20248955,
+                          "periodsOnChart": 123
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKDFBhc3RvciBMb3BlehKAAWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9jV01ldlVvQWVsdGliRnVfT2NZUXhCSEJ2LXdnS1B4S2twdDAzWHZMbHVtVG03TXUtNi1jUlUySk12cVZQZTAwNFZQSi1vUmRCdmx0MFo3eTVnPXc5MDAtaDkwMC1wGgIxNCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11gxfrfmks",
+                        "name": "Yeison Jimenez",
+                        "viewCount": "10072594",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/zIsbcv1vjnCHYaniwUYN4rOaegdsi-lGfbQ2dlkQzIFAjRIifHilK8BVdOC9-rNs3Guc-xkuUR8sCVQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 15,
+                          "previousPosition": 17,
+                          "percentViewsChange": 0.025538705,
+                          "periodsOnChart": 426
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKDlllaXNvbiBKaW1lbmV6En1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veklzYmN2MXZqbkNIWWFuaXdVWU40ck9hZWdkc2ktbEdmYlEyZGxrUXpJRkFqUklpZkhpbEs4QlZkT0M5LXJOczNHdWMteGt1VVI4c0NWUT13OTAwLWg5MDAtcBoCMTUqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/02pr_vs",
+                        "name": "Silvestre Dangond",
+                        "viewCount": "9711925",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/YhTqRz58ZoBltcbzNAf_7Xsd6xjHUGv_z8o_7tIhl5_6-jMdBPA7GERzKVkRYbgc4iEoQquTuEhywT4"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 16,
+                          "previousPosition": 16,
+                          "percentViewsChange": -0.04815704,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuYBCAISmAEKEVNpbHZlc3RyZSBEYW5nb25kEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vWWhUcVJ6NThab0JsdGNiek5BZl83WHNkNnhqSFVHdl96OG9fN3RJaGw1XzYtak1kQlBBN0dFUnpLVmtSWWJnYzRpRW9RcXVUdUVoeXdUND13OTAwLWg5MDAtcBoCMTYqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/067swc",
+                        "name": "Vicente Fernández",
+                        "viewCount": "9061623",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/PBk0PcDEDSwdVqoS8ZIjQsRFXnRT5wnQkOOXPXmEEB1Vjs_AOEACa4MHAkt4iALxErAiAXaFiP8d72o"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 17,
+                          "previousPosition": 19,
+                          "percentViewsChange": 0.013507887,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIucBCAISmQEKElZpY2VudGUgRmVybsOhbmRlehJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1BCazBQY0RFRFN3ZFZxb1M4WklqUXNSRlhuUlQ1d25Ra09PWFBYbUVFQjFWanNfQU9FQUNhNE1IQWt0NGlBTHhFckFpQVhhRmlQOGQ3Mm89dzkwMC1oOTAwLXAaAjE3KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/1ywpnk8tr",
+                        "name": "Farid Ortiz",
+                        "viewCount": "8826841",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjVgjOQ-jgab7pzLmrLs_zX1ZMhxD9b_o_hEegv0R3GEp2CKWrJX"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 18,
+                          "previousPosition": 24,
+                          "percentViewsChange": 0.044756185,
+                          "periodsOnChart": 303
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIssBCAISfgoLRmFyaWQgT3J0aXoSaWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpWZ2pPUS1qZ2FiN3B6TG1yTHNfelgxWk1oeEQ5Yl9vX2hFZWd2MFIzR0VwMkNLV3JKWD13OTAwLWg5MDAtcBoCMTgqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/0y7r5y0",
+                        "name": "Maluma",
+                        "viewCount": "8728697",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/cJd_NRZWP6lZ3G8DCylxAChWQIAweAO-Y51hDpK6aSTS7NB9Mg0CPlFjbvnDAZTUoTeoHA6lMnEKdg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 19,
+                          "previousPosition": 18,
+                          "percentViewsChange": -0.05548251,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItoBCAISjAEKBk1hbHVtYRJ8aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2NKZF9OUlpXUDZsWjNHOERDeWx4QUNoV1FJQXdlQU8tWTUxaERwSzZhU1RTN05COU1nMENQbEZqYnZuREFaVFVvVGVvSEE2bE1uRUtkZz13OTAwLWg5MDAtcBoCMTkqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11h4msckqh",
+                        "name": "Myke Towers",
+                        "viewCount": "8576113",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/nW2HGILzofhv3nTcu7L19MLoPnJSwOLapMTfXIEEI8_h-i-9Vg4jmPJeZG4pQMWRSAGXBTC5A8lrCA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 20,
+                          "previousPosition": 27,
+                          "percentViewsChange": 0.087055854,
+                          "periodsOnChart": 307
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKC015a2UgVG93ZXJzEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vblcySEdJTHpvZmh2M25UY3U3TDE5TUxvUG5KU3dPTGFwTVRmWElFRUk4X2gtaS05Vmc0am1QSmVaRzRwUU1XUlNBR1hCVEM1QThsckNBPXc5MDAtaDkwMC1wGgIyMCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11h_k26g_p",
+                        "name": "Luis Alberto Posada",
+                        "viewCount": "8526916",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/Tez-XTAYmpzwIWmUoHrmRVWj4WZiofo16a9EngXJfqY5_6mIq931jQWeUVniVeeUbKE9NaMMacC8ZXL6"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 21,
+                          "previousPosition": 22,
+                          "percentViewsChange": -0.009407641,
+                          "periodsOnChart": 355
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIukBCAISmwEKE0x1aXMgQWxiZXJ0byBQb3NhZGESfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9UZXotWFRBWW1wendJV21Vb0hybVJWV2o0V1ppb2ZvMTZhOUVuZ1hKZnFZNV82bUlxOTMxalFXZVVWbmlWZWVVYktFOU5hTU1hY0M4WlhMNj13OTAwLWg5MDAtcBoCMjEqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01wh81s",
+                        "name": "Rodolfo Aicardi",
+                        "viewCount": "8314090",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/9YE3Mh1YLQFPUHNsCR8LPHuxhRjYI7QfEh69qC51yu82cJQ-FxWCeJKED9XENASfAtoZ1_8zvtNTE755"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 22,
+                          "previousPosition": 15,
+                          "percentViewsChange": -0.20051123,
+                          "periodsOnChart": 169
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKD1JvZG9sZm8gQWljYXJkaRJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLzlZRTNNaDFZTFFGUFVITnNDUjhMUEh1eGhSallJN1FmRWg2OXFDNTF5dTgyY0pRLUZ4V0NlSktFRDlYRU5BU2ZBdG9aMV84enZ0TlRFNzU1PXc5MDAtaDkwMC1wGgIyMioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/01q0dz2",
+                        "name": "Los Inquietos Del Vallenato",
+                        "viewCount": "8246445",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/jlaZd0A80QG8qPpR0e-uDYJqobqSkmmMatVjhieqz-4Xq8u1AKjCTZoKCrnM1FoLyM2DB213xBCUdxk"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 23,
+                          "previousPosition": 23,
+                          "percentViewsChange": -0.034449987,
+                          "periodsOnChart": 425
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIvABCAISogEKG0xvcyBJbnF1aWV0b3MgRGVsIFZhbGxlbmF0bxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2psYVpkMEE4MFFHOHFQcFIwZS11RFlKcW9icVNrbW1NYXRWamhpZXF6LTRYcTh1MUFLakNUWm9LQ3JuTTFGb0x5TTJEQjIxM3hCQ1VkeGs9dzkwMC1oOTAwLXAaAjIzKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11f2b2z9_y",
+                        "name": "Ovy On The Drums",
+                        "viewCount": "7993332",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/V7ke0Twc-dkGupISzryp_VBlBazIxeRwPoVTGcMNovMiPZ9RZlHmWe249iPhPLK6qiSWdnEhM1xAYuc"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 24,
+                          "previousPosition": 20,
+                          "percentViewsChange": -0.08559726,
+                          "periodsOnChart": 180
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKEE92eSBPbiBUaGUgRHJ1bXMSfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9WN2tlMFR3Yy1ka0d1cElTenJ5cF9WQmxCYXpJeGVSd1BvVlRHY01Ob3ZNaVBaOVJabEhtV2UyNDlpUGhQTEs2cWlTV2RuRWhNMXhBWXVjPXc5MDAtaDkwMC1wGgIyNCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/0shprq6",
+                        "name": "Juancho Rois",
+                        "viewCount": "7909678",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/mgH-qJ8a-Qazf6kOChc9XkEzt7jnYb9LRCwXo3HOE0jC10ieNs5vuJT5VoI67VnqABuvR8sPuLYqpM0"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 25,
+                          "previousPosition": 26,
+                          "percentViewsChange": -0.020523287,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDEp1YW5jaG8gUm9pcxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL21nSC1xSjhhLVFhemY2a09DaGM5WGtFenQ3am5ZYjlMUkN3WG8zSE9FMGpDMTBpZU5zNXZ1SlQ1Vm9JNjdWbnFBQnV2UjhzUHVMWXFwTTA9dzkwMC1oOTAwLXAaAjI1KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/09gdrgy",
+                        "name": "Romeo Santos",
+                        "viewCount": "7889836",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/RGeXyCNvEmuIeFgv3SwMyeejKoRjEuAHcVZ6BCahIH1tNdIVyFPi75se2ZeAZR4cdmkI7HPLQ-drMxY"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 26,
+                          "previousPosition": 21,
+                          "percentViewsChange": -0.09284755,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDFJvbWVvIFNhbnRvcxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1JHZVh5Q052RW11SWVGZ3YzU3dNeWVlaktvUmpFdUFIY1ZaNkJDYWhJSDF0TmRJVnlGUGk3NXNlMlplQVpSNGNkbWtJN0hQTFEtZHJNeFk9dzkwMC1oOTAwLXAaAjI2KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/0nhf205",
+                        "name": "Iván Zuleta",
+                        "viewCount": "7201099",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/2gthHfYqzmrNQcBGJyb_7F4cKg23KH82lk2z3aDY0iW_g73mrsqnovgLrMILyJf-r7YkFcoswXTD5UYckA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 27,
+                          "previousPosition": 30,
+                          "percentViewsChange": -0.008601547,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKDEl2w6FuIFp1bGV0YRKAAWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8yZ3RoSGZZcXptck5RY0JHSnliXzdGNGNLZzIzS0g4MmxrMnozYURZMGlXX2c3M21yc3Fub3ZnTHJNSUx5SmYtcjdZa0Zjb3N3WFRENVVZY2tBPXc5MDAtaDkwMC1wGgIyNyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/0frqhd9",
+                        "name": "Jhonny Rivera",
+                        "viewCount": "7066222",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjV4-gdHnvzOqw4GIRv-Mmk09pEnSbGznKZ3vVtqIz317gx6GmLh"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 28,
+                          "previousPosition": 28,
+                          "percentViewsChange": -0.06700049,
+                          "periodsOnChart": 431
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIs4BCAISgAEKDUpob25ueSBSaXZlcmESaWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpWNC1nZEhudnpPcXc0R0lSdi1NbWswOXBFblNiR3puS1ozdlZ0cUl6MzE3Z3g2R21MaD13OTAwLWg5MDAtcBoCMjgqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/04lxnb",
+                        "name": "Don Omar",
+                        "viewCount": "6698476",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/BhBYm2miSfEBLo8QI9TLv_sUULpQ2xqUu5MVwthx6LoajZdV9MMOYni0M7XacQ1edCRxKWKfBmDCWZ74"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 29,
+                          "previousPosition": 32,
+                          "percentViewsChange": -0.053699512,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt4BCAISkAEKCERvbiBPbWFyEn5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vQmhCWW0ybWlTZkVCTG84UUk5VEx2X3NVVUxwUTJ4cVV1NU1Wd3RoeDZMb2FqWmRWOU1NT1luaTBNN1hhY1ExZWRDUnhLV0tmQm1EQ1daNzQ9dzkwMC1oOTAwLXAaAjI5KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/043s9v8",
+                        "name": "Arcángel",
+                        "viewCount": "6650081",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjWh812GOtxmI5GvasR58BuY7sFWKAQQi1ofa8Pt-Ga2Zt6tjuu8"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 30,
+                          "previousPosition": 29,
+                          "percentViewsChange": -0.106127694,
+                          "periodsOnChart": 426
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIskBCAISfAoJQXJjw6FuZ2VsEmlodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUxWLVVqV2g4MTJHT3R4bUk1R3Zhc1I1OEJ1WTdzRldLQVFRaTFvZmE4UHQtR2EyWnQ2dGp1dTg9dzkwMC1oOTAwLXAaAjMwKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11fjwxgdfk",
+                        "name": "Rauw Alejandro",
+                        "viewCount": "6597749",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/1kHhCL6mRjq1EV3v8dOpInbVUQD_s3r6xwtsCyDS2Hs6O0WlYdiQgDujdLNIjSMXTSRT4gJorkDltg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 31,
+                          "previousPosition": 31,
+                          "percentViewsChange": -0.090341814,
+                          "periodsOnChart": 308
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuIBCAISlAEKDlJhdXcgQWxlamFuZHJvEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vMWtIaENMNm1SanExRVYzdjhkT3BJbmJWVVFEX3MzcjZ4d3RzQ3lEUzJIczZPMFdsWWRpUWdEdWpkTE5JalNNWFRTUlQ0Z0pvcmtEbHRnPXc5MDAtaDkwMC1wGgIzMSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/06bzrw",
+                        "name": "Grupo Niche",
+                        "viewCount": "6542751",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjVliAEpXU2nGm641i2Rxts_VUAWzzqJeieyws8zuVFn2HIed6T1"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 32,
+                          "previousPosition": 33,
+                          "percentViewsChange": 0.03763789,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIssBCAISfgoLR3J1cG8gTmljaGUSaWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpWbGlBRXBYVTJuR202NDFpMlJ4dHNfVlVBV3p6cUplaWV5d3M4enVWRm4ySEllZDZUMT13OTAwLWg5MDAtcBoCMzIqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01wbxdc",
+                        "name": "Los Hispanos",
+                        "viewCount": "6212357",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/Z7XPeAPTNSoLx4iDV7i9OJR-5bOiJ8R2bYD6u4uVV-4qklHNm_pt7XbgsTaKFHqRYaLGLbrp96htaMo"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 33,
+                          "previousPosition": 25,
+                          "percentViewsChange": -0.23573124,
+                          "periodsOnChart": 83
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDExvcyBIaXNwYW5vcxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1o3WFBlQVBUTlNvTHg0aURWN2k5T0pSLTViT2lKOFIyYllENnU0dVZWLTRxa2xITm1fcHQ3WGJnc1RhS0ZIcVJZYUxHTGJycDk2aHRhTW89dzkwMC1oOTAwLXAaAjMzKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01wbl_r",
+                        "name": "Daddy Yankee",
+                        "viewCount": "5833500",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/kZ0N1SDB-t8gX6cnNiMhO08duMWCLMP5kC7JtMFWPfY-xQ06Xvgzo4Rs6k7Qiu0Q80_bkOLNYWZvagg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 34,
+                          "previousPosition": 34,
+                          "percentViewsChange": -0.008276686,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDERhZGR5IFlhbmtlZRJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2taME4xU0RCLXQ4Z1g2Y25OaU1oTzA4ZHVNV0NMTVA1a0M3SnRNRldQZlkteFEwNlh2Z3pvNFJzNms3UWl1MFE4MF9ia09MTllXWnZhZ2c9dzkwMC1oOTAwLXAaAjM0KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/0yc1jt1",
+                        "name": "Ozuna",
+                        "viewCount": "5732197",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/B--2D8cfNiU_qGs8fhQEOv_4afFOTUXzQYgHcpEOBDj8qJw2vbeM7kfq1tPeuzpyOEV88IaR3ERDqIA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 35,
+                          "previousPosition": 35,
+                          "percentViewsChange": -0.019792601,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItoBCAISjAEKBU96dW5hEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vQi0tMkQ4Y2ZOaVVfcUdzOGZoUUVPdl80YWZGT1RVWHpRWWdIY3BFT0JEajhxSncydmJlTTdrZnExdFBldXpweU9FVjg4SWFSM0VSRHFJQT13OTAwLWg5MDAtcBoCMzUqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11b7_wwyfx",
+                        "name": "El Andariego",
+                        "viewCount": "5629023",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/CPR73dDSs6X39OrhV2iH8Rk6kz-RKH-LyGEtZZWosBIfiWjDlGejxP9XRIit5nEoXiO_003cls5tIVIT"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 36,
+                          "previousPosition": 39,
+                          "percentViewsChange": -0.011474332,
+                          "periodsOnChart": 242
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuIBCAISlAEKDEVsIEFuZGFyaWVnbxJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL0NQUjczZERTczZYMzlPcmhWMmlIOFJrNmt6LVJLSC1MeUdFdFpaV29zQklmaVdqRGxHZWp4UDlYUklpdDVuRW9YaU9fMDAzY2xzNXRJVklUPXc5MDAtaDkwMC1wGgIzNioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/0hzrhcm",
+                        "name": "Farruko",
+                        "viewCount": "5536821",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/7LcUfJ1CzFPLi1BxeTqlEp29UFP3B6KZUxAFcnzGpxDQkF8Pn7Ivl7v_dzgsJvbrOFGZIQnXsZPIJJo"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 37,
+                          "previousPosition": 38,
+                          "percentViewsChange": -0.030699477,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItwBCAISjgEKB0ZhcnJ1a28SfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS83TGNVZkoxQ3pGUExpMUJ4ZVRxbEVwMjlVRlAzQjZLWlV4QUZjbnpHcHhEUWtGOFBuN0l2bDd2X2R6Z3NKdmJyT0ZHWklRblhzWlBJSkpvPXc5MDAtaDkwMC1wGgIzNyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/1214g68v",
+                        "name": "Pipe Bueno",
+                        "viewCount": "5497984",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/-PufhmKD-NVUHkJaK0mqABR98PS_g1uUI_4OPpNb888dgmjREshe8AEPCDgfpxtLSro_Z4v0zc-5-gY"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 38,
+                          "previousPosition": 42,
+                          "percentViewsChange": 0.0061617983,
+                          "periodsOnChart": 331
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKClBpcGUgQnVlbm8SfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS8tUHVmaG1LRC1OVlVIa0phSzBtcUFCUjk4UFNfZzF1VUlfNE9QcE5iODg4ZGdtalJFc2hlOEFFUENEZ2ZweHRMU3JvX1o0djB6Yy01LWdZPXc5MDAtaDkwMC1wGgIzOCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/0b__5gp",
+                        "name": "J Balvin",
+                        "viewCount": "5466195",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/uEfoH9sXpsrJuCqHsQ5EYuOWf42zsbpvv32Zd34P8i1f_ebjrcngqaMRfObvIl8Lkij3ggDBIIswnSM"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 39,
+                          "previousPosition": 41,
+                          "percentViewsChange": -0.016620252,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt0BCAISjwEKCEogQmFsdmluEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vdUVmb0g5c1hwc3JKdUNxSHNRNUVZdU9XZjQyenNicHZ2MzJaZDM0UDhpMWZfZWJqcmNuZ3FhTVJmT2J2SWw4TGtpajNnZ0RCSUlzd25TTT13OTAwLWg5MDAtcBoCMzkqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01m4xy2",
+                        "name": "Los Tigres Del Norte",
+                        "viewCount": "5428862",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/uqS9m4wG04Xxx2UaNYNBKdiPj_e8MgYppkpzA4F_FhLI1D6kptY2GTvpOLNC4H1uxNjwp3Tw9znTfeFy"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 40,
+                          "previousPosition": 44,
+                          "percentViewsChange": 0.029335577,
+                          "periodsOnChart": 431
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuoBCAISnAEKFExvcyBUaWdyZXMgRGVsIE5vcnRlEn5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vdXFTOW00d0cwNFh4eDJVYU5ZTkJLZGlQal9lOE1nWXBwa3B6QTRGX0ZoTEkxRDZrcHRZMkdUdnBPTE5DNEgxdXhOandwM1R3OXpuVGZlRnk9dzkwMC1oOTAwLXAaAjQwKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11fm400jbf",
+                        "name": "Beéle",
+                        "viewCount": "5211444",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/9jAwQQP0_TwqCEcs1fouvsKJ3agqcDkSSMpjnG_TGNCPTdGFJx0CFbGvhhaknlB6wY3l1knnft3O8xk"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 41,
+                          "previousPosition": 45,
+                          "percentViewsChange": -0.0026509503,
+                          "periodsOnChart": 242
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItsBCAISjQEKBkJlw6lsZRJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLzlqQXdRUVAwX1R3cUNFY3MxZm91dnNLSjNhZ3FjRGtTU01wam5HX1RHTkNQVGRHRkp4MENGYkd2aGhha25sQjZ3WTNsMWtubmZ0M084eGs9dzkwMC1oOTAwLXAaAjQxKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01n3vb0",
+                        "name": "Lisandro Meza",
+                        "viewCount": "5162234",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjXpT8P6SXALTJPtsSLsqRdiy-M3l-oykB6X43n97y3YPbmC934"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 42,
+                          "previousPosition": 40,
+                          "percentViewsChange": -0.083647706,
+                          "periodsOnChart": 149
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIswBCAISfwoNTGlzYW5kcm8gTWV6YRJoaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValhwVDhQNlNYQUxUSlB0c1NMc3FSZGl5LU0zbC1veWtCNlg0M245N3kzWVBibUM5MzQ9dzkwMC1oOTAwLXAaAjQyKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11b7_scch6",
+                        "name": " Daniel Calderón",
+                        "viewCount": "5156567",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/fR_KsuIuk634gO1swW8fJ_0u4REVYQfsKubV1NIYeDbqst62rjQl1QQ5TO6OKudUGzN99DMFn7dR4rhK"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 43,
+                          "previousPosition": 43,
+                          "percentViewsChange": -0.024314158,
+                          "periodsOnChart": 32
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIucBCAISmQEKESBEYW5pZWwgQ2FsZGVyw7NuEn5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vZlJfS3N1SXVrNjM0Z08xc3dXOGZKXzB1NFJFVllRZnNLdWJWMU5JWWVEYnFzdDYycmpRbDFRUTVUTzZPS3VkVUd6Tjk5RE1GbjdkUjRyaEs9dzkwMC1oOTAwLXAaAjQzKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/0126p9",
+                        "name": "Aventura",
+                        "viewCount": "4989076",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/yMsYfV_AQAMEfvZTz5ru9RA4ljjNOblYNumWBUX_TJhb2_GnI8mwUmrw-v3Gi-4GsHJF2uY_CAC4Cog"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 44,
+                          "previousPosition": 36,
+                          "percentViewsChange": -0.14431113,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt0BCAISjwEKCEF2ZW50dXJhEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veU1zWWZWX0FRQU1FZnZaVHo1cnU5UkE0bGpqTk9ibFlOdW1XQlVYX1RKaGIyX0duSThtd1VtcnctdjNHaS00R3NISkYydVlfQ0FDNENvZz13OTAwLWg5MDAtcBoCNDQqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01nxcdf",
+                        "name": "Joe Arroyo",
+                        "viewCount": "4934442",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/FYZq6GkL52NyxECW8Xe7t9HajQ7odhMd895OkA1f5D0JssQoBDAGNHDBvxjGKZG3GrIGwX1dIttS5vk"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 45,
+                          "previousPosition": 50,
+                          "percentViewsChange": 0.053976312,
+                          "periodsOnChart": 265
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKCkpvZSBBcnJveW8SfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9GWVpxNkdrTDUyTnl4RUNXOFhlN3Q5SGFqUTdvZGhNZDg5NU9rQTFmNUQwSnNzUW9CREFHTkhEQnZ4akdLWkczR3JJR3dYMWRJdHRTNXZrPXc5MDAtaDkwMC1wGgI0NSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/01wj18h",
+                        "name": "Shakira",
+                        "viewCount": "4796653",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/5szu_R249QrTCG3OtuEVcWqDUxA_g3bosD4RXOXQpNYR8y3ujA_QK5OERj-h-TluOmZJV0m-8oQSbcc"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 46,
+                          "previousPosition": 46,
+                          "percentViewsChange": -0.020245036,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItwBCAISjgEKB1NoYWtpcmESfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS81c3p1X1IyNDlRclRDRzNPdHVFVmNXcURVeEFfZzNib3NENFJYT1hRcE5ZUjh5M3VqQV9RSzVPRVJqLWgtVGx1T21aSlYwbS04b1FTYmNjPXc5MDAtaDkwMC1wGgI0NioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11b7_sjnmq",
+                        "name": "Kris R.",
+                        "viewCount": "4612532",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjUCiBe3SMj7bB1m9OSnb4zWUUyugb7wGEyJ5mYLm1bstwcb_3c_"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 47,
+                          "previousPosition": 47,
+                          "percentViewsChange": -0.036840364,
+                          "periodsOnChart": 29
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIscBCAISegoHS3JpcyBSLhJpaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValVDaUJlM1NNajdiQjFtOU9TbmI0eldVVXl1Z2I3d0dFeUo1bVlMbTFic3R3Y2JfM2NfPXc5MDAtaDkwMC1wGgI0NyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/03j14dv",
+                        "name": "Los 50 de Joselito",
+                        "viewCount": "4539120",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjVS0bcFHvJOf-u8ACWFo2EayO0y7ny5HYyh2BBLgNSjwp8F16dY"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 48,
+                          "previousPosition": 37,
+                          "percentViewsChange": -0.21397798,
+                          "periodsOnChart": 46
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItMBCAIShQEKEkxvcyA1MCBkZSBKb3NlbGl0bxJpaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValZTMGJjRkh2Sk9mLXU4QUNXRm8yRWF5TzB5N255NUhZeWgyQkJMZ05TandwOEYxNmRZPXc5MDAtaDkwMC1wGgI0OCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11b7_vldxg",
+                        "name": "Emilio Oviedo",
+                        "viewCount": "4516971",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/BaF8t9pH44qJPEQ08JayIsZ-FnLbBNOjDdTh08Mg_fFMctQzrKImSs-yA-jOSDXgbEDg66Uo1m2DYP7_6A"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 49,
+                          "previousPosition": 55,
+                          "percentViewsChange": 0.057157554,
+                          "periodsOnChart": 194
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuYBCAISmAEKDUVtaWxpbyBPdmllZG8SgAFodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vQmFGOHQ5cEg0NHFKUEVRMDhKYXlJc1otRm5MYkJOT2pEZFRoMDhNZ19mRk1jdFF6cktJbVNzLXlBLWpPU0RYZ2JFRGc2NlVvMW0yRFlQN182QT13OTAwLWg5MDAtcBoCNDkqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/0h3rxh8",
+                        "name": "Ñengo Flow",
+                        "viewCount": "4488937",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/62DN4ot35SuK8V5j8GpimB8M3K_dqenChE82vgUGGO8M8us9qfkTMpg7ylXzbdWjrYYPeBzr6dVlIac"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 50,
+                          "previousPosition": 48,
+                          "percentViewsChange": -0.062467407,
+                          "periodsOnChart": 304
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuABCAISkgEKC8ORZW5nbyBGbG93En1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vNjJETjRvdDM1U3VLOFY1ajhHcGltQjhNM0tfZHFlbkNoRTgydmdVR0dPOE04dXM5cWZrVE1wZzd5bFh6YmRXanJZWVBlQnpyNmRWbElhYz13OTAwLWg5MDAtcBoCNTAqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01ssb8n",
+                        "name": "Los Hermanos Zuleta",
+                        "viewCount": "4431378",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/2I3vOZJYWNmHohTc7TTljByY0MzIZMis9sW3kTopglNLxNAPODWrYLTadWyGB8FQzWk3Ujod358KUDu5RQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 51,
+                          "previousPosition": 58,
+                          "percentViewsChange": 0.07375493,
+                          "periodsOnChart": 219
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuwBCAISngEKE0xvcyBIZXJtYW5vcyBadWxldGESgAFodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vMkkzdk9aSllXTm1Ib2hUYzdUVGxqQnlZME16SVpNaXM5c1cza1RvcGdsTkx4TkFQT0RXcllMVGFkV3lHQjhGUXpXazNVam9kMzU4S1VEdTVSUT13OTAwLWg5MDAtcBoCNTEqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01q7z27",
+                        "name": "Nicky Jam",
+                        "viewCount": "4313819",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/dli1OVyNmFpczVHMyDOwSDDMlJlw35JC7paFPWOaArQmoBXwgw29zjzw6g3yoEsmFHYCld_BmscC4Bhx"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 52,
+                          "previousPosition": 49,
+                          "percentViewsChange": -0.098865725,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKCU5pY2t5IEphbRJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2RsaTFPVnlObUZwY3pWSE15RE93U0RETWxKbHczNUpDN3BhRlBXT2FBclFtb0JYd2d3Mjl6anp3NmczeW9Fc21GSFlDbGRfQm1zY0M0Qmh4PXc5MDAtaDkwMC1wGgI1MioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11c5s6q0jj",
+                        "name": "Fernando Burbano",
+                        "viewCount": "4279181",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/E14g00Zy4RmojOYLwFufqKW2NKHSdsZtZXdgwrFdlIQYI5I7bVvPNWNg3qXHzqUsBMWYL4PhxqVt6Mgu"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 53,
+                          "previousPosition": 57,
+                          "percentViewsChange": 0.011684353,
+                          "periodsOnChart": 250
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuYBCAISmAEKEEZlcm5hbmRvIEJ1cmJhbm8Sfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9FMTRnMDBaeTRSbW9qT1lMd0Z1ZnFLVzJOS0hTZHNadFpYZGd3ckZkbElRWUk1STdiVnZQTldOZzNxWEh6cVVzQk1XWUw0UGh4cVZ0Nk1ndT13OTAwLWg5MDAtcBoCNTMqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11h5mkg4kx",
+                        "name": "El Charrito Negro",
+                        "viewCount": "4238760",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjUzkHHd7WXMQVvfzBnaqNzheCj29AiKluyC8lIt17cpoxcl2H6S"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 54,
+                          "previousPosition": 61,
+                          "percentViewsChange": 0.035853963,
+                          "periodsOnChart": 248
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItIBCAIShAEKEUVsIENoYXJyaXRvIE5lZ3JvEmlodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUxWLVVqVXprSEhkN1dYTVFWdmZ6Qm5hcU56aGVDajI5QWlLbHV5QzhsSXQxN2Nwb3hjbDJINlM9dzkwMC1oOTAwLXAaAjU0KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11h3jhb_70",
+                        "name": "Kapo",
+                        "viewCount": "4206431",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/o8ldY0KmK8v5bNUJsoucZkmeN6ABXLDU2V5WKBqYz7aLcgIzVOnf751q_V525PsnsXleIhlgguEt1A"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 55,
+                          "previousPosition": 53,
+                          "percentViewsChange": -0.06582318,
+                          "periodsOnChart": 29
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItgBCAISigEKBEthcG8SfGh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9vOGxkWTBLbUs4djViTlVKc291Y1prbWVONkFCWExEVTJWNVdLQnFZejdhTGNnSXpWT25mNzUxcV9WNTI1UHNuc1hsZUlobGdndUV0MUE9dzkwMC1oOTAwLXAaAjU1KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/02ps4f_",
+                        "name": "Juancho De la Espriella",
+                        "viewCount": "4165991",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/U_vDHYBV-Ox6QDoPt-qQPOaCMzuDm36rQ3O9nIbAd0JN5TX-k8zJiagJC6IT8hV8pIZdfWqhIlP6UBA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 56,
+                          "previousPosition": 54,
+                          "percentViewsChange": -0.051240847,
+                          "periodsOnChart": 397
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuwBCAISngEKF0p1YW5jaG8gRGUgbGEgRXNwcmllbGxhEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vVV92REhZQlYtT3g2UURvUHQtcVFQT2FDTXp1RG0zNnJRM085bkliQWQwSk41VFgtazh6SmlhZ0pDNklUOGhWOHBJWmRmV3FoSWxQNlVCQT13OTAwLWg5MDAtcBoCNTYqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11h936h21j",
+                        "name": "Peso Pluma",
+                        "viewCount": "4100358",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/d-rWQKHFbROoZbnokNjzMzQieVXaJQuqt00AADzJeMQvBnGIs88UpzcQ3nXR1__AsFwsQLciMNjWHIg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 57,
+                          "previousPosition": 59,
+                          "percentViewsChange": -0.0036550518,
+                          "periodsOnChart": 98
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKClBlc28gUGx1bWESfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9kLXJXUUtIRmJST29aYm5va05qek16UWllVlhhSlF1cXQwMEFBRHpKZU1RdkJuR0lzODhVcHpjUTNuWFIxX19Bc0Z3c1FMY2lNTmpXSElnPXc5MDAtaDkwMC1wGgI1NyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11fx8dpmcw",
+                        "name": "Pirlo",
+                        "viewCount": "4086828",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjWkE9FJt_fqkUGLsR9ESiBxIiDpbSB4YGpadgg4c3jXzs_hdhM"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 58,
+                          "previousPosition": 52,
+                          "percentViewsChange": -0.104486324,
+                          "periodsOnChart": 113
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIsQBCAISdwoFUGlybG8SaGh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpXa0U5Rkp0X2Zxa1VHTHNSOUVTaUJ4SWlEcGJTQjRZR3BhZGdnNGMzalh6c19oZGhNPXc5MDAtaDkwMC1wGgI1OCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11bt_97ldr",
+                        "name": "Jhon Alex Castaño",
+                        "viewCount": "4024349",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/VZglxM3rgbV_XVuBkyaGR5F81Fz8chcdxpqoetaJrWXPToaIzymA0A0LN7lOiW5icO9BFwP3HU2HZlU"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 59,
+                          "previousPosition": 62,
+                          "percentViewsChange": 0.004286063,
+                          "periodsOnChart": 418
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIucBCAISmQEKEkpob24gQWxleCBDYXN0YcOxbxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1ZaZ2x4TTNyZ2JWX1hWdUJreWFHUjVGODFGejhjaGNkeHBxb2V0YUpyV1hQVG9hSXp5bUEwQTBMTjdsT2lXNWljTzlCRndQM0hVMkhabFU9dzkwMC1oOTAwLXAaAjU5KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11f5d4v2p1",
+                        "name": "Carin Leon",
+                        "viewCount": "3986673",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/xP3JC1LGhFAAPmw_J9gV0MPRgkuB3TAatQ01FHv-mL6GWMdo80id474DX38LcTmf6-qzIHdXLCKkTQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 60,
+                          "previousPosition": 60,
+                          "percentViewsChange": -0.029394686,
+                          "periodsOnChart": 210
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt4BCAISkAEKCkNhcmluIExlb24SfGh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS94UDNKQzFMR2hGQUFQbXdfSjlnVjBNUFJna3VCM1RBYXRRMDFGSHYtbUw2R1dNZG84MGlkNDc0RFgzOExjVG1mNi1xeklIZFhMQ0trVFE9dzkwMC1oOTAwLXAaAjYwKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11c5s_dy_j",
+                        "name": "Bryant Myers",
+                        "viewCount": "3986442",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/RY1UOpbmntLoyJ_fnJhDuDxorqbvHPjHvUUPH6-naULJ0QmlbWexLKJWeYpksSDgJ9V4hfMqJEavanhj"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 61,
+                          "previousPosition": 56,
+                          "percentViewsChange": -0.06260542,
+                          "periodsOnChart": 408
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuIBCAISlAEKDEJyeWFudCBNeWVycxJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1JZMVVPcGJtbnRMb3lKX2ZuSmhEdUR4b3JxYnZIUGpIdlVVUEg2LW5hVUxKMFFtbGJXZXhMS0pXZVlwa3NTRGdKOVY0aGZNcUpFYXZhbmhqPXc5MDAtaDkwMC1wGgI2MSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11f7hkt_px",
+                        "name": "Los Dotores De La Carranga",
+                        "viewCount": "3966907",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjV6aHql21qkzub-oCrwFhjk-9r6COyEEehskNLidRityYdQm0M"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 62,
+                          "previousPosition": 51,
+                          "percentViewsChange": -0.14316185,
+                          "periodsOnChart": 204
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItoBCAISjAEKGkxvcyBEb3RvcmVzIERlIExhIENhcnJhbmdhEmhodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUxWLVVqVjZhSHFsMjFxa3p1Yi1vQ3J3Rmhqay05cjZDT3lFRWVoc2tOTGlkUml0eVlkUW0wTT13OTAwLWg5MDAtcBoCNjIqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01vjscw",
+                        "name": "Miguel Morales",
+                        "viewCount": "3769646",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/_U67vGUKZ0lj96AqKMuSrFF0W7ZarvR1BdUM1HmO4SqvIv6AgJxQSwE6mT9oalN0o7D9c_y7s3D-TSg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 63,
+                          "previousPosition": 67,
+                          "percentViewsChange": 0.041037865,
+                          "periodsOnChart": 382
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKDk1pZ3VlbCBNb3JhbGVzEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vX1U2N3ZHVUtaMGxqOTZBcUtNdVNyRkYwVzdaYXJ2UjFCZFVNMUhtTzRTcXZJdjZBZ0p4UVN3RTZtVDlvYWxOMG83RDljX3k3czNELVRTZz13OTAwLWg5MDAtcBoCNjMqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11g4blbz10",
+                        "name": "SOG",
+                        "viewCount": "3739267",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/RdDmCgxmPLi2iyXuhYkHZPYmIMRzP8f-XQ2kZBa4cULfcf5BOh0htsyEMlveHrYX-p_npoMA7zyhEA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 64,
+                          "previousPosition": 63,
+                          "percentViewsChange": -0.026222916,
+                          "periodsOnChart": 92
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItcBCAISiQEKA1NPRxJ8aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1JkRG1DZ3htUExpMml5WHVoWWtIWlBZbUlNUnpQOGYtWFEya1pCYTRjVUxmY2Y1Qk9oMGh0c3lFTWx2ZUhyWVgtcF9ucG9NQTd6eWhFQT13OTAwLWg5MDAtcBoCNjQqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01qckq0",
+                        "name": "Los Betos",
+                        "viewCount": "3630510",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/gCtw84BHDFb8Q9d7wURfcu2C20K5PKekiYSkM7QOyhp55j88ouYCcNmPWuiXH1egWeQ7pR-EcZ9pYiE-"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 65,
+                          "previousPosition": 65,
+                          "percentViewsChange": -0.03441469,
+                          "periodsOnChart": 236
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKCUxvcyBCZXRvcxJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2dDdHc4NEJIREZiOFE5ZDd3VVJmY3UyQzIwSzVQS2VraVlTa003UU95aHA1NWo4OG91WUNjTm1QV3VpWEgxZWdXZVE3cFItRWNaOXBZaUUtPXc5MDAtaDkwMC1wGgI2NSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/06thb5",
+                        "name": "Antonio Aguilar",
+                        "viewCount": "3619553",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/P4lPAo2JtQOkKinfF4F8GB4O5MmmHFX68ByEBNRpKnFxQaKOc6dB6bQiHb1bBEzeNSdF7WWG0HRwhGKe"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 66,
+                          "previousPosition": 80,
+                          "percentViewsChange": 0.11084741,
+                          "periodsOnChart": 228
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKD0FudG9uaW8gQWd1aWxhchJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1A0bFBBbzJKdFFPa0tpbmZGNEY4R0I0TzVNbW1IRlg2OEJ5RUJOUnBLbkZ4UWFLT2M2ZEI2YlFpSGIxYkJFemVOU2RGN1dXRzBIUndoR0tlPXc5MDAtaDkwMC1wGgI2NioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11j8vlm5qr",
+                        "name": "Yailin la Mas Viral",
+                        "viewCount": "3489974",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/GyXn6u80bUq4wrXS1Tbkn2VAMGGb5HPgvCwQtFNHdWsSXOWHuq9Mvcc3pkteZ4CUH5K57CMe_nFYvF4e"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 67,
+                          "previousPosition": 64,
+                          "percentViewsChange": -0.08367717,
+                          "periodsOnChart": 36
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIukBCAISmwEKE1lhaWxpbiBsYSBNYXMgVmlyYWwSfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9HeVhuNnU4MGJVcTR3clhTMVRia24yVkFNR0diNUhQZ3ZDd1F0Rk5IZFdzU1hPV0h1cTlNdmNjM3BrdGVaNENVSDVLNTdDTWVfbkZZdkY0ZT13OTAwLWg5MDAtcBoCNjcqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11g8nyz0pz",
+                        "name": "Alzate",
+                        "viewCount": "3429663",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/adDpCbZZ7X3akuPbRVYqCGwkH48NnbMj-3dkloPhm55UPN63zYPs1m8Kcp8TVgfkT7WEEdfNRvrMrw"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 68,
+                          "previousPosition": 74,
+                          "percentViewsChange": 0.02443564,
+                          "periodsOnChart": 421
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItoBCAISjAEKBkFsemF0ZRJ8aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2FkRHBDYlpaN1gzYWt1UGJSVllxQ0d3a0g0OE5uYk1qLTNka2xvUGhtNTVVUE42M3pZUHMxbThLY3A4VFZnZmtUN1dFRWRmTlJ2ck1ydz13OTAwLWg5MDAtcBoCNjgqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11fl8_rx24",
+                        "name": "Sech",
+                        "viewCount": "3428248",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/aVPu08USMW6cKyklfDcopOxWFsZg_f7XIfJn6sFygl__PdnwM7mo13y2aM8iiyYeMcB_2C71J--VlhA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 69,
+                          "previousPosition": 66,
+                          "percentViewsChange": -0.054810934,
+                          "periodsOnChart": 324
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItkBCAISiwEKBFNlY2gSfWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hVlB1MDhVU01XNmNLeWtsZkRjb3BPeFdGc1pnX2Y3WElmSm42c0Z5Z2xfX1BkbndNN21vMTN5MmFNOGlpeVllTWNCXzJDNzFKLS1WbGhBPXc5MDAtaDkwMC1wGgI2OSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11ln4b63f4",
+                        "name": "Maisak",
+                        "viewCount": "3410370",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjUaakveo0RxkS0pQ088tLFDTEF6fdq_rXQChgGPqU-ACZQjrKyh"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 70,
+                          "previousPosition": 69,
+                          "percentViewsChange": -0.055526786,
+                          "periodsOnChart": 19
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIsYBCAISeQoGTWFpc2FrEmlodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUxWLVVqVWFha3ZlbzBSeGtTMHBRMDg4dExGRFRFRjZmZHFfclhRQ2hnR1BxVS1BQ1pRanJLeWg9dzkwMC1oOTAwLXAaAjcwKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11h84ffxy4",
+                        "name": "Keyvin Ce",
+                        "viewCount": "3406354",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjXNmCxeFuZC8Ka6-0jZulPSG0aizoHTWecIi3GtIUjp8q4KmHsV"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 71,
+                          "previousPosition": 78,
+                          "percentViewsChange": 0.035910048,
+                          "periodsOnChart": 163
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIskBCAISfAoJS2V5dmluIENlEmlodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUxWLVVqWE5tQ3hlRnVaQzhLYTYtMGpadWxQU0cwYWl6b0hUV2VjSWkzR3RJVWpwOHE0S21Ic1Y9dzkwMC1oOTAwLXAaAjcxKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/04czjq_",
+                        "name": "De La Ghetto",
+                        "viewCount": "3380897",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/xw9U3jH8xBI925Yy2SuI9LzjnQqwDADCvjGi6O-36qA4N9bO1hU3wR3fobCKTa9PaAazI75U9Hp5R6s"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 72,
+                          "previousPosition": 71,
+                          "percentViewsChange": -0.03917615,
+                          "periodsOnChart": 336
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDERlIExhIEdoZXR0bxJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL3h3OVUzakg4eEJJOTI1WXkyU3VJOUx6am5RcXdEQURDdmpHaTZPLTM2cUE0TjliTzFoVTN3UjNmb2JDS1RhOVBhQWF6STc1VTlIcDVSNnM9dzkwMC1oOTAwLXAaAjcyKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11gcms19rn",
+                        "name": "Nanpa Básico",
+                        "viewCount": "3326256",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/rF_lP_EWIUHgVy56D6JmEJt9Nrtn2TZjLwQBMSQx0JLa6WH3w173RBKU3_YXSC-THPcWCUCK-NJacw"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 73,
+                          "previousPosition": 68,
+                          "percentViewsChange": -0.080284745,
+                          "periodsOnChart": 322
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDU5hbnBhIELDoXNpY28SfGh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9yRl9sUF9FV0lVSGdWeTU2RDZKbUVKdDlOcnRuMlRaakx3UUJNU1F4MEpMYTZXSDN3MTczUkJLVTNfWVhTQy1USFBjV0NVQ0stTkphY3c9dzkwMC1oOTAwLXAaAjczKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01mxqdc",
+                        "name": "Willie Colón",
+                        "viewCount": "3275581",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/PKzB0ekcyMbj4_AgUXuaubatEqVXTSKgrLMkHj_R4vIHPihKvWVmrZwL7RFTdBMRB9WazdhNjpFA1Xjg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 74,
+                          "previousPosition": 70,
+                          "percentViewsChange": -0.07387158,
+                          "periodsOnChart": 431
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKDVdpbGxpZSBDb2zDs24Sfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9QS3pCMGVrY3lNYmo0X0FnVVh1YXViYXRFcVZYVFNLZ3JMTWtIal9SNHZJSFBpaEt2V1Ztclp3TDdSRlRkQk1SQjlXYXpkaE5qcEZBMVhqZz13OTAwLWg5MDAtcBoCNzQqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11fx8hgh71",
+                        "name": "Christian Nodal",
+                        "viewCount": "3251967",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/muLez3PAAcBZ6mF7D1viJ0ft5i5y1vedDHyv3yi_kh23nJuNR_W-10RwyE0yHn61sp9wA98cctf_d-F7"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 75,
+                          "previousPosition": 73,
+                          "percentViewsChange": -0.029095195,
+                          "periodsOnChart": 372
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKD0NocmlzdGlhbiBOb2RhbBJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL211TGV6M1BBQWNCWjZtRjdEMXZpSjBmdDVpNXkxdmVkREh5djN5aV9raDIzbkp1TlJfVy0xMFJ3eUUweUhuNjFzcDl3QTk4Y2N0Zl9kLUY3PXc5MDAtaDkwMC1wGgI3NSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11cn365gb3",
+                        "name": "Luister La Voz",
+                        "viewCount": "3214413",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/6nOY31zfnxaQgWs9eY246mMdl5FEmOpfUxwq4VaGOAqP_T18PxJOsFJHd8nzOVtFrTj_PtECJ6CL4g"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 76,
+                          "previousPosition": 72,
+                          "percentViewsChange": -0.051921427,
+                          "periodsOnChart": 132
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuIBCAISlAEKDkx1aXN0ZXIgTGEgVm96EnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vNm5PWTMxemZueGFRZ1dzOWVZMjQ2bU1kbDVGRW1PcGZVeHdxNFZhR09BcVBfVDE4UHhKT3NGSkhkOG56T1Z0RnJUal9QdEVDSjZDTDRnPXc5MDAtaDkwMC1wGgI3NioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11vzvpfbvd",
+                        "name": "DFZM",
+                        "viewCount": "3209334",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/WsUDbeGSZzIPi67D5rMzJ6O9492OIwZU9O-67P6xqrwZkFTKSOhlxvez9jCeA9nDxMkkfDaqgugeC8eVhA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 77,
+                          "previousPosition": 79,
+                          "percentViewsChange": -0.015695402,
+                          "periodsOnChart": 7
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt0BCAISjwEKBERGWk0SgAFodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vV3NVRGJlR1NaeklQaTY3RDVyTXpKNk85NDkyT0l3WlU5Ty02N1A2eHFyd1prRlRLU09obHh2ZXo5akNlQTluRHhNa2tmRGFxZ3VnZUM4ZVZoQT13OTAwLWg5MDAtcBoCNzcqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11c5rsh5p6",
+                        "name": "Joaquin Guiller",
+                        "viewCount": "3187686",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/xaYEn7s1Dwp_U3zmhL4gUvhIjYfTx4fEfO4vA3zEujLK_Y17vnCEA5AuRMKyLyGzsCaG_NcnqX4R8NxC"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 78,
+                          "previousPosition": 85,
+                          "percentViewsChange": 0.063887246,
+                          "periodsOnChart": 202
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuUBCAISlwEKD0pvYXF1aW4gR3VpbGxlchJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL3hhWUVuN3MxRHdwX1Uzem1oTDRnVXZoSWpZZlR4NGZFZk80dkEzekV1akxLX1kxN3ZuQ0VBNUF1Uk1LeUx5R3pzQ2FHX05jbnFYNFI4TnhDPXc5MDAtaDkwMC1wGgI3OCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/01mnnh3",
+                        "name": "Guayacán Orquesta",
+                        "viewCount": "3177877",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjWBpaW6fuuTWT8pionE-tWpSLLxOkmTwOQpC3I78haNYPtg_2oa"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 79,
+                          "previousPosition": 91,
+                          "percentViewsChange": 0.101256445,
+                          "periodsOnChart": 261
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItMBCAIShQEKEkd1YXlhY8OhbiBPcnF1ZXN0YRJpaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValdCcGFXNmZ1dVRXVDhwaW9uRS10V3BTTEx4T2ttVHdPUXBDM0k3OGhhTllQdGdfMm9hPXc5MDAtaDkwMC1wGgI3OSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11fy19q209",
+                        "name": "Fuerza Regida",
+                        "viewCount": "3174352",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/ez7fIblaQN4o7bYDr3aKPD9nAftIY-z9ZwHu0w6TFWmXnrqOI71l5R1QTur4rvoRKVDr9slXngLaZQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 80,
+                          "previousPosition": 75,
+                          "percentViewsChange": -0.050090358,
+                          "periodsOnChart": 109
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDUZ1ZXJ6YSBSZWdpZGESfGh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9lejdmSWJsYVFONG83YllEcjNhS1BEOW5BZnRJWS16OVp3SHUwdzZURldtWG5ycU9JNzFsNVIxUVR1cjRydm9SS1ZEcjlzbFhuZ0xhWlE9dzkwMC1oOTAwLXAaAjgwKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01qfzxh",
+                        "name": "Wisin & Yandel",
+                        "viewCount": "3157782",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/Ok8VO843XU1D8CJMpEgmOwnKLfmp4omlR1DYr4GSc5riYBmaFwVx1R7xAIy8d2p3nZi5tYKltDlkKw"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 81,
+                          "previousPosition": 76,
+                          "percentViewsChange": -0.052197848,
+                          "periodsOnChart": 392
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuIBCAISlAEKDldpc2luICYgWWFuZGVsEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vT2s4Vk84NDNYVTFEOENKTXBFZ21Pd25LTGZtcDRvbWxSMURZcjRHU2M1cmlZQm1hRndWeDFSN3hBSXk4ZDJwM25aaTV0WUtsdERsa0t3PXc5MDAtaDkwMC1wGgI4MSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/0czc4rq",
+                        "name": "Alfredo Gutiérrez",
+                        "viewCount": "3100117",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjVTWZ26HzSxFzvG0zbBUbPfgSwu8VhJctSgYZi-DmglogHaCKA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 82,
+                          "previousPosition": 87,
+                          "percentViewsChange": 0.057409003,
+                          "periodsOnChart": 68
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItIBCAIShAEKEkFsZnJlZG8gR3V0acOpcnJlehJoaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValZUV1oyNkh6U3hGenZHMHpiQlViUGZnU3d1OFZoSmN0U2dZWmktRG1nbG9nSGFDS0E9dzkwMC1oOTAwLXAaAjgyKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/02x227g",
+                        "name": "Kany Garcia",
+                        "viewCount": "3075501",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/41ziCv0YfJGG45vMF8oaRWFg66TpYueqMV6qBOS-yo3gIEi2u76De0VJoguF5kqT-SvSDhB-b99fLF5J"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 83,
+                          "previousPosition": 77,
+                          "percentViewsChange": -0.06702238,
+                          "periodsOnChart": 302
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKC0thbnkgR2FyY2lhEn5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vNDF6aUN2MFlmSkdHNDV2TUY4b2FSV0ZnNjZUcFl1ZXFNVjZxQk9TLXlvM2dJRWkydTc2RGUwVkpvZ3VGNWtxVC1TdlNEaEItYjk5ZkxGNUo9dzkwMC1oOTAwLXAaAjgzKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/04gp5x5",
+                        "name": "Cosculluela",
+                        "viewCount": "3063065",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/yHYw-omUaaxN5rCfJfvdS9d57uczKf2eYYlKmEmelSvI4cJOpUod5qz_ybTS1GgrYQYcpClf1pUVIYo"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 84,
+                          "previousPosition": 94,
+                          "percentViewsChange": 0.1122725,
+                          "periodsOnChart": 417
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuABCAISkgEKC0Nvc2N1bGx1ZWxhEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20veUhZdy1vbVVhYXhONXJDZkpmdmRTOWQ1N3VjektmMmVZWWxLbUVtZWxTdkk0Y0pPcFVvZDVxel95YlRTMUdncllRWWNwQ2xmMXBVVklZbz13OTAwLWg5MDAtcBoCODQqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01v77sd",
+                        "name": "Ñejo",
+                        "viewCount": "3049874",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/lr8Iz2HLQelwqBd1qabW_DeQd7oEvDuJaAYz17R8ogSQQf0VXwqmb_Itn3cjWQsdC02DKbPYJdlkfbTS"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 85,
+                          "previousPosition": 81,
+                          "percentViewsChange": -0.052849162,
+                          "periodsOnChart": 317
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItsBCAISjQEKBcORZWpvEn5odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vbHI4SXoySExRZWx3cUJkMXFhYldfRGVRZDdvRXZEdUphQVl6MTdSOG9nU1FRZjBWWHdxbWJfSXRuM2NqV1FzZEMwMkRLYlBZSmRsa2ZiVFM9dzkwMC1oOTAwLXAaAjg1KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/g/11scr_0szs",
+                        "name": "DJ Jader Tremendo",
+                        "viewCount": "3013822",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/KjaGIQhSgAqELXW2eT_6Eoiiedl1BmD0BrH_Wvbt46hYSG5_O5oPYO7H-Y8iKJXZVNhV8Wazqm-4Ho0"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 86,
+                          "previousPosition": 88,
+                          "percentViewsChange": 0.033602644,
+                          "periodsOnChart": 147
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuYBCAISmAEKEURKIEphZGVyIFRyZW1lbmRvEn1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vS2phR0lRaFNnQXFFTFhXMmVUXzZFb2lpZWRsMUJtRDBCckhfV3ZidDQ2aFlTRzVfTzVvUFlPN0gtWThpS0pYWlZOaFY4V2F6cW0tNEhvMD13OTAwLWg5MDAtcBoCODYqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/03y9ls_",
+                        "name": "Jorge Celedón",
+                        "viewCount": "2981306",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/1e_JiG03KefXOwxYJvdCmMBN6XYU1fY11zBFFBjsxg27dQVe7S6wZxiLV84eOl6NDR2tDQCbD0Dpzg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 87,
+                          "previousPosition": 83,
+                          "percentViewsChange": -0.02676497,
+                          "periodsOnChart": 307
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuIBCAISlAEKDkpvcmdlIENlbGVkw7NuEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vMWVfSmlHMDNLZWZYT3d4WUp2ZENtTUJONlhZVTFmWTExekJGRkJqc3hnMjdkUVZlN1M2d1p4aUxWODRlT2w2TkRSMnREUUNiRDBEcHpnPXc5MDAtaDkwMC1wGgI4NyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/m/01w04m0",
+                        "name": "Los Corraleros de Majagual",
+                        "viewCount": "2882087",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjUDVcdfKLXXrZ_f3YgXDqGYCgwwp9uqpWD6e2eVBSxF0SQcTCmL"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 88,
+                          "previousPosition": 82,
+                          "percentViewsChange": -0.0852376,
+                          "periodsOnChart": 26
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItsBCAISjQEKGkxvcyBDb3JyYWxlcm9zIGRlIE1hamFndWFsEmlodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQUxWLVVqVURWY2RmS0xYWHJaX2YzWWdYRHFHWUNnd3dwOXVxcFdENmUyZVZCU3hGMFNRY1RDbUw9dzkwMC1oOTAwLXAaAjg4KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01v6crh",
+                        "name": "Yandel",
+                        "viewCount": "2867882",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/8N0W9VkbB9inJ5UCptA4tFFC6wAuAMEH-5mHcxcyHWeVa3c5kM6NopnXa9niE1kLIK4AAzvWhAmRDEi9"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 89,
+                          "previousPosition": 86,
+                          "percentViewsChange": -0.03024653,
+                          "periodsOnChart": 338
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItwBCAISjgEKBllhbmRlbBJ-aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLzhOMFc5VmtiQjlpbko1VUNwdEE0dEZGQzZ3QXVBTUVILTVtSGN4Y3lIV2VWYTNjNWtNNk5vcG5YYTluaUUxa0xJSzRBQXp2V2hBbVJERWk5PXc5MDAtaDkwMC1wGgI4OSoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/12qhkwtvb",
+                        "name": "Rolando Ochoa",
+                        "viewCount": "2829712",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/lz5GqYzs206JXU6-Z7m61mDk9H50KILUsr-vuZ1KszE1rIrwkEXTqlGVkqhtcWAMq4Dds0mJ5JnDFg7n"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 90,
+                          "previousPosition": 90,
+                          "percentViewsChange": -0.019563602,
+                          "periodsOnChart": 336
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKDVJvbGFuZG8gT2Nob2ESfmh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9sejVHcVl6czIwNkpYVTYtWjdtNjFtRGs5SDUwS0lMVXNyLXZ1WjFLc3pFMXJJcndrRVhUcWxHVmtxaHRjV0FNcTREZHMwbUo1Sm5ERmc3bj13OTAwLWg5MDAtcBoCOTAqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11bvt8xhx5",
+                        "name": "Alcolirykoz",
+                        "viewCount": "2827552",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjX7DFUXYMzRvKQi11rfOSGY2W8YO51bmzp14Ohp7Odyq2cs8thS"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 91,
+                          "previousPosition": 84,
+                          "percentViewsChange": -0.07189673,
+                          "periodsOnChart": 204
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIssBCAISfgoLQWxjb2xpcnlrb3oSaWh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpYN0RGVVhZTXpSdktRaTExcmZPU0dZMlc4WU81MWJtenAxNE9ocDdPZHlxMmNzOHRoUz13OTAwLWg5MDAtcBoCOTEqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/m/01pzjb1",
+                        "name": "Julio Jaramillo",
+                        "viewCount": "2732890",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/RgCZIFO6zaRXCC-WajYNavzwTMQs5OsdmDrhkjwe287DpqBHXwFplD8MK6hTvwY6mUg21hLMqeq2tg"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 92,
+                          "periodsOnChart": 244
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKD0p1bGlvIEphcmFtaWxsbxJ8aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1JnQ1pJRk82emFSWENDLVdhallOYXZ6d1RNUXM1T3NkbURyaGtqd2UyODdEcHFCSFh3RnBsRDhNSzZoVHZ3WTZtVWcyMWhMTXFlcTJ0Zz13OTAwLWg5MDAtcBoCOTIqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11gmzljldl",
+                        "name": "Darell",
+                        "viewCount": "2717305",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/SuY4c74EsHDQTb6GAz46bVE8c9asvqm2L-UmyiAESKw8uLm4S4XLJhOteVNp8VARUjab4fviU3LqRbs"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 93,
+                          "previousPosition": 93,
+                          "percentViewsChange": -0.026427189,
+                          "periodsOnChart": 367
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItsBCAISjQEKBkRhcmVsbBJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL1N1WTRjNzRFc0hEUVRiNkdBejQ2YlZFOGM5YXN2cW0yTC1VbXlpQUVTS3c4dUxtNFM0WExKaE90ZVZOcDhWQVJVamFiNGZ2aVUzTHFSYnM9dzkwMC1oOTAwLXAaAjkzKgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/01wv9p",
+                        "name": "Marc Anthony",
+                        "viewCount": "2680240",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/nqzftauPnHnepWvfSPSDhfwcrbPp-K9I2hEt5QM9mAQ-t5jh92PoVzcuZafyzlRxwoHJcGtT0THmPWQ"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 94,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuEBCAISkwEKDE1hcmMgQW50aG9ueRJ9aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL25xemZ0YXVQbkhuZXBXdmZTUFNEaGZ3Y3JiUHAtSzlJMmhFdDVRTTltQVEtdDVqaDkyUG9WemN1WmFmeXpsUnh3b0hKY0d0VDBUSG1QV1E9dzkwMC1oOTAwLXAaAjk0KgAaMQoSV2Vla2x5IFRvcCBBcnRpc3RzEghDb2xvbWJpYRoPSmFudWFyeSAyLCAyMDI1OAEiEgoHIzgwODAwMBIHIzAwMDAwMCgB"
+                      },
+                      {
+                        "id": "/m/016883",
+                        "name": "Carlos Vives",
+                        "viewCount": "2665043",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/mxZrARt2p3AywFUk7jJeEYtaj_z_QcVnwItREw_CixbNUJJKSOMJxVU7QV_rQOyj80W1hOVfZh9XUA"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 95,
+                          "previousPosition": 99,
+                          "percentViewsChange": -0.009830939,
+                          "periodsOnChart": 433
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuABCAISkgEKDENhcmxvcyBWaXZlcxJ8aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL214WnJBUnQycDNBeXdGVWs3akplRVl0YWpfel9RY1Zud0l0UkV3X0NpeGJOVUpKS1NPTUp4VlU3UVZfclFPeWo4MFcxaE9WZlpoOVhVQT13OTAwLWg5MDAtcBoCOTUqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11b7_v75k3",
+                        "name": "Elder Dayán Díaz",
+                        "viewCount": "2649772",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjUA6KM93dC1vdmBGlKXx-MPCUOaOdHGfHgSmwvIRtQRJw7yUk52"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 96,
+                          "previousPosition": 89,
+                          "percentViewsChange": -0.08234021,
+                          "periodsOnChart": 278
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItMBCAIShQEKEkVsZGVyIERhecOhbiBEw61hehJpaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FMVi1ValVBNktNOTNkQzF2ZG1CR2xLWHgtTVBDVU9hT2RIR2ZIZ1Ntd3ZJUnRRUkp3N3lVazUyPXc5MDAtaDkwMC1wGgI5NioAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11nxd610l7",
+                        "name": "Grupo Firme",
+                        "viewCount": "2646643",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/YTS3HSAGT1O8ZnV7sRPEl3T_SKMyXQy0e5AZ-SRrVoWhu3r_wcK5R3VObUJ74TAYvNNLijtF0T-9Zw"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 97,
+                          "periodsOnChart": 177
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIt8BCAISkQEKC0dydXBvIEZpcm1lEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vWVRTM0hTQUdUMU84Wm5WN3NSUEVsM1RfU0tNeVhReTBlNUFaLVNSclZvV2h1M3Jfd2NLNVIzVk9iVUo3NFRBWXZOTkxpanRGMFQtOVp3PXc5MDAtaDkwMC1wGgI5NyoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11bw7zgzbh",
+                        "name": "El Gran Martín Elías",
+                        "viewCount": "2598908",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/a-/ALV-UjXfBJOsN7tvQjFlckC5Mo0sN7jF3e3uaM2OvWITNwOyZpgFt0c"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 98,
+                          "periodsOnChart": 416
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPItYBCAISiAEKFkVsIEdyYW4gTWFydMOtbiBFbMOtYXMSaGh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BTFYtVWpYZkJKT3NON3R2UWpGbGNrQzVNbzBzTjdqRjNlM3VhTTJPdldJVE53T3lacGdGdDBjPXc5MDAtaDkwMC1wGgI5OCoAGjEKEldlZWtseSBUb3AgQXJ0aXN0cxIIQ29sb21iaWEaD0phbnVhcnkgMiwgMjAyNTgBIhIKByM4MDgwMDASByMwMDAwMDAoAQ"
+                      },
+                      {
+                        "id": "/g/11b7_tc5lr",
+                        "name": "Luisito Muñoz",
+                        "viewCount": "2590195",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/MsL_BWCmQaS4gFgCOcJuGuuvKaRMCRp3G8_5hXAwh1z5pRCKMJwVsbFFKwaG-ytcKmHjjd0g34RgmnI"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 99,
+                          "periodsOnChart": 204
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuMBCAISlQEKDkx1aXNpdG8gTXXDsW96En1odHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vTXNMX0JXQ21RYVM0Z0ZnQ09jSnVHdXV2S2FSTUNScDNHOF81aFhBd2gxejVwUkNLTUp3VnNiRkZLd2FHLXl0Y0ttSGpqZDBnMzRSZ21uST13OTAwLWg5MDAtcBoCOTkqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      },
+                      {
+                        "id": "/g/11h4cfw4yz",
+                        "name": "Luis Mateus",
+                        "viewCount": "2588637",
+                        "thumbnail": {
+                          "thumbnails": [
+                            {
+                              "url": "https://lh3.googleusercontent.com/nu6sgR64KFzt3u8-gBLs4waRBq2cF42lcIJ5pu9VZSBep5PscPTj6-sMrH2_gLfgqRvigQOWhUY8Vw"
+                            }
+                          ]
+                        },
+                        "isLaunched": true,
+                        "chartEntryMetadata": {
+                          "currentPosition": 100,
+                          "previousPosition": 96,
+                          "percentViewsChange": -0.04747577,
+                          "periodsOnChart": 203
+                        },
+                        "isVisible": true,
+                        "shareCardUrl": "/image/analytics/charts?r=CLgIEIAPIuABCAISkgEKC0x1aXMgTWF0ZXVzEnxodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vbnU2c2dSNjRLRnp0M3U4LWdCTHM0d2FSQnEyY0Y0MmxjSUo1cHU5VlpTQmVwNVBzY1BUajYtc01ySDJfZ0xmZ3FSdmlnUU9XaFVZOFZ3PXc5MDAtaDkwMC1wGgMxMDAqABoxChJXZWVrbHkgVG9wIEFydGlzdHMSCENvbG9tYmlhGg9KYW51YXJ5IDIsIDIwMjU4ASISCgcjODA4MDAwEgcjMDAwMDAwKAE"
+                      }
+                    ],
+                    "heroMetadata": {
+                      "title": "Diomedes Díaz",
+                      "viewCount": "27286863",
+                      "heroBannerImageUrl": "https://lh3.googleusercontent.com/O0s8f7-DtspXKtSbDPPlb4iJpoYKUB6uxXozlRW27dhbdkg2r4geiSGTgXrnUd1LgVMOhbE2JwsKrmW-"
+                    },
+                    "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                    "endDate": "2025-01-02"
+                  }
+                ],
+                "perspectiveMetadata": {
+                  "requestParams": {
+                    "perspective": "CHART_DETAILS",
+                    "chartParams": {
+                      "countryCode": "co",
+                      "chartType": "CHART_TYPE_ARTISTS",
+                      "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY"
+                    }
+                  },
+                  "availableChartsInfo": [
+                    {
+                      "chartType": "CHART_TYPE_VIDEOS",
+                      "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                      "earliestEndDate": "2018-05-03",
+                      "latestEndDate": "2025-01-02"
+                    },
+                    {
+                      "chartType": "CHART_TYPE_ARTISTS",
+                      "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                      "earliestEndDate": "2018-05-03",
+                      "latestEndDate": "2025-01-02"
+                    },
+                    {
+                      "chartType": "CHART_TYPE_VIDEOS",
+                      "chartPeriodType": "CHART_PERIOD_TYPE_DAILY",
+                      "earliestEndDate": "2023-11-06",
+                      "latestEndDate": "2025-01-09"
+                    },
+                    {
+                      "chartType": "CHART_TYPE_TRACKS",
+                      "chartPeriodType": "CHART_PERIOD_TYPE_WEEKLY",
+                      "earliestEndDate": "2018-05-03",
+                      "latestEndDate": "2025-01-02"
+                    },
+                    {
+                      "chartType": "CHART_TYPE_TRENDING_VIDEOS"
+                    }
+                  ],
+                  "backgroundColor": "#808000"
+                }
+              }
+            }
+          }
+        ],
+        "trackingParams": "CAEQui8iEwjgzuLEz-yKAxWqzz8EHbliEo4="
+      }
+    },
+    "trackingParams": "CAAQhGciEwjgzuLEz-yKAxWqzz8EHbliEo4="
+  }
+  

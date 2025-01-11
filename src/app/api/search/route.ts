@@ -44,6 +44,7 @@ export async function GET(request: Request) {
     const top100Path = path.join(process.cwd(), 'public', 'top100-artists.json');
     const dominican100Path = path.join(process.cwd(), 'public', 'dominican100-artists.json');
     const customArtistPath = path.join(process.cwd(), 'public', 'custom-artists.json');
+    const colombia100Path = path.join(process.cwd(), 'public', 'colombia100-artists.json');
 
     // Search in `top100-artists.json`
     let matchingArtists = searchInFile(top100Path);
@@ -58,6 +59,11 @@ export async function GET(request: Request) {
     if (matchingArtists.length === 0) {
       console.log('No results in dominican100-artists.json. Searching in custom-artist.json...');
       matchingArtists = searchInFile(customArtistPath);
+    }
+
+    if (matchingArtists.length === 0) {
+      console.log('No results in top100-artists.json. Searching in colombia100-artists.json...');
+      matchingArtists = searchInFile(colombia100Path);
     }
 
     // Final response
