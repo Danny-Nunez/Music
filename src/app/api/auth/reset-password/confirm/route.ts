@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 export async function POST(request: Request) {
   try {
     const { token, password } = await request.json();
+    console.log('Received payload:', { token, password });
 
     if (!token || !password) {
       console.error('Missing token or password:', { token, password });
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error in password reset route:', error);
 
-    // Ensure a JSON response is always returned
+    // Ensure proper JSON response for unexpected errors
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
