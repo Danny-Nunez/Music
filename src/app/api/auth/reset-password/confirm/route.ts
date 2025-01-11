@@ -49,6 +49,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Password reset successfully' });
   } catch (error) {
     console.error('Error in password reset route:', error);
+
+    // Ensure a JSON response is always returned
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

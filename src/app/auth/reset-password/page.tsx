@@ -23,30 +23,31 @@ export default function ResetPassword() {
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!token) {
       toast.error('Invalid or missing reset token.');
       console.error('No token provided.'); // Debug log
       return;
     }
-
+  
     setLoading(true);
     try {
-      console.log('Sending request to reset password...'); // Debug log
+      console.log('Submitting payload:', { token, password }); // Debug log
+  
       const response = await fetch('/api/auth/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, password }),
       });
-
+  
       console.log('Response status:', response.status); // Debug log
       const data = await response.json();
       console.log('Response data:', data); // Debug log
-
+  
       if (!response.ok) {
         throw new Error(data.error || 'Failed to reset password.');
       }
-
+  
       toast.success('Password reset successfully. You can now log in.');
       router.push('/auth/signin');
     } catch (error) {
@@ -56,6 +57,7 @@ export default function ResetPassword() {
       setLoading(false);
     }
   };
+  
 
   const handleBack = () => {
     router.push('/');
