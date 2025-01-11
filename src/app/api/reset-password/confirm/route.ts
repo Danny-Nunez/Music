@@ -15,7 +15,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find user with matching reset token
     const user = await prisma.user.findFirst({
       where: {
         resetToken: token,
@@ -33,10 +32,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Update user with new password and clear reset token
     await prisma.user.update({
       where: { id: user.id },
       data: {
@@ -49,9 +46,9 @@ export async function POST(request: Request) {
     console.log('Password reset successfully for user:', user.id);
     return NextResponse.json({ message: 'Password reset successfully' });
   } catch (error) {
-    console.error('Error in password reset route:', error);
+    console.error('Unexpected error:', error);
 
-    // Ensure proper JSON response for unexpected errors
+    // Ensure valid JSON is always returned for unexpected errors
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

@@ -39,32 +39,18 @@ export default function SignIn() {
         setIsRegistering(false);
         resetForm();
       } else {
-        const credentials = {
-          email,
-          password
-        };
-        
-        console.log('Signing in with credentials:', credentials);
-        
         const result = await signIn('credentials', {
-          ...credentials,
-          redirect: false
+          email,
+          password,
+          redirect: false,
         });
 
-        console.log('SignIn result:', result);
-
         if (result?.error) {
           throw new Error(result.error);
         }
 
-        if (result?.url) {
-          window.location.href = result.url;
-        }
-
-        // The redirect will happen automatically, but if there's an error it will return here
-        if (result?.error) {
-          throw new Error(result.error);
-        }
+        toast.success('Signed in successfully!');
+        window.location.href = '/'; // Redirect to the home page
       }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to authenticate');
@@ -77,6 +63,7 @@ export default function SignIn() {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="bg-[#282828] p-8 rounded-lg shadow-lg max-w-sm w-full">
         <div className="text-center mb-8">
+          <Image src="/logo.png" alt="Beatinbox Logo" width={50} height={50} className="mx-auto mb-2" />
           <h1 className="text-2xl font-bold text-white mb-2">Welcome to Beatinbox</h1>
           <p className="text-gray-400">{isRegistering ? 'Create an account' : 'Sign in to continue'}</p>
         </div>
@@ -119,7 +106,11 @@ export default function SignIn() {
               <span className="flex items-center justify-center gap-2">
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 {isRegistering ? 'Registering...' : 'Signing In...'}
               </span>
@@ -142,13 +133,7 @@ export default function SignIn() {
           onClick={() => signIn('google', { callbackUrl: '/' })}
           className="w-full flex items-center justify-center gap-3 bg-white text-black px-4 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors"
         >
-          <Image
-            src="/google.svg"
-            alt="Google"
-            width={20}
-            height={20}
-            className="w-5 h-5"
-          />
+          <Image src="/google.svg" alt="Google" width={20} height={20} className="w-5 h-5" />
           Continue with Google
         </button>
 
