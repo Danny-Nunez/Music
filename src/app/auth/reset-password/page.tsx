@@ -18,6 +18,7 @@ export default function ResetPassword() {
     const params = new URLSearchParams(window.location.search);
     const tokenFromUrl = params.get('token');
     setToken(tokenFromUrl);
+    console.log('Token extracted from URL:', tokenFromUrl); // Debug log
   }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
@@ -25,18 +26,22 @@ export default function ResetPassword() {
 
     if (!token) {
       toast.error('Invalid or missing reset token.');
+      console.error('No token provided.'); // Debug log
       return;
     }
 
     setLoading(true);
     try {
+      console.log('Sending request to reset password...'); // Debug log
       const response = await fetch('/api/auth/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, password }),
       });
 
+      console.log('Response status:', response.status); // Debug log
       const data = await response.json();
+      console.log('Response data:', data); // Debug log
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to reset password.');
@@ -45,6 +50,7 @@ export default function ResetPassword() {
       toast.success('Password reset successfully. You can now log in.');
       router.push('/auth/signin');
     } catch (error) {
+      console.error('Error during password reset:', error); // Debug log
       toast.error(error instanceof Error ? error.message : 'Failed to reset password.');
     } finally {
       setLoading(false);
@@ -57,7 +63,7 @@ export default function ResetPassword() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-black">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
+      <div className="w-full max-w-md rounded-lg bg-gray-900 p-8 shadow-md">
         <h1 className="mb-6 text-center text-2xl font-bold">Reset Password</h1>
         {token ? (
           <form onSubmit={handleResetPassword}>
