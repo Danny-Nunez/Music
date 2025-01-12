@@ -54,7 +54,7 @@ export default function PopularArtists() {
   }, []);
 
   return (
-    <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:-mx-6 overflow-hidden scrollbar-hide">
+    <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
       <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Popular Artists</h2>
@@ -63,12 +63,12 @@ export default function PopularArtists() {
         <Swiper
           modules={[Navigation, Pagination]}
           spaceBetween={8}
-          slidesPerView={2.5}
+          slidesPerView={2}
           navigation
           breakpoints={{
-            330: { slidesPerView: 2.5, spaceBetween: 8 },
-            480: { slidesPerView: 3, spaceBetween: 12 },
-            640: { slidesPerView: 4, spaceBetween: 16 },
+            330: { slidesPerView: 2, spaceBetween: 12 },
+            480: { slidesPerView: 2.5, spaceBetween: 16 },
+            640: { slidesPerView: 3, spaceBetween: 20 },
             768: { slidesPerView: 5, spaceBetween: 20 },
             1024: { slidesPerView: 6, spaceBetween: 24 },
           }}
@@ -87,7 +87,7 @@ export default function PopularArtists() {
                       <div className="absolute inset-0 rounded-full bg-transparent group-hover:bg-fill-circle transition-all"></div>
                     </div>
                     {/* Image Container */}
-                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 overflow-hidden rounded-full border-2 border-transparent">
+                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 overflow-hidden rounded-full border-2 border-transparent">
                       <Image
                         src={artist.thumbnail.thumbnails[0].url}
                         alt={artist.name}
