@@ -371,18 +371,19 @@ export default function Player() {
     setIsPlayerReady(true);
    
     try {
-      if (isPlaying && currentTrack) {
-        if (isMobileDevice) {
-          await handleMobileAutoplay(hadButtonInteraction);
-        } else {
-          // Always use playlist mode for continuous playback
-          const videoIds = [currentTrack.videoId, ...queue.map(t => t.videoId)];
+      if (currentTrack) {
+        // Always use playlist mode for continuous playback
+        const videoIds = [currentTrack.videoId, ...queue.map(t => t.videoId)];
+        if (isPlaying) {
           await event.target.loadPlaylist(videoIds, 0);
-          await event.target.playVideo();
+          if (isMobileDevice && !localStorage.getItem('hadPlaybackInteraction')) {
+            await handleMobileAutoplay(hadButtonInteraction);
+          } else {
+            await event.target.playVideo();
+          }
+        } else {
+          await event.target.cuePlaylist(videoIds, 0);
         }
-      } else if (currentTrack) {
-        // If not playing but has current track, cue the video
-        await event.target.cueVideoById(currentTrack.videoId);
       }
     } catch (error) {
       console.warn('Playback attempt failed:', error);
@@ -558,7 +559,7 @@ export default function Player() {
                   playsinline: 1,
                   rel: 0,
                   showinfo: 0,
-                  mute: isMobileDevice ? 1 : 0,
+                  mute: isMobileDevice && !localStorage.getItem('hadPlaybackInteraction') ? 1 : 0,
                   playlist: queue.map(t => t.videoId).join(',') // Add queue as playlist for continuous playback
                 },
               }}
