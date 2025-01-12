@@ -309,15 +309,25 @@ export default function Player() {
 
   const handleStateChange = async (event: { data: YT.PlayerState }) => {
     if (event.data === YT.PlayerState.ENDED) { // Video ended
-      if (queue.length > 0) {
-        playNext();
-        setIsPlaying(true);
-        
-        // For mobile, handle autoplay for next track
-        if (isMobileDevice) {
-          await handleMobileAutoplay(hadButtonInteraction);
+      try {
+        if (playerRef.current) {
+          // Check if we're in a playlist
+          const playlist = await playerRef.current.getPlaylist();
+          const currentIndex = await playerRef.current.getPlaylistIndex();
+          
+          if (playlist && currentIndex < playlist.length - 1) {
+            // Let YouTube handle the playlist progression
+            setIsPlaying(true);
+          } else if (queue.length > 0) {
+            // Manual handling if we're at the end of the playlist
+            playNext();
+            setIsPlaying(true);
+          } else {
+            setIsPlaying(false);
+          }
         }
-      } else {
+      } catch (error) {
+        console.warn('Error handling playlist end:', error);
         setIsPlaying(false);
       }
     } else if (event.data === YT.PlayerState.PLAYING) { // Video playing
@@ -327,9 +337,19 @@ export default function Player() {
           const duration = await playerRef.current.getDuration();
           setDuration(duration);
           
-          // Try to unmute if we've had interaction
-          if (isMobileDevice && (hadButtonInteraction || hasUserInteracted)) {
-            await playerRef.current.unMute();
+          // Check if we should be unmuted
+          const shouldBeUnmuted = isMobileDevice && (
+            hadButtonInteraction ||
+            hasUserInteracted ||
+            localStorage.getItem('hadPlaybackInteraction') === 'true'
+          );
+          
+          if (shouldBeUnmuted) {
+            const isMuted = await playerRef.current.isMuted();
+            if (isMuted) {
+              await playerRef.current.unMute();
+              await playerRef.current.playVideo();
+            }
           }
           
           // Update current track if playing from playlist
@@ -560,7 +580,9 @@ export default function Player() {
                   rel: 0,
                   showinfo: 0,
                   mute: isMobileDevice && !localStorage.getItem('hadPlaybackInteraction') ? 1 : 0,
-                  playlist: queue.map(t => t.videoId).join(',') // Add queue as playlist for continuous playback
+                  playlist: queue.map(t => t.videoId).join(','), // Add queue as playlist for continuous playback
+                  loop: 0,
+                  playlist_type: 'playlist'
                 },
               }}
               onStateChange={handleStateChange}
