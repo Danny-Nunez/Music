@@ -31,7 +31,17 @@ export default function Player() {
   const [isDragging, setIsDragging] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
-  const [hadButtonInteraction, setHadButtonInteraction] = useState(false);
+  const [hadButtonInteraction, setHadButtonInteraction] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('hadPlaybackInteraction') === 'true' : false
+  );
+  const [backgroundColor, setBackgroundColor] = useState('rgb(17, 24, 39)'); // Default dark color
+
+  // Persist user interaction state
+  useEffect(() => {
+    if (hadButtonInteraction) {
+      localStorage.setItem('hadPlaybackInteraction', 'true');
+    }
+  }, [hadButtonInteraction]);
   const { 
     currentTrack,
     queue,
@@ -50,17 +60,20 @@ export default function Player() {
     if (!playerRef.current || !isMobileDevice) return;
 
     try {
-      // Start muted
+      // Always start muted to ensure autoplay works
       await playerRef.current.mute();
       await playerRef.current.playVideo();
       
-      // Unmute if we've had any button interaction or user interaction
-      if (fromUserAction || hadButtonInteraction || hasUserInteracted) {
-        const attemptUnmute = async (attempt = 1) => {
+      // Check if we should unmute based on interaction state
+      const shouldUnmute = fromUserAction || hadButtonInteraction || hasUserInteracted ||
+        localStorage.getItem('hadPlaybackInteraction') === 'true';
+      
+      if (shouldUnmute) {
+        const attemptUnmute = async (attempt = 1, maxAttempts = 5) => {
           if (!playerRef.current || !isPlaying) return;
           
           try {
-            // Wait for player to be ready
+            // Wait for player to be ready and playing
             const state = await playerRef.current.getPlayerState();
             if (state !== YT.PlayerState.PLAYING) {
               throw new Error('Player not ready');
@@ -68,19 +81,26 @@ export default function Player() {
 
             await playerRef.current.unMute();
             await playerRef.current.playVideo();
+            
+            // Store successful unmute state
+            localStorage.setItem('hadPlaybackInteraction', 'true');
           } catch (error) {
             console.warn(`Unmute attempt ${attempt} failed:`, error);
-            if (attempt < 3) {
-              setTimeout(() => attemptUnmute(attempt + 1), 500 * attempt);
+            if (attempt < maxAttempts) {
+              // Exponential backoff for retry
+              const delay = Math.min(1000 * Math.pow(1.5, attempt - 1), 5000);
+              setTimeout(() => attemptUnmute(attempt + 1, maxAttempts), delay);
             }
           }
         };
 
-        // Initial attempt with slight delay
+        // Start unmute attempts with a slight delay
         setTimeout(() => attemptUnmute(1), 500);
       }
     } catch (error) {
       console.warn('Error during mobile autoplay:', error);
+      // Retry playback on error
+      setTimeout(() => handleMobileAutoplay(fromUserAction), 1000);
     }
   };
 
@@ -103,6 +123,72 @@ export default function Player() {
       }, 1000);
     }
   }, [currentTime, session, isPlaying, setIsPlaying]);
+
+  // Extract dominant color from thumbnail
+  useEffect(() => {
+    const extractDominantColor = async () => {
+      if (currentTrack?.thumbnail) {
+        try {
+          const img = new Image();
+          img.crossOrigin = "Anonymous";
+          img.src = currentTrack.thumbnail;
+          
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const colorMap = new Map<string, number>();
+
+            // Analyze colors in the image
+            for (let i = 0; i < data.length; i += 4) {
+              const r = data[i];
+              const g = data[i + 1];
+              const b = data[i + 2];
+              
+              // Skip near-grayscale colors
+              const max = Math.max(r, g, b);
+              const min = Math.min(r, g, b);
+              if (max - min < 30) continue;
+
+              // Group similar colors
+              const key = `${Math.round(r/10)*10},${Math.round(g/10)*10},${Math.round(b/10)*10}`;
+              colorMap.set(key, (colorMap.get(key) || 0) + 1);
+            }
+
+            // Find the most common vibrant color
+            let maxCount = 0;
+            let dominantColor = '0,0,0';
+            
+            colorMap.forEach((count, color) => {
+              if (count > maxCount) {
+                maxCount = count;
+                dominantColor = color;
+              }
+            });
+
+            const [r, g, b] = dominantColor.split(',').map(Number);
+            // Darken the color by reducing RGB values
+            const darkenFactor = 0.7; // 30% darker
+            const darkR = Math.round(r * darkenFactor);
+            const darkG = Math.round(g * darkenFactor);
+            const darkB = Math.round(b * darkenFactor);
+            setBackgroundColor(`rgb(${darkR}, ${darkG}, ${darkB})`);
+          };
+        } catch (error) {
+          console.error('Error extracting color:', error);
+        }
+      }
+    };
+    
+    extractDominantColor();
+  }, [currentTrack?.thumbnail]);
 
   // Reset player state when song changes
   useEffect(() => {
@@ -354,7 +440,14 @@ export default function Player() {
   if (!currentTrack) return null;
 
   return (
-    <div className="fixed z-90 bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 p-4">
+    <div
+      className="fixed z-90 bottom-0 left-0 right-0 border-t border-gray-800 p-4 transition-colors duration-500"
+      style={{
+        backgroundColor: 'rgb(17, 24, 39)',
+        backgroundImage: `linear-gradient(to bottom, ${backgroundColor} 0%, rgb(17, 24, 39) 90%)`,
+        transition: 'all 0.5s ease-in-out'
+      }}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">

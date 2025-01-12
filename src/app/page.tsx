@@ -86,7 +86,7 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      <div className="p-6 bg-gradient-to-b from-zinc-900 to-black rounded-xl mx-4 max-w-screen-lg">
+      <div className="p-4 sm:p-6 bg-gradient-to-b from-zinc-900 to-black rounded-xl mx-auto max-w-screen-lg w-full">
         
 
        <div className="mb-10">
@@ -98,14 +98,14 @@ export default function Home() {
         </div> 
 
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Trending Songs</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Trending Songs</h1>
         </div>
 
-        <div className="flex flex-wrap gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
           {songs.map((song, index) => (
             <div
               key={song.id}
-              className="bg-gray-800 rounded-lg overflow-hidden relative group w-[150px]"
+              className="bg-gray-800 rounded-lg overflow-hidden relative group w-full"
             >
               <div className="relative">
                 {song.thumbnail?.thumbnails[0]?.url && (
@@ -113,18 +113,18 @@ export default function Home() {
                     <img
                       src={song.thumbnail.thumbnails[0].url}
                       alt={song.name}
-                      className="w-[150px] h-[150px] object-cover"
+                      className="w-full aspect-square object-cover"
                     />
                     {currentTrack?.videoId === song.encryptedVideoId ? (
                       <div className="absolute inset-0 bg-black bg-opacity-50">
                         <button
                           onClick={() => setIsPlaying(!isPlaying)}
-                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-colors"
+                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-2 sm:p-3 rounded-full hover:bg-red-700 transition-colors"
                         >
                           {isPlaying ? (
-                            <PauseIcon className="h-6 w-6" />
+                            <PauseIcon className="h-5 w-5 sm:h-6 sm:w-6" />
                           ) : (
-                            <PlayIcon className="h-6 w-6" />
+                            <PlayIcon className="h-5 w-5 sm:h-6 sm:w-6" />
                           )}
                         </button>
                         <AddToPlaylistButton
@@ -174,9 +174,9 @@ export default function Home() {
                         />
                       </div>
                     )}
-                    <div className="bottom-0 left-0 right-0 bg-zinc-800 p-3">
-                      <h3 className="text-white text-sm font-medium truncate">{song.name}</h3>
-                      <p className="text-gray-400 text-xs truncate">{song.artists[0].name}</p>
+                    <div className="bottom-0 left-0 right-0 bg-zinc-800 p-2 sm:p-3">
+                      <h3 className="text-white text-xs sm:text-sm font-medium truncate">{song.name}</h3>
+                      <p className="text-gray-400 text-xs truncate mt-0.5">{song.artists[0].name}</p>
                     </div>
                   </div>
                 )}
