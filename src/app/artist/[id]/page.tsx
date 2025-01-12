@@ -4,8 +4,10 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import { PauseIcon } from '@heroicons/react/24/outline';
 import PlayButton from '../../../components/PlayButton';
 import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPlaylistButton';
+import { usePlayerStore } from '../../../store/playerStore';
 
 interface Artist {
   name: string;
@@ -60,6 +62,7 @@ interface ArtistEntry {
 
 export default function ArtistPage() {
   const params = useParams();
+  const { currentTrack, isPlaying, setIsPlaying } = usePlayerStore();
   const [artistData, setArtistData] = useState<ArtistData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -284,13 +287,25 @@ export default function ArtistPage() {
                   sizes="64px"
                   className="object-cover rounded"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
-                  <PlayButton
-                    track={track}
-                    allTracks={topTracks}
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                  />
-                </div>
+                {currentTrack?.videoId === track.encryptedVideoId && isPlaying ? (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsPlaying(!isPlaying);
+                    }}
+                    className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors"
+                  >
+                    <PauseIcon className="h-8 w-8 text-white" />
+                  </button>
+                ) : (
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
+                    <PlayButton
+                      track={track}
+                      allTracks={topTracks}
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    />
+                  </div>
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-white font-medium truncate">{track.name}</h3>

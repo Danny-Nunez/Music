@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { emitPlaylistUpdated } from '../../../lib/events';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
-import { XMarkIcon, PlayIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, PlayIcon, PauseIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { usePlayerStore } from '../../../store/playerStore';
 import toast from 'react-hot-toast';
 
@@ -29,7 +29,7 @@ export default function PlaylistPage() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState('');
-  const { setCurrentTrack, setQueue } = usePlayerStore();
+  const { currentTrack, isPlaying, setCurrentTrack, setQueue, setIsPlaying } = usePlayerStore();
   const [opacity, setOpacity] = useState(1);
   const isOwner = session?.user?.id === playlist?.userId;
 
@@ -355,14 +355,26 @@ export default function PlaylistPage() {
                   alt={song.title}
                   className="w-full h-full object-cover rounded"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
+                {currentTrack?.videoId === song.videoId && isPlaying ? (
                   <button
-                    onClick={() => playSong(song, index)}
-                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsPlaying(!isPlaying);
+                    }}
+                    className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors"
                   >
-                    <PlayIcon className="h-8 w-8 text-white" />
+                    <PauseIcon className="h-8 w-8 text-white" />
                   </button>
-                </div>
+                ) : (
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
+                    <button
+                      onClick={() => playSong(song, index)}
+                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    >
+                      <PlayIcon className="h-8 w-8 text-white" />
+                    </button>
+                  </div>
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-white font-medium truncate">{song.title}</h3>

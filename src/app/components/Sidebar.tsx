@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState, useCallback } from 'react';
-import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT } from '../../lib/events';
+import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT, SONG_ADDED_EVENT } from '../../lib/events';
 import { PlusIcon, CheckIcon, XMarkIcon, QueueListIcon  } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -17,6 +17,9 @@ interface Song {
 interface Playlist {
   id: string;
   name: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
   songs: Song[];
 }
 
@@ -59,12 +62,24 @@ export default function Sidebar() {
       setPlaylists(prevPlaylists => [...prevPlaylists, event.detail.playlist]);
     };
 
+    const handleSongAdded = (event: CustomEvent<{ playlistId: string; updatedPlaylist: Playlist }>) => {
+      setPlaylists(prevPlaylists =>
+        prevPlaylists.map(playlist =>
+          playlist.id === event.detail.playlistId
+            ? { ...playlist, songs: event.detail.updatedPlaylist.songs }
+            : playlist
+        )
+      );
+    };
+
     window.addEventListener(PLAYLIST_UPDATED_EVENT, handlePlaylistUpdate as EventListener);
     window.addEventListener(PLAYLIST_CREATED_EVENT, handlePlaylistCreated as EventListener);
+    window.addEventListener(SONG_ADDED_EVENT, handleSongAdded as EventListener);
 
     return () => {
       window.removeEventListener(PLAYLIST_UPDATED_EVENT, handlePlaylistUpdate as EventListener);
       window.removeEventListener(PLAYLIST_CREATED_EVENT, handlePlaylistCreated as EventListener);
+      window.removeEventListener(SONG_ADDED_EVENT, handleSongAdded as EventListener);
     };
   }, []);
 
@@ -188,7 +203,7 @@ export default function Sidebar() {
           <div className="space-y-3 overflow-y-auto max-h-[calc(100vh-300px)] pr-2 hover:brightness-110">
             {playlists.map((playlist) => (
               <Link
-                key={playlist.id}
+                key={`${playlist.id}-${playlist.songs?.[0]?.thumbnail || 'default'}`}
                 href={`/playlists/${playlist.id}`}
                 className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"
               >

@@ -33,15 +33,16 @@ export default function Player() {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [hadButtonInteraction, setHadButtonInteraction] = useState(false);
   const { 
-    currentTrack, 
-    queue, 
-    isPlaying, 
-    setIsPlaying, 
-    playNext, 
+    currentTrack,
+    queue,
+    isPlaying,
+    setIsPlaying,
+    playNext,
     playPrevious,
     hasUserInteracted,
     setHasUserInteracted,
-    isMobileDevice
+    isMobileDevice,
+    setCurrentTrack
   } = usePlayerStore();
 
   // Handle mobile autoplay with mute/unmute
@@ -233,7 +234,7 @@ export default function Player() {
       } else {
         setIsPlaying(false);
       }
-    } else if (event.data === 1) { // Video playing
+    } else if (event.data === YT.PlayerState.PLAYING) { // Video playing
       setIsPlaying(true);
       try {
         if (playerRef.current) {
@@ -243,6 +244,19 @@ export default function Player() {
           // Try to unmute if we've had interaction
           if (isMobileDevice && (hadButtonInteraction || hasUserInteracted)) {
             await playerRef.current.unMute();
+          }
+          
+          // Update current track if playing from playlist
+          if (currentTrack?.playlistId) {
+            const playlistIndex = await playerRef.current.getPlaylistIndex();
+            const playlist = await playerRef.current.getPlaylist();
+            if (playlist[playlistIndex] !== currentTrack.videoId) {
+              const newTrack = {
+                ...currentTrack,
+                videoId: playlist[playlistIndex]
+              };
+              setCurrentTrack(newTrack);
+            }
           }
         }
       } catch (error) {
@@ -269,14 +283,20 @@ export default function Player() {
   const handleReady = async (event: YT.PlayerEvent) => {
     playerRef.current = event.target;
     setIsPlayerReady(true);
-  
+   
     try {
-      if (isPlaying) {
+      if (isPlaying && currentTrack) {
         if (isMobileDevice) {
           await handleMobileAutoplay(hadButtonInteraction);
         } else {
+          // Always use playlist mode for continuous playback
+          const videoIds = [currentTrack.videoId, ...queue.map(t => t.videoId)];
+          await event.target.loadPlaylist(videoIds, 0);
           await event.target.playVideo();
         }
+      } else if (currentTrack) {
+        // If not playing but has current track, cue the video
+        await event.target.cueVideoById(currentTrack.videoId);
       }
     } catch (error) {
       console.warn('Playback attempt failed:', error);
@@ -434,7 +454,7 @@ export default function Player() {
                 height: '0',
                 width: '0',
                 playerVars: {
-                  autoplay: isMobileDevice ? 1 : 0, // Enable autoplay for mobile
+                  autoplay: 1,
                   controls: 0,
                   disablekb: 1,
                   enablejsapi: 1,
@@ -442,10 +462,11 @@ export default function Player() {
                   iv_load_policy: 3,
                   modestbranding: 1,
                   origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1, // Required for iOS
+                  playsinline: 1,
                   rel: 0,
                   showinfo: 0,
-                  mute: isMobileDevice ? 1 : 0 // Start muted on mobile
+                  mute: isMobileDevice ? 1 : 0,
+                  playlist: queue.map(t => t.videoId).join(',') // Add queue as playlist for continuous playback
                 },
               }}
               onStateChange={handleStateChange}

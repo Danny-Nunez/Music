@@ -4,7 +4,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT, emitPlaylistCreated } from '../../lib/events';
+import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT, SONG_ADDED_EVENT, emitPlaylistCreated } from '../../lib/events';
 import { useRouter } from 'next/navigation';
 import { PlusIcon, CheckIcon, XMarkIcon, QueueListIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
@@ -74,31 +74,46 @@ export default function Header() {
 
   useEffect(() => {
     const handlePlaylistUpdate = (event: CustomEvent<{ playlistId: string; newName: string }>) => {
-      setPlaylists(prevPlaylists =>
-        prevPlaylists.map(playlist =>
+      setPlaylists((prevPlaylists) =>
+        prevPlaylists.map((playlist) =>
           playlist.id === event.detail.playlistId
             ? { ...playlist, name: event.detail.newName }
             : playlist
         )
       );
     };
-
+  
     const handlePlaylistCreated = (event: CustomEvent<{ playlist: Playlist }>) => {
       const newPlaylist = {
         ...event.detail.playlist,
-        songs: [] // Ensure songs array exists
+        songs: [], // Ensure songs array exists
       };
-      setPlaylists(prevPlaylists => [...prevPlaylists, newPlaylist]);
+      setPlaylists((prevPlaylists) => [...prevPlaylists, newPlaylist]);
     };
-
+  
+    const handleSongAdded = (event: CustomEvent<{ playlistId: string; updatedPlaylist: Playlist }>) => {
+      setPlaylists((prevPlaylists) =>
+        prevPlaylists.map((playlist) =>
+          playlist.id === event.detail.playlistId
+            ? { ...playlist, songs: event.detail.updatedPlaylist.songs }
+            : playlist
+        )
+      );
+    };
+  
+    // Add event listeners
     window.addEventListener(PLAYLIST_UPDATED_EVENT, handlePlaylistUpdate as EventListener);
     window.addEventListener(PLAYLIST_CREATED_EVENT, handlePlaylistCreated as EventListener);
-
+    window.addEventListener(SONG_ADDED_EVENT, handleSongAdded as EventListener);
+  
     return () => {
+      // Remove event listeners
       window.removeEventListener(PLAYLIST_UPDATED_EVENT, handlePlaylistUpdate as EventListener);
       window.removeEventListener(PLAYLIST_CREATED_EVENT, handlePlaylistCreated as EventListener);
+      window.removeEventListener(SONG_ADDED_EVENT, handleSongAdded as EventListener);
     };
   }, []);
+  
 
   const performSearch = async (query: string) => {
     if (!query.trim()) {
@@ -399,15 +414,18 @@ export default function Header() {
                 <div className="space-y-2 overflow-y-auto max-h-[400px]">
                   {playlists.map((playlist) => (
                     <Link
-                      key={playlist.id}
+                      key={`${playlist.id}-${playlist.songs?.[0]?.thumbnail || 'default'}`}
                       href={`/playlists/${playlist.id}`}
                       className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors hover:brightness-110"
                       onClick={handleNavLinkClick}
                     >
-                      <img
+                      <Image
                         src={playlist.songs?.[0]?.thumbnail || '/defaultcover.png'}
                         alt={playlist.name}
+                        width={40}
+                        height={40}
                         className="w-10 h-10 object-cover rounded"
+                        loading="lazy"
                       />
                       <span className="truncate">{playlist.name}</span>
                     </Link>

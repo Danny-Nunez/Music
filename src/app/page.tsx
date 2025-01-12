@@ -86,7 +86,7 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      <div className="p-4 bg-gradient-to-b from-zinc-900 to-black rounded-xl mx-4 max-w-screen-lg">
+      <div className="p-6 bg-gradient-to-b from-zinc-900 to-black rounded-xl mx-4 max-w-screen-lg">
         
 
        <div className="mb-10">

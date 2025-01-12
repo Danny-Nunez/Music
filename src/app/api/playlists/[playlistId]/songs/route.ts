@@ -159,6 +159,13 @@ export async function POST(
       });
 
       console.log('Transaction completed successfully');
+      
+      // Emit song added event
+      if (typeof window !== 'undefined') {
+        const { emitSongAdded } = await import('../../../../../lib/events');
+        emitSongAdded(playlistId, result);
+      }
+      
       return NextResponse.json(result);
     } catch (error) {
       console.error('Error in song addition:', error);

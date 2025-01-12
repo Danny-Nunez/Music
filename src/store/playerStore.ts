@@ -6,6 +6,7 @@ interface Track {
   title: string;
   thumbnail: string;
   artist: string;
+  playlistId?: string;
 }
 
 interface PlayerStore {

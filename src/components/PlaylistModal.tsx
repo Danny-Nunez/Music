@@ -104,7 +104,12 @@ export default function PlaylistModal({ onClose, song }: PlaylistModalProps) {
         throw new Error(data.error || 'Failed to add song to playlist');
       }
 
+      const updatedPlaylist = await response.json();
       setSuccessMessage('Song added to playlist successfully');
+      
+      // Emit song added event
+      const { emitSongAdded } = await import('../lib/events');
+      emitSongAdded(playlistId, updatedPlaylist);
       setTimeout(() => {
         setSuccessMessage(null);
         onClose();
