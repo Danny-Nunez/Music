@@ -567,7 +567,7 @@ export default function Player() {
                   onError={handleError}
                   className={`${
                     isExpanded
-                      ? 'fixed bottom-[128px] left-1/2 -translate-x-1/2 w-full max-w-7xl px-4 h-[100%] rounded-lg z-0'
+                      ? 'fixed bottom-[128px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl px-4 h-[85%] rounded-xl overflow-hidden z-0'
                       : 'absolute inset-0 w-full h-full scale-[2] z-10'
                   }`}
                   iframeClassName="absolute inset-0 w-full h-full object-cover"
