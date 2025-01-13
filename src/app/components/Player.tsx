@@ -31,6 +31,7 @@ export default function Player() {
   const [currentTime, setCurrentTime] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('rgb(17, 24, 39)'); // Default dark color
   const {
@@ -135,37 +136,6 @@ export default function Player() {
     setDuration(0);
   }, [currentTrack?.videoId]);
 
-  // Handle play/pause
-  useEffect(() => {
-    if (!isPlayerReady || !currentTrack) return;
-  
-    const handlePlay = async () => {
-      const player = playerRef.current;
-      if (!player) return;
-
-      try {
-        if (isPlaying) {
-          await player.playVideo();
-        } else {
-          await player.pauseVideo();
-        }
-      } catch (error) {
-        console.error('Error during play/pause:', error);
-        // If there's an error, try to reinitialize the video
-        try {
-          await player.cueVideoById(currentTrack.videoId);
-          if (isPlaying) {
-            await player.playVideo();
-          }
-        } catch (retryError) {
-          console.error('Error during video reinitialization:', retryError);
-        }
-      }
-    };
-    
-    handlePlay();
-  }, [isPlaying, isPlayerReady, currentTrack]);
-
   // Update current time
   useEffect(() => {
     if (!isPlayerReady || !isPlaying || isDragging || !currentTrack) return;
@@ -186,7 +156,19 @@ export default function Player() {
 
   const togglePlay = async () => {
     if (!isPlayerReady || !currentTrack || !playerRef.current) return;
-    setIsPlaying(!isPlaying);
+    
+    const player = playerRef.current;
+    try {
+      if (!isPlaying) {
+        await player.playVideo();
+        setIsPlaying(true);
+      } else {
+        await player.pauseVideo();
+        setIsPlaying(false);
+      }
+    } catch (error) {
+      console.error('Error toggling playback:', error);
+    }
   };
 
   const toggleMute = async () => {
@@ -251,27 +233,44 @@ export default function Player() {
   };
 
   const handleReady = async (event: YT.PlayerEvent) => {
-    playerRef.current = event.target;
+    const player = event.target;
+    playerRef.current = player;
     setIsPlayerReady(true);
+    setIsLoading(true);
    
-    if (!currentTrack) return;
+    if (!currentTrack || !player) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      if (isPlaying) {
-        await event.target.playVideo();
-      } else {
-        await event.target.cueVideoById(currentTrack.videoId);
+      // Always start by cueing the video
+      await player.cueVideoById(currentTrack.videoId);
+      // Add a small delay for mobile devices
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Check if player is still valid
+      if (playerRef.current === player && isPlaying) {
+        await player.playVideo();
       }
     } catch (error) {
       console.error('Initial playback failed:', error);
-      // If there's an error, try to reinitialize the video
       try {
-        await event.target.cueVideoById(currentTrack.videoId);
-        if (isPlaying) {
-          await event.target.playVideo();
+        // If playback fails, try one more time with a longer delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Check if player is still valid
+        if (playerRef.current === player) {
+          await player.cueVideoById(currentTrack.videoId);
+          if (isPlaying) {
+            await player.playVideo();
+          }
         }
       } catch (retryError) {
         console.error('Video reinitialization failed:', retryError);
+      }
+    } finally {
+      if (playerRef.current === player) {
+        setIsLoading(false);
       }
     }
   };
@@ -283,52 +282,88 @@ export default function Player() {
   };
 
   const handlePrevious = async () => {
-    if (!isPlayerReady || !currentTrack || !playerRef.current) return;
+    if (!isPlayerReady || !currentTrack || !playerRef.current || isLoading) return;
 
     if (currentTime > 3) {
+      const player = playerRef.current;
       try {
-        await playerRef.current.seekTo(0, true);
-        setCurrentTime(0);
+        if (playerRef.current === player) {
+          await player.seekTo(0, true);
+          setCurrentTime(0);
+        }
       } catch (error) {
         console.error('Error seeking to start:', error);
       }
     } else {
+      setIsLoading(true);
       playPrevious();
       const player = playerRef.current;
-      if (!player || !currentTrack) return;
+      if (!player || !currentTrack) {
+        setIsLoading(false);
+        return;
+      }
 
       try {
-        await player.playVideo();
+        if (playerRef.current === player) {
+          await player.cueVideoById(currentTrack.videoId);
+          await new Promise(resolve => setTimeout(resolve, 500));
+          if (playerRef.current === player) {
+            await player.playVideo();
+          }
+        }
       } catch (error) {
         console.error('Error playing previous video:', error);
-        // If there's an error, try to reinitialize the video
         try {
-          await player.cueVideoById(currentTrack.videoId);
-          await player.playVideo();
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          if (playerRef.current === player) {
+            await player.cueVideoById(currentTrack.videoId);
+            await player.playVideo();
+          }
         } catch (retryError) {
-          console.error('Error during previous video reinitialization:', retryError);
+          console.error('Error during retry:', retryError);
+        }
+      } finally {
+        if (playerRef.current === player) {
+          setIsLoading(false);
         }
       }
     }
   };
 
   const handleNext = async () => {
-    if (!queue.length) return;
+    if (!queue.length || isLoading) return;
+    
+    setIsLoading(true);
     playNext();
     
     const player = playerRef.current;
-    if (!player || !currentTrack) return;
+    if (!player || !currentTrack) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      await player.playVideo();
+      if (playerRef.current === player) {
+        await player.cueVideoById(currentTrack.videoId);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        if (playerRef.current === player) {
+          await player.playVideo();
+        }
+      }
     } catch (error) {
       console.error('Error playing next video:', error);
-      // If there's an error, try to reinitialize the video
       try {
-        await player.cueVideoById(currentTrack.videoId);
-        await player.playVideo();
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (playerRef.current === player) {
+          await player.cueVideoById(currentTrack.videoId);
+          await player.playVideo();
+        }
       } catch (retryError) {
-        console.error('Error during next video reinitialization:', retryError);
+        console.error('Error during retry:', retryError);
+      }
+    } finally {
+      if (playerRef.current === player) {
+        setIsLoading(false);
       }
     }
   };
@@ -417,7 +452,7 @@ export default function Player() {
                     src={currentTrack.thumbnail}
                     alt={currentTrack.title}
                     fill
-                    className="object-cover opacity-100 bg-zinc-900"
+                    className="object-cover opacity-0"
                     priority
                   />
                 </div>
