@@ -137,10 +137,12 @@ export default function Player() {
 
   // Handle play/pause
   useEffect(() => {
-    const player = playerRef.current;
-    if (!player || !isPlayerReady || !currentTrack) return;
+    if (!isPlayerReady || !currentTrack) return;
   
     const handlePlay = async () => {
+      const player = playerRef.current;
+      if (!player) return;
+
       try {
         if (isPlaying) {
           await player.playVideo();
@@ -148,7 +150,16 @@ export default function Player() {
           await player.pauseVideo();
         }
       } catch (error) {
-        console.warn('Player is not ready to play yet:', error);
+        console.error('Error during play/pause:', error);
+        // If there's an error, try to reinitialize the video
+        try {
+          await player.cueVideoById(currentTrack.videoId);
+          if (isPlaying) {
+            await player.playVideo();
+          }
+        } catch (retryError) {
+          console.error('Error during video reinitialization:', retryError);
+        }
       }
     };
     
@@ -243,16 +254,25 @@ export default function Player() {
     playerRef.current = event.target;
     setIsPlayerReady(true);
    
+    if (!currentTrack) return;
+
     try {
-      if (currentTrack) {
-        if (isPlaying) {
-          await event.target.loadVideoById(currentTrack.videoId);
-        } else {
-          await event.target.cueVideoById(currentTrack.videoId);
-        }
+      if (isPlaying) {
+        await event.target.playVideo();
+      } else {
+        await event.target.cueVideoById(currentTrack.videoId);
       }
     } catch (error) {
-      console.warn('Playback attempt failed:', error);
+      console.error('Initial playback failed:', error);
+      // If there's an error, try to reinitialize the video
+      try {
+        await event.target.cueVideoById(currentTrack.videoId);
+        if (isPlaying) {
+          await event.target.playVideo();
+        }
+      } catch (retryError) {
+        console.error('Video reinitialization failed:', retryError);
+      }
     }
   };
 
@@ -274,12 +294,20 @@ export default function Player() {
       }
     } else {
       playPrevious();
+      const player = playerRef.current;
+      if (!player || !currentTrack) return;
+
       try {
-        if (playerRef.current && currentTrack) {
-          await playerRef.current.loadVideoById(currentTrack.videoId);
-        }
+        await player.playVideo();
       } catch (error) {
-        console.error('Error loading previous video:', error);
+        console.error('Error playing previous video:', error);
+        // If there's an error, try to reinitialize the video
+        try {
+          await player.cueVideoById(currentTrack.videoId);
+          await player.playVideo();
+        } catch (retryError) {
+          console.error('Error during previous video reinitialization:', retryError);
+        }
       }
     }
   };
@@ -287,12 +315,21 @@ export default function Player() {
   const handleNext = async () => {
     if (!queue.length) return;
     playNext();
+    
+    const player = playerRef.current;
+    if (!player || !currentTrack) return;
+
     try {
-      if (playerRef.current && currentTrack) {
-        await playerRef.current.loadVideoById(currentTrack.videoId);
-      }
+      await player.playVideo();
     } catch (error) {
-      console.error('Error loading next video:', error);
+      console.error('Error playing next video:', error);
+      // If there's an error, try to reinitialize the video
+      try {
+        await player.cueVideoById(currentTrack.videoId);
+        await player.playVideo();
+      } catch (retryError) {
+        console.error('Error during next video reinitialization:', retryError);
+      }
     }
   };
 
