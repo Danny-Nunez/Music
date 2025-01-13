@@ -20,17 +20,13 @@ interface PlayButtonProps {
 }
 
 export default function PlayButton({ track, allTracks = [], className = '' }: PlayButtonProps) {
-  const { 
-    setCurrentTrack, 
-    setQueue, 
-    setIsPlaying, 
-    setHasUserInteracted
+  const {
+    setCurrentTrack,
+    setQueue,
+    setIsPlaying
   } = usePlayerStore();
 
   const handlePlay = useCallback(async () => {
-    // Set user interaction and start playing
-    setHasUserInteracted(true);
-    
     // Format current track
     const formattedTrack = {
       id: track.encryptedVideoId,
@@ -73,7 +69,7 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
 
     // Start playing
     setIsPlaying(true);
-  }, [track, allTracks, setCurrentTrack, setQueue, setIsPlaying, setHasUserInteracted]);
+  }, [track, allTracks, setCurrentTrack, setQueue, setIsPlaying]);
 
   return (
     <button

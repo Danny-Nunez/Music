@@ -14,13 +14,10 @@ interface PlayerStore {
   queue: Track[];
   isPlaying: boolean;
   volume: number;
-  hasUserInteracted: boolean;
-  isMobileDevice: boolean;
   setCurrentTrack: (track: Track) => void;
   setQueue: (songs: Track[]) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   setVolume: (volume: number) => void;
-  setHasUserInteracted: (hasInteracted: boolean) => void;
   playNext: () => void;
   playPrevious: () => void;
 }
@@ -30,8 +27,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   queue: [],
   isPlaying: false,
   volume: 100,
-  hasUserInteracted: false,
-  isMobileDevice: typeof window !== 'undefined' ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false,
   
   setCurrentTrack: (track: Track) => {
     const normalizedTrack = {
@@ -73,13 +68,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
   
   setVolume: (volume: number) => set({ volume }),
-
-  setHasUserInteracted: (hasInteracted: boolean) => {
-    set({ hasUserInteracted: hasInteracted });
-    if (hasInteracted) {
-      document.body.classList.add('had-playback-interaction');
-    }
-  },
   
   playNext: () => {
     const { queue, currentTrack } = get();
