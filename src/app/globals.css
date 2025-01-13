@@ -99,7 +99,9 @@
   cursor: default;
 }
 
-
+.radio-cards-swipe {
+  z-index: 1;
+}
   
 :root {
   --foreground-rgb: 255, 255, 255;

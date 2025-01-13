@@ -89,8 +89,8 @@ export default function RadioCards() {
                         className="w-full h-full object-cover"
                       />
                       {currentTrack?.videoId === stream.videoId && (
-                        <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity">
-                          <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="  bg-black bg-opacity-50 transition-opacity">
+                          <div className="  flex items-center justify-center">
                             {isPlaying ? (
                               <PauseIcon className="h-8 w-8 sm:h-12 sm:w-12 text-white" />
                             ) : (
