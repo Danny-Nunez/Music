@@ -513,11 +513,47 @@ export default function Player() {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img
-                src={currentTrack.thumbnail}
-                alt={currentTrack.title}
-                className="w-12 h-12 rounded object-cover"
-              />
+              <div className="relative w-12 h-12 rounded overflow-hidden">
+                <YouTube
+                  videoId={currentTrack.videoId}
+                  id={`youtube-player-${currentTrack.videoId}`}
+                  opts={{
+                    height: '48',
+                    width: '48',
+                    playerVars: {
+                      autoplay: 1,
+                      controls: 0,
+                      disablekb: 1,
+                      enablejsapi: 1,
+                      fs: 0,
+                      iv_load_policy: 3,
+                      modestbranding: 1,
+                      origin: typeof window !== 'undefined' ? window.location.origin : undefined,
+                      playsinline: 1,
+                      rel: 0,
+                      showinfo: 0,
+                      mute: isMobileDevice && !localStorage.getItem('hadPlaybackInteraction') ? 1 : 0,
+                      playlist: queue.map(t => t.videoId).join(','),
+                      loop: 0,
+                      playlist_type: 'playlist'
+                    },
+                  }}
+                  onStateChange={handleStateChange}
+                  onReady={handleReady}
+                  onError={handleError}
+                  className="absolute inset-0 w-full h-full scale-[2]"
+                  iframeClassName="absolute inset-0 w-full h-full object-cover"
+                  loading="eager"
+                  title={currentTrack.title}
+                />
+                <div className="absolute inset-0 bg-black/50">
+                  <img
+                    src={currentTrack.thumbnail}
+                    alt={currentTrack.title}
+                    className="w-full h-full object-cover opacity-100 bg-zinc-900"
+                  />
+                </div>
+              </div>
               <div className="max-w-[100px] md:max-w-[900px]">
                 <h3 className="text-white font-medium truncate">{currentTrack.title}</h3>
                 {currentTrack.artist && (
@@ -568,43 +604,6 @@ export default function Player() {
               </button>
             </div>
           </div>
-        </div>
-
-        <div className="hidden">
-          {currentTrack && (
-            <YouTube
-              videoId={currentTrack.videoId}
-              id={`youtube-player-${currentTrack.videoId}`}
-              opts={{
-                height: '0',
-                width: '0',
-                playerVars: {
-                  autoplay: 1,
-                  controls: 0,
-                  disablekb: 1,
-                  enablejsapi: 1,
-                  fs: 0,
-                  iv_load_policy: 3,
-                  modestbranding: 1,
-                  origin: typeof window !== 'undefined' ? window.location.origin : undefined,
-                  playsinline: 1,
-                  rel: 0,
-                  showinfo: 0,
-                  mute: isMobileDevice && !localStorage.getItem('hadPlaybackInteraction') ? 1 : 0,
-                  playlist: queue.map(t => t.videoId).join(','), // Add queue as playlist for continuous playback
-                  loop: 0,
-                  playlist_type: 'playlist'
-                },
-              }}
-              onStateChange={handleStateChange}
-              onReady={handleReady}
-              onError={handleError}
-              className="absolute"
-              iframeClassName="absolute"
-              loading="eager"
-              title={currentTrack.title}
-            />
-          )}
         </div>
       </div>
       {showSignInModal && (
