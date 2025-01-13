@@ -337,6 +337,17 @@ export default function Player() {
           const duration = await playerRef.current.getDuration();
           setDuration(duration);
           
+          // Update track info when playlist advances
+          const playlist = await playerRef.current.getPlaylist();
+          const currentIndex = await playerRef.current.getPlaylistIndex();
+          
+          if (playlist && currentIndex >= 0 && queue.length > 0) {
+            const nextTrack = queue[currentIndex];
+            if (nextTrack && nextTrack.videoId !== currentTrack?.videoId) {
+              setCurrentTrack(nextTrack);
+            }
+          }
+
           // Check if we should be unmuted
           const shouldBeUnmuted = isMobileDevice && (
             hadButtonInteraction ||
