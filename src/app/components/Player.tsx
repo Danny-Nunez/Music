@@ -13,6 +13,7 @@ import YouTube from 'react-youtube';
 import SignInModal from '../../components/SignInModal';
 import toast from 'react-hot-toast';
 import { usePlayerStore } from '../../store/playerStore';
+import Image from 'next/image';
 import {
   PlayIcon,
   PauseIcon,
@@ -38,8 +39,7 @@ export default function Player() {
     isPlaying,
     setIsPlaying,
     playNext,
-    playPrevious,
-    setCurrentTrack
+    playPrevious
   } = usePlayerStore();
 
   // Check for 30-second limit for non-authenticated users
@@ -67,7 +67,7 @@ export default function Player() {
     const extractDominantColor = async () => {
       if (currentTrack?.thumbnail) {
         try {
-          const img = new Image();
+          const img = document.createElement('img');
           img.crossOrigin = "Anonymous";
           img.src = currentTrack.thumbnail;
           
@@ -213,112 +213,21 @@ export default function Player() {
   };
 
   const handleStateChange = async (event: { data: YT.PlayerState }) => {
-    if (event.data === YT.PlayerState.ENDED) { // Video ended
-      try {
-        if (playerRef.current) {
-          // Check if we're in a playlist
-          const playlist = await playerRef.current.getPlaylist();
-          const currentIndex = await playerRef.current.getPlaylistIndex();
-          
-          if (playlist && currentIndex < playlist.length - 1) {
-            // Let YouTube handle the playlist progression
-            setIsPlaying(true);
-          } else if (queue.length > 0) {
-            // Manual handling if we're at the end of the playlist
-            playNext();
-            setIsPlaying(true);
-          } else {
-            setIsPlaying(false);
-          }
-        }
-      } catch (error) {
-        console.warn('Error handling playlist end:', error);
+    if (event.data === YT.PlayerState.ENDED) {
+      if (queue.length > 0) {
+        playNext();
+      } else {
         setIsPlaying(false);
       }
-    } else if (event.data === YT.PlayerState.PLAYING) { // Video playing
+    } else if (event.data === YT.PlayerState.PLAYING) {
       setIsPlaying(true);
-      try {
-        if (playerRef.current) {
-          const duration = await playerRef.current.getDuration();
-          setDuration(duration);
-          
-          // Update track info when playlist advances
-          const playlist = await playerRef.current.getPlaylist();
-          const currentIndex = await playerRef.current.getPlaylistIndex();
-          
-          if (playlist && currentIndex >= 0 && queue.length > 0) {
-            const nextTrack = queue[currentIndex];
-            if (nextTrack && nextTrack.videoId !== currentTrack?.videoId) {
-              setCurrentTrack(nextTrack);
-              // Extract color from new track's thumbnail
-              const img = new Image();
-              img.crossOrigin = "Anonymous";
-              img.src = nextTrack.thumbnail;
-              img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                if (!ctx) return;
-
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-                const colorMap = new Map<string, number>();
-
-                for (let i = 0; i < data.length; i += 4) {
-                  const r = data[i];
-                  const g = data[i + 1];
-                  const b = data[i + 2];
-                  
-                  const max = Math.max(r, g, b);
-                  const min = Math.min(r, g, b);
-                  if (max - min < 30) continue;
-
-                  const key = `${Math.round(r/10)*10},${Math.round(g/10)*10},${Math.round(b/10)*10}`;
-                  colorMap.set(key, (colorMap.get(key) || 0) + 1);
-                }
-
-                let maxCount = 0;
-                let dominantColor = '0,0,0';
-                
-                colorMap.forEach((count, color) => {
-                  if (count > maxCount) {
-                    maxCount = count;
-                    dominantColor = color;
-                  }
-                });
-
-                const [r, g, b] = dominantColor.split(',').map(Number);
-                const darkenFactor = 0.7;
-                const darkR = Math.round(r * darkenFactor);
-                const darkG = Math.round(g * darkenFactor);
-                const darkB = Math.round(b * darkenFactor);
-                setBackgroundColor(`rgb(${darkR}, ${darkG}, ${darkB})`);
-              };
-            }
-          }
-
-          // Update current track if playing from playlist
-          if (currentTrack?.playlistId) {
-            const playlistIndex = await playerRef.current.getPlaylistIndex();
-            const playlist = await playerRef.current.getPlaylist();
-            if (playlist[playlistIndex] !== currentTrack.videoId) {
-              const newTrack = {
-                ...currentTrack,
-                videoId: playlist[playlistIndex]
-              };
-              setCurrentTrack(newTrack);
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error getting duration:', error);
+      if (playerRef.current) {
+        const duration = await playerRef.current.getDuration();
+        setDuration(duration);
       }
-    } else if (event.data === 2) { // Video paused
+    } else if (event.data === YT.PlayerState.PAUSED) {
       setIsPlaying(false);
-    } else if (event.data === -1 || event.data === 5) { // Unstarted or video cued
+    } else if (event.data === YT.PlayerState.UNSTARTED || event.data === YT.PlayerState.CUED) {
       setIsPlayerReady(true);
       if (isPlaying) {
         try {
@@ -336,13 +245,10 @@ export default function Player() {
    
     try {
       if (currentTrack) {
-        // Always use playlist mode for continuous playback
-        const videoIds = [currentTrack.videoId, ...queue.map(t => t.videoId)];
         if (isPlaying) {
-          await event.target.loadPlaylist(videoIds, 0);
-          await event.target.playVideo();
+          await event.target.loadVideoById(currentTrack.videoId);
         } else {
-          await event.target.cuePlaylist(videoIds, 0);
+          await event.target.cueVideoById(currentTrack.videoId);
         }
       }
     } catch (error) {
@@ -368,22 +274,32 @@ export default function Player() {
       }
     } else {
       playPrevious();
+      try {
+        if (playerRef.current && currentTrack) {
+          await playerRef.current.loadVideoById(currentTrack.videoId);
+        }
+      } catch (error) {
+        console.error('Error loading previous video:', error);
+      }
     }
   };
 
   const handleNext = async () => {
     if (!queue.length) return;
     playNext();
+    try {
+      if (playerRef.current && currentTrack) {
+        await playerRef.current.loadVideoById(currentTrack.videoId);
+      }
+    } catch (error) {
+      console.error('Error loading next video:', error);
+    }
   };
 
   const handleError = () => {
+    console.error('Player error occurred');
     setIsPlayerReady(false);
-  
-    if (queue.length > 0) {
-      playNext();
-    } else {
-      setIsPlaying(false);
-    }
+    setIsPlaying(false);
   };
   
   if (!currentTrack) return null;
@@ -448,10 +364,7 @@ export default function Player() {
                       origin: typeof window !== 'undefined' ? window.location.origin : undefined,
                       playsinline: 1,
                       rel: 0,
-                      showinfo: 0,
-                      mute: 0,
-                      playlist: queue.map(t => t.videoId).join(','),
-                      loop: 0
+                      showinfo: 0
                     },
                   }}
                   onStateChange={handleStateChange}
@@ -463,10 +376,12 @@ export default function Player() {
                   title={currentTrack.title}
                 />
                 <div className="absolute inset-0 bg-black/50">
-                  <img
+                  <Image
                     src={currentTrack.thumbnail}
                     alt={currentTrack.title}
-                    className="w-full h-full object-cover opacity-100 bg-zinc-900"
+                    fill
+                    className="object-cover opacity-100 bg-zinc-900"
+                    priority
                   />
                 </div>
               </div>
