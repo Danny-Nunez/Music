@@ -442,10 +442,20 @@ export default function Player() {
 
   return (
     <div className="fixed z-[99999] bottom-0 left-0 right-0 border-t border-gray-800">
+      {isExpanded && (
+        <div
+          className="fixed inset-0 z-[-1]"
+          style={{
+            backgroundColor: backgroundColor,
+            backgroundImage: `linear-gradient(to bottom, ${backgroundColor} 0%, ${backgroundColor} 80%, rgb(17, 24, 39) 100%)`,
+            transition: 'all 0.5s ease-in-out'
+          }}
+        />
+      )}
       <div
         style={{
           backgroundColor: 'rgb(17, 24, 39)',
-          backgroundImage: `linear-gradient(to bottom, ${backgroundColor} 0%, rgb(17, 24, 39) 90%)`,
+          backgroundImage: isExpanded ? 'none' : `linear-gradient(to bottom, ${backgroundColor} 0%, rgb(17, 24, 39) 90%)`,
           transition: 'all 0.5s ease-in-out'
         }}
       >
@@ -460,7 +470,7 @@ export default function Player() {
           >
             <div
               className="absolute inset-0 bg-black/50 transition-opacity duration-1000"
-              style={{ opacity: showThumbnail ? 1 : 0, zIndex: 10 }}
+              style={{ opacity: isExpanded ? 0 : (showThumbnail ? 1 : 0), zIndex: 10 }}
             >
               <Image
                 src={currentTrack.thumbnail}
