@@ -83,22 +83,26 @@ export async function updateArtists() {
 
     // Upload JSON to Cloudinary
     console.log('🚀 Uploading data to Cloudinary...');
-    const uploadResult = await cloudinary.uploader.upload_stream(
-      {
-        public_id: 'top100-artists', // File name in Cloudinary
-        resource_type: 'raw',       // Set as 'raw' for JSON files
-      },
-      (error, result) => {
-        if (error) {
-          console.error('❌ Cloudinary Upload Error:', error);
-          throw error;
+    const uploadResult = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          public_id: 'top100-artists', // File name in Cloudinary
+          resource_type: 'raw',       // Set as 'raw' for JSON files
+        },
+        (error, result) => {
+          if (error) {
+            console.error('❌ Cloudinary Upload Error:', error);
+            reject(error);
+          } else {
+            console.log('✅ Cloudinary Upload Result:', result);
+            resolve(result);
+          }
         }
-        console.log('✅ Cloudinary Upload Result:', result);
-      }
-    );
+      );
 
-    // Pipe the data stream into the upload function
-    dataStream.pipe(uploadResult);
+      // Pipe the data stream into the upload function
+      dataStream.pipe(uploadStream);
+    });
 
     return {
       success: true,

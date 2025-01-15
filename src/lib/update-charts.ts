@@ -73,15 +73,23 @@ export async function updateCharts() {
     // Upload JSON to Cloudinary using a stream
     console.log('🚀 Uploading data to Cloudinary...');
     const uploadResult = await new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { public_id: 'top100-songs', resource_type: 'raw' }, // File name and type
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          public_id: 'top100-songs', // File name in Cloudinary
+          resource_type: 'raw',     // Set as 'raw' for JSON files
+        },
         (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
+          if (error) {
+            console.error('❌ Cloudinary Upload Error:', error);
+            reject(error);
+          } else {
+            console.log('✅ Cloudinary Upload Result:', result);
+            resolve(result);
+          }
         }
       );
 
-      dataStream.pipe(stream);
+      dataStream.pipe(uploadStream); // Pipe the JSON data stream into the upload function
     });
 
     console.log('✅ Charts data uploaded to Cloudinary:', uploadResult.secure_url);
