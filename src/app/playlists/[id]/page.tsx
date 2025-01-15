@@ -168,7 +168,7 @@ export default function PlaylistPage() {
     }
   };
 
-  const playSong = (song: Song, index: number) => {
+  const playSong = async (song: Song, index: number) => {
     if (!playlist) return;
 
     // Format all songs
@@ -189,6 +189,17 @@ export default function PlaylistPage() {
       ...formattedSongs.slice(0, index)
     ];
     setQueue(reorderedQueue);
+
+    // Ensure the video starts playing
+    const player = document.querySelector('iframe')?.contentWindow;
+    if (player) {
+      try {
+        player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        setIsPlaying(true);
+      } catch (error) {
+        console.error('Error playing video:', error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -356,23 +367,39 @@ export default function PlaylistPage() {
                   className="w-full h-full object-cover rounded"
                 />
                 {currentTrack?.videoId === song.videoId && isPlaying ? (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsPlaying(!isPlaying);
-                    }}
-                    className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors"
-                  >
-                    <PauseIcon className="h-8 w-8 text-white" />
-                  </button>
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const player = document.querySelector('iframe')?.contentWindow;
+                        if (player) {
+                          try {
+                            player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                          } catch (error) {
+                            console.error('Error pausing video:', error);
+                          }
+                        }
+                        setIsPlaying(false);
+                      }}
+                      className="z-10"
+                    >
+                      <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                        <PauseIcon className="h-5 w-5 text-white" />
+                      </div>
+                    </button>
+                  </div>
                 ) : (
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
-                    <button
-                      onClick={() => playSong(song, index)}
-                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    >
-                      <PlayIcon className="h-8 w-8 text-white" />
-                    </button>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <button
+                        onClick={() => playSong(song, index)}
+                        className="z-10"
+                      >
+                        <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                          <PlayIcon className="h-5 w-5 text-white" />
+                        </div>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

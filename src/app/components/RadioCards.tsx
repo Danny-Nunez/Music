@@ -65,8 +65,21 @@ export default function RadioCards() {
             <SwiperSlide key={stream.id}>
               <button
                 onClick={() => {
+                  const player = document.querySelector('iframe')?.contentWindow;
                   if (currentTrack?.videoId === stream.videoId) {
-                    setIsPlaying(!isPlaying);
+                    if (player) {
+                      try {
+                        if (isPlaying) {
+                          player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                          setIsPlaying(false);
+                        } else {
+                          player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                          setIsPlaying(true);
+                        }
+                      } catch (error) {
+                        console.error('Error controlling video:', error);
+                      }
+                    }
                   } else {
                     setCurrentTrack({
                       id: stream.videoId,
@@ -75,7 +88,14 @@ export default function RadioCards() {
                       artist: 'Live Radio',
                       thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
                     });
-                    setIsPlaying(true);
+                    if (player) {
+                      try {
+                        player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                        setIsPlaying(true);
+                      } catch (error) {
+                        console.error('Error playing video:', error);
+                      }
+                    }
                   }
                 }}
                 className="block group text-center w-full"
@@ -88,17 +108,56 @@ export default function RadioCards() {
                         alt={stream.title}
                         className="w-full h-full object-cover"
                       />
-                      {currentTrack?.videoId === stream.videoId && (
-                        <div className="  bg-black bg-opacity-50 transition-opacity">
-                          <div className="  flex items-center justify-center">
-                            {isPlaying ? (
-                              <PauseIcon className="h-8 w-8 sm:h-12 sm:w-12 text-white" />
+                      <div className={`absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-200 ${currentTrack?.videoId === stream.videoId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                        <button
+                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-2 sm:p-3 rounded-full hover:bg-red-700 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const player = document.querySelector('iframe')?.contentWindow;
+                            if (currentTrack?.videoId === stream.videoId) {
+                              if (player) {
+                                try {
+                                  if (isPlaying) {
+                                    player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                    setIsPlaying(false);
+                                  } else {
+                                    player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                    setIsPlaying(true);
+                                  }
+                                } catch (error) {
+                                  console.error('Error controlling video:', error);
+                                }
+                              }
+                            } else {
+                              setCurrentTrack({
+                                id: stream.videoId,
+                                videoId: stream.videoId,
+                                title: stream.title,
+                                artist: 'Live Radio',
+                                thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
+                              });
+                              if (player) {
+                                try {
+                                  player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                  setIsPlaying(true);
+                                } catch (error) {
+                                  console.error('Error playing video:', error);
+                                }
+                              }
+                            }
+                          }}
+                        >
+                          {currentTrack?.videoId === stream.videoId ? (
+                            isPlaying ? (
+                              <PauseIcon className="h-5 w-5 sm:h-6 sm:w-6" />
                             ) : (
-                              <PlayIcon className="h-8 w-8 sm:h-12 sm:w-12 text-white" />
-                            )}
-                          </div>
-                        </div>
-                      )}
+                              <PlayIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                            )
+                          ) : (
+                            <PlayIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div className="w-full px-2">

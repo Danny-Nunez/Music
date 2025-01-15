@@ -1,45 +1,39 @@
-import fs from 'fs';
-import path from 'path';
+import cron from 'node-cron';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 
-async function updateCharts() {
+// Load environment variables
+dotenv.config();
+
+const BASE_API_URL = process.env.BASE_API_URL || 'http://localhost:3000';
+
+const callUpdateAPI = async (endpoint) => {
   try {
-    console.log('📡 Fetching updated chart data...');
-    const response = await fetch('/api/update-charts');
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Unknown error occurred.');
-    }
-
+    console.log(`📡 Calling ${endpoint}...`);
+    const response = await fetch(`${BASE_API_URL}/api/${endpoint}`);
     const data = await response.json();
-    if (data.success) {
-      console.log('✅ Charts updated successfully.');
 
-      const chartsPath = path.resolve(process.cwd(), 'src', 'data', 'available-charts.json');
-
-      // Check if the file exists
-      if (!fs.existsSync(chartsPath)) {
-        console.error(`❌ File not found: ${chartsPath}`);
-        console.error('Make sure the file is being created in the endpoint.');
-        return;
-      }
-
-      const chartsData = JSON.parse(fs.readFileSync(chartsPath, 'utf8'));
-
-      console.log('\n📊 Available Charts Info:');
-      chartsData.forEach((chart, i) => {
-        console.log(`\n#${i + 1}`);
-        console.log('📈 Chart Type:', chart.chartType || 'N/A');
-        console.log('🗓 Period Type:', chart.chartPeriodType || 'N/A');
-        console.log('📅 Earliest Date:', chart.earliestEndDate || 'N/A');
-        console.log('📅 Latest Date:', chart.latestEndDate || 'N/A');
-      });
+    if (response.ok) {
+      console.log(`✅ ${endpoint} updated successfully:`, data.message || 'Success');
     } else {
-      console.error('❌ Failed to update charts:', data.error);
+      console.error(`❌ Error updating ${endpoint}:`, data.error || 'Unknown error');
     }
   } catch (error) {
-    console.error('❌ Error:', error.message);
+    console.error(`❌ Error calling ${endpoint}:`, error.message);
   }
-}
+};
 
-updateCharts();
+// Schedule to run every Monday at 3:00 AM
+cron.schedule(
+  '0 3 * * 1',
+  async () => {
+    console.log('⏰ Running scheduled updates...');
+    await callUpdateAPI('update-charts');
+    await callUpdateAPI('update-artists');
+  },
+  {
+    timezone: 'America/New_York',
+  }
+);
+
+console.log('⏰ Scheduled task initialized. Will run every Monday at 3:00 AM EST.');

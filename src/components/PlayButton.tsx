@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { usePlayerStore } from '../store/playerStore';
-import { PlayIcon } from '@heroicons/react/24/outline';
+import { PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
 
 interface Track {
   encryptedVideoId: string;
@@ -17,16 +17,34 @@ interface PlayButtonProps {
   track: Track;
   allTracks?: Track[];
   className?: string;
+  isCurrentTrack?: boolean;
 }
 
-export default function PlayButton({ track, allTracks = [], className = '' }: PlayButtonProps) {
-  const {
-    setCurrentTrack,
-    setQueue,
-    setIsPlaying
-  } = usePlayerStore();
+export default function PlayButton({ track, allTracks = [], className = '', isCurrentTrack = false }: PlayButtonProps) {
+  const { isPlaying, setCurrentTrack, setQueue, setIsPlaying } = usePlayerStore();
 
-  const handlePlay = useCallback(async () => {
+  const handleToggle = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (isCurrentTrack) {
+      // If this is the current track, just toggle play/pause
+      const player = document.querySelector('iframe')?.contentWindow;
+      if (player) {
+        try {
+          if (isPlaying) {
+            player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            setIsPlaying(false);
+          } else {
+            player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            setIsPlaying(true);
+          }
+        } catch (error) {
+          console.error('Error controlling video:', error);
+        }
+      }
+      return;
+    }
+
     // Format current track
     const formattedTrack = {
       id: track.encryptedVideoId,
@@ -41,7 +59,6 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
 
     // If allTracks is provided, set up the queue
     if (allTracks.length > 0) {
-      // Format all tracks
       const formattedTracks = allTracks.map(t => ({
         id: t.encryptedVideoId,
         videoId: t.encryptedVideoId,
@@ -50,12 +67,7 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
         artist: t.artists.map(a => a.name).join(', ')
       }));
 
-      // Find current track index
-      const currentIndex = formattedTracks.findIndex(
-        t => t.id === formattedTrack.id
-      );
-
-      // Reorder queue to start from current track
+      const currentIndex = formattedTracks.findIndex(t => t.id === formattedTrack.id);
       const reorderedQueue = [
         ...formattedTracks.slice(currentIndex),
         ...formattedTracks.slice(0, currentIndex)
@@ -63,20 +75,22 @@ export default function PlayButton({ track, allTracks = [], className = '' }: Pl
 
       setQueue(reorderedQueue);
     } else {
-      // If no allTracks provided, just add current track to queue
       setQueue([formattedTrack]);
     }
 
-    // Start playing
     setIsPlaying(true);
-  }, [track, allTracks, setCurrentTrack, setQueue, setIsPlaying]);
+  }, [track, allTracks, setCurrentTrack, setQueue, setIsPlaying, isCurrentTrack, isPlaying]);
 
   return (
     <button
-      onClick={handlePlay}
-      className={`flex items-center justify-center bg-black/60 transition-opacity ${className}`}
+      onClick={handleToggle}
+      className={`flex items-center justify-center bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors ${className}`}
     >
-      <PlayIcon className="h-8 w-8" />
+      {isCurrentTrack && isPlaying ? (
+        <PauseIcon className="h-5 w-5 text-white" />
+      ) : (
+        <PlayIcon className="h-5 w-5 text-white" />
+      )}
     </button>
   );
 }

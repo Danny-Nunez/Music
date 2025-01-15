@@ -4,8 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { PauseIcon } from '@heroicons/react/24/outline';
-import PlayButton from '../../../components/PlayButton';
+import { PauseIcon, PlayIcon } from '@heroicons/react/24/outline';
 import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPlaylistButton';
 import { usePlayerStore } from '../../../store/playerStore';
 
@@ -51,22 +50,29 @@ interface ArtistData {
   };
 }
 
-interface ArtistEntry {
-  id: string;
-  name: string;
-  viewCount: string;
-  thumbnail: {
-    thumbnails: { url: string }[];
-  };
-}
+// interface ArtistEntry {
+//   id: string;
+//   name: string;
+//   viewCount: string;
+//   thumbnail: {
+//     thumbnails: { url: string }[];
+//   };
+// }
+
+const LOCAL_JSON_FILES = [
+  '/dominican100-artists.json',
+  '/custom-artists.json',
+  '/colombia100-artists.json',
+];
 
 export default function ArtistPage() {
   const params = useParams();
-  const { currentTrack, isPlaying, setIsPlaying } = usePlayerStore();
+  const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack, setQueue } = usePlayerStore();
   const [artistData, setArtistData] = useState<ArtistData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [opacity, setOpacity] = useState(1);
+  const [top100Url, setTop100Url] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,6 +87,26 @@ export default function ArtistPage() {
     };
   }, []);
 
+  // Fetch the latest Cloudinary URL
+  useEffect(() => {
+    const fetchCloudinaryUrl = async () => {
+      try {
+        const response = await fetch('/api/get-latest-cloudinary-url?folder=top100-artists');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch Cloudinary URL: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setTop100Url(data.url);
+      } catch (error) {
+        console.error('Error fetching Cloudinary URL:', error);
+        setTop100Url(null);
+      }
+    };
+
+    fetchCloudinaryUrl();
+  }, []);
+
+  // Fetch artist data
   useEffect(() => {
     const fetchArtistData = async () => {
       try {
@@ -88,94 +114,62 @@ export default function ArtistPage() {
         if (!artistIdParam) {
           throw new Error('Artist ID is required');
         }
-  
-        // Helper function to fetch artist data from a JSON file
+
         const fetchFromJson = async (jsonFilePath: string) => {
+          console.log(`Fetching from: ${jsonFilePath}`);
           const response = await fetch(jsonFilePath);
           if (!response.ok) {
             throw new Error(`Failed to load ${jsonFilePath}`);
           }
           const data = await response.json();
           const artistViews =
-            data.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.artists[0].artistViews;
-  
+            data.contents?.sectionListRenderer?.contents[0]?.musicAnalyticsSectionRenderer?.content?.artists?.[0]
+              ?.artistViews;
+
           // Find the artist entry by ID
           const id = Array.isArray(artistIdParam) ? artistIdParam[0] : artistIdParam;
-          return artistViews.find((artist: ArtistEntry) =>
-            artist.id.endsWith(id)
-          );
+          return artistViews.find((artist: { id: string }) => artist.id.endsWith(id));
         };
-  
-        // Try fetching from `top100-artists.json`
-        let artistEntry = await fetchFromJson('/top100-artists.json');
-  
-        // If not found, try fetching from `dominican100-artists.json`
+
+        let artistEntry = top100Url ? await fetchFromJson(top100Url) : null;
+
+        // If not found, fallback to local JSON files
         if (!artistEntry) {
-          artistEntry = await fetchFromJson('/dominican100-artists.json');
+          for (const localFile of LOCAL_JSON_FILES) {
+            artistEntry = await fetchFromJson(localFile);
+            if (artistEntry) break;
+          }
         }
 
         if (!artistEntry) {
-          artistEntry = await fetchFromJson('/custom-artists.json');
+          throw new Error('Artist not found in any JSON files');
         }
 
-        if (!artistEntry) {
-          artistEntry = await fetchFromJson('/colombia100-artists.json');
-        }
-  
-        if (!artistEntry) {
-          throw new Error('Artist not found in both JSON files');
-        }
-  
         console.log('Found Artist Entry:', artistEntry);
-  
-        // Construct the payload with the correct ID
-        const validatedArtistId = artistEntry.id; // Use the ID directly from the JSON
-        const payload = {
-          context: {
-            client: {
-              clientName: 'WEB_MUSIC_ANALYTICS',
-              clientVersion: '2.0',
-              hl: 'en',
-              gl: 'US',
-              experimentIds: [],
-              experimentsToken: '',
-              theme: 'MUSIC',
-            },
-            capabilities: {},
-            request: {
-              internalExperimentFlags: [],
-            },
-          },
-          browseId: 'FEmusic_analytics_insights_artist',
-          query: `perspective=ARTIST&entity_params_entity=ARTIST&artist_params_id=${encodeURIComponent(validatedArtistId)}`,
-        };
-  
-        console.log('Payload:', JSON.stringify(payload, null, 2));
-  
-        // Make the API call
+
         const response = await fetch('/api/artist-insights', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            context: {
+              client: {
+                clientName: 'WEB_MUSIC_ANALYTICS',
+                clientVersion: '2.0',
+                hl: 'en',
+                gl: 'US',
+                theme: 'MUSIC',
+              },
+            },
+            browseId: 'FEmusic_analytics_insights_artist',
+            query: `perspective=ARTIST&artist_params_id=${encodeURIComponent(artistEntry.id)}`,
+          }),
         });
-  
+
         if (!response.ok) {
-          throw new Error('Failed to fetch artist data');
+          throw new Error('Failed to fetch artist insights');
         }
-  
+
         const data = await response.json();
-        console.log('API Response:', data);
-  
-        // Check for track data
-        const trackTypes =
-          data.contents?.sectionListRenderer?.contents[0]?.musicAnalyticsSectionRenderer?.content?.trackTypes || [];
-  
-        if (!trackTypes.length) {
-          throw new Error('No track data found in API response');
-        }
-  
         setArtistData(data);
       } catch (err) {
         console.error('Error fetching artist data:', err);
@@ -184,14 +178,11 @@ export default function ArtistPage() {
         setLoading(false);
       }
     };
-  
-    if (params?.id) {
+
+    if (params?.id && top100Url) {
       fetchArtistData();
     }
-  }, [params?.id]);
-  
-  
-  
+  }, [params?.id, top100Url]);
   
 
   if (loading) {
@@ -249,8 +240,8 @@ export default function ArtistPage() {
       <div className="relative h-[400px] w-full">
   <Image
    style={{
-    opacity, // Dynamic opacity based on scroll
-    transition: 'opacity 0.1s ease-in-out', // Smooth transition
+    opacity, // Replace dynamic opacity with a static value
+    transition: 'opacity 0.1s ease-in-out',
   }}
     src={perspectiveMetadata.heroMetadata.heroBannerImageUrl}
     alt={perspectiveMetadata.name}
@@ -288,22 +279,76 @@ export default function ArtistPage() {
                   className="object-cover rounded"
                 />
                 {currentTrack?.videoId === track.encryptedVideoId && isPlaying ? (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsPlaying(!isPlaying);
-                    }}
-                    className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors"
-                  >
-                    <PauseIcon className="h-8 w-8 text-white" />
-                  </button>
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const player = document.querySelector('iframe')?.contentWindow;
+                        if (player) {
+                          try {
+                            player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                            setIsPlaying(false);
+                          } catch (error) {
+                            console.error('Error pausing video:', error);
+                          }
+                        }
+                      }}
+                      className="z-10"
+                    >
+                      <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                        <PauseIcon className="h-5 w-5 text-white" />
+                      </div>
+                    </button>
+                  </div>
                 ) : (
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
-                    <PlayButton
-                      track={track}
-                      allTracks={topTracks}
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const player = document.querySelector('iframe')?.contentWindow;
+                          if (player) {
+                            try {
+                              // Format all tracks
+                              const formattedTracks = topTracks.map((t: Track) => ({
+                                id: t.encryptedVideoId,
+                                videoId: t.encryptedVideoId,
+                                title: t.name,
+                                artist: Array.isArray(t.artists)
+                                  ? t.artists.map((a: Artist) => a.name).join(', ')
+                                  : 'Unknown Artist',
+                                thumbnail: t.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png'
+                              }));
+
+                              // Find current track index
+                              const currentIndex = formattedTracks.findIndex(
+                                t => t.videoId === track.encryptedVideoId
+                              );
+
+                              // Set current track
+                              setCurrentTrack(formattedTracks[currentIndex]);
+
+                              // Set queue starting from current track
+                              const reorderedQueue = [
+                                ...formattedTracks.slice(currentIndex),
+                                ...formattedTracks.slice(0, currentIndex)
+                              ];
+                              setQueue(reorderedQueue);
+
+                              player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                              setIsPlaying(true);
+                            } catch (error) {
+                              console.error('Error playing video:', error);
+                            }
+                          }
+                        }}
+                        className="z-10"
+                      >
+                        <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                          <PlayIcon className="h-5 w-5 text-white" />
+                        </div>
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

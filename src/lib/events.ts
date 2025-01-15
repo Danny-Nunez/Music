@@ -2,6 +2,12 @@
 export const PLAYLIST_UPDATED_EVENT = 'playlistUpdated';
 export const PLAYLIST_CREATED_EVENT = 'playlistCreated';
 export const SONG_ADDED_EVENT = 'songAdded';
+export const TOGGLE_PLAY_EVENT = 'togglePlay';
+
+export const emitTogglePlay = () => {
+  const event = new CustomEvent(TOGGLE_PLAY_EVENT);
+  window.dispatchEvent(event);
+};
 
 export const emitPlaylistUpdated = (playlistId: string, newName: string) => {
   const event = new CustomEvent(PLAYLIST_UPDATED_EVENT, {

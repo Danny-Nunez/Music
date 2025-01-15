@@ -20,6 +20,7 @@ interface Song {
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
+  const [cloudinaryUrl, setCloudinaryUrl] = useState<string | null>(null);
   const { currentTrack, isPlaying, setCurrentTrack, setQueue, setIsPlaying } = usePlayerStore();
   const [focusedSong, setFocusedSong] = useState<string | null>(null);
 
@@ -35,13 +36,29 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const fetchCloudinaryUrl = async () => {
+      try {
+        const response = await fetch('/api/get-latest-cloudinary-url?folder=top100-songs');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch Cloudinary URL: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setCloudinaryUrl(data.url);
+      } catch (error) {
+        console.error('Error fetching Cloudinary URL:', error);
+        setCloudinaryUrl(null);
+      }
+    };
+
+    fetchCloudinaryUrl();
+  }, []);
+
+  useEffect(() => {
     const fetchSongs = async () => {
+      if (!cloudinaryUrl) return; // Wait until Cloudinary URL is available
       try {
         console.log('Fetching trending songs...');
-        // Updated to use the Cloudinary URL
-        const response = await fetch(
-          'https://res.cloudinary.com/dwkkzpn5e/raw/upload/v1736950376/top100-songs'
-        );
+        const response = await fetch(cloudinaryUrl);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -62,23 +79,34 @@ export default function Home() {
     };
 
     fetchSongs();
-  }, []);
+  }, [cloudinaryUrl]);
 
-  const playSong = (song: Song, index: number) => {
-    const formattedSongs = songs.map(s => ({
+  const playSong = async (song: Song, index: number) => {
+    const formattedSongs = songs.map((s) => ({
       id: s.encryptedVideoId,
       videoId: s.encryptedVideoId,
       title: s.name,
-      artist: s.artists.map(a => a.name).join(', '),
-      thumbnail: s.thumbnail.thumbnails[0].url
+      artist: s.artists.map((a) => a.name).join(', '),
+      thumbnail: s.thumbnail.thumbnails[0].url,
     }));
 
     setCurrentTrack(formattedSongs[index]);
     const reorderedQueue = [
       ...formattedSongs.slice(index),
-      ...formattedSongs.slice(0, index)
+      ...formattedSongs.slice(0, index),
     ];
     setQueue(reorderedQueue);
+
+    // Ensure the video starts playing
+    const player = document.querySelector('iframe')?.contentWindow;
+    if (player) {
+      try {
+        player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        setIsPlaying(true);
+      } catch (error) {
+        console.error('Error playing video:', error);
+      }
+    }
   };
 
   if (songs.length === 0) {
@@ -124,7 +152,23 @@ export default function Home() {
                     {currentTrack?.videoId === song.encryptedVideoId ? (
                       <div className="absolute inset-0 bg-black bg-opacity-50">
                         <button
-                          onClick={() => setIsPlaying(!isPlaying)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const player = document.querySelector('iframe')?.contentWindow;
+                            if (player) {
+                              try {
+                                if (isPlaying) {
+                                  player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                  setIsPlaying(false);
+                                } else {
+                                  player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                  setIsPlaying(true);
+                                }
+                              } catch (error) {
+                                console.error('Error controlling video:', error);
+                              }
+                            }
+                          }}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-2 sm:p-3 rounded-full hover:bg-red-700 transition-colors"
                         >
                           {isPlaying ? (
