@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { v2 as cloudinary } from 'cloudinary';
+import type { UploadApiResponse } from 'cloudinary';
 import dotenv from 'dotenv';
 import { Readable } from 'stream';
 
@@ -77,22 +78,24 @@ export async function updateArtists() {
     console.log('✅ Data fetched from API:', JSON.stringify(data, null, 2).slice(0, 500)); // Show first 500 characters for brevity
 
     // Create a Readable stream from the JSON data
-    const dataStream = new Readable();
+    const dataStream = new Readable({
+      read() {} // Required implementation
+    });
     dataStream.push(JSON.stringify(data, null, 2));
     dataStream.push(null); // End the stream
 
     // Upload JSON to Cloudinary
     console.log('🚀 Uploading data to Cloudinary...');
-    const uploadResult = await new Promise((resolve, reject) => {
+    const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           public_id: 'top100-artists', // File name in Cloudinary
           resource_type: 'raw',       // Set as 'raw' for JSON files
         },
         (error, result) => {
-          if (error) {
-            console.error('❌ Cloudinary Upload Error:', error);
-            reject(error);
+          if (error || !result) {
+            console.error('❌ Cloudinary Upload Error:', error || 'No result returned');
+            reject(error || new Error('No upload result returned'));
           } else {
             console.log('✅ Cloudinary Upload Result:', result);
             resolve(result);
