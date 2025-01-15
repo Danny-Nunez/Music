@@ -4,7 +4,7 @@ import path from 'path';
 async function updateCharts() {
   try {
     console.log('📡 Fetching updated chart data...');
-    const response = await fetch('https://beatinbox.com/api/update-charts');
+    const response = await fetch('/api/update-charts');
 
     if (!response.ok) {
       const error = await response.json();

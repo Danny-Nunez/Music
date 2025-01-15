@@ -38,15 +38,21 @@ export default function Home() {
     const fetchSongs = async () => {
       try {
         console.log('Fetching trending songs...');
-        const response = await fetch('/top100-songs.json');
+        // Updated to use the Cloudinary URL
+        const response = await fetch(
+          'https://res.cloudinary.com/dwkkzpn5e/raw/upload/v1736950376/top100-songs'
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        if (!data?.contents?.sectionListRenderer?.contents?.[0]?.musicAnalyticsSectionRenderer?.content?.trackTypes?.[0]?.trackViews) {
+        if (
+          !data?.contents?.sectionListRenderer?.contents?.[0]?.musicAnalyticsSectionRenderer?.content?.trackTypes?.[0]?.trackViews
+        ) {
           throw new Error('Invalid data structure');
         }
-        const songList = data.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.trackTypes[0].trackViews;
+        const songList =
+          data.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.trackTypes[0].trackViews;
         console.log('Songs loaded:', songList.length);
         setSongs(songList);
       } catch (error) {

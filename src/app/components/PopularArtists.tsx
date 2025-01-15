@@ -24,7 +24,10 @@ export default function PopularArtists() {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const response = await fetch('/top100-artists.json');
+        // Use the Cloudinary URL to fetch the JSON
+        const response = await fetch(
+          'https://res.cloudinary.com/dwkkzpn5e/raw/upload/v1736949767/top100-artists'
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -42,7 +45,7 @@ export default function PopularArtists() {
             name: artist.name,
             thumbnail: artist.thumbnail,
           }))
-          .slice(0, 20);
+          .slice(0, 40);
 
         setArtists(topArtists);
       } catch (error) {

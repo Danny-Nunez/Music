@@ -1,6 +1,17 @@
 import fetch from 'node-fetch';
-import fs from 'fs';
-import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
+import { Readable } from 'stream';
+
+// Load environment variables from .env
+dotenv.config();
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function updateCharts() {
   try {
@@ -16,15 +27,15 @@ export async function updateCharts() {
           gl: 'US',
           experimentIds: [],
           experimentsToken: '',
-          theme: 'MUSIC'
+          theme: 'MUSIC',
         },
         capabilities: {},
         request: {
-          internalExperimentFlags: []
-        }
+          internalExperimentFlags: [],
+        },
       },
       browseId: 'FEmusic_analytics_charts_home',
-      query: 'perspective=CHART_DETAILS&chart_params_country_code=us&chart_params_chart_type=TRACKS&chart_params_period_type=WEEKLY'
+      query: 'perspective=CHART_DETAILS&chart_params_country_code=us&chart_params_chart_type=TRACKS&chart_params_period_type=WEEKLY',
     };
 
     // Headers mimicking the browser request
@@ -32,17 +43,17 @@ export async function updateCharts() {
       'Content-Type': 'application/json',
       'Origin': 'https://charts.youtube.com',
       'Referer': 'https://charts.youtube.com/charts/TopVideos/us/daily',
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
     };
 
     console.log('📡 Sending request to YouTube charts API...');
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers,
-      body: JSON.stringify(requestPayload)
+      body: JSON.stringify(requestPayload),
     });
 
-    console.log('Response Status:', response.status, response.statusText);
+    console.log('🔄 Response Status:', response.status, response.statusText);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -52,24 +63,37 @@ export async function updateCharts() {
 
     // Parse response JSON
     const data = await response.json();
+    console.log('✅ Data fetched from API:', JSON.stringify(data, null, 2).slice(0, 500)); // Log first 500 characters for brevity
 
-    // Save the full response to a JSON file
-    const publicDir = path.join(process.cwd(), 'public');
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
-    }
-    const outputPath = path.join(publicDir, 'top100-songs.json');
-    fs.writeFileSync(outputPath, JSON.stringify(data, null, 2));
-    console.log('✅ Charts data saved to:', outputPath);
+    // Create a Readable stream from the JSON data
+    const dataStream = new Readable();
+    dataStream.push(JSON.stringify(data, null, 2));
+    dataStream.push(null); // End the stream
 
-    return { 
+    // Upload JSON to Cloudinary using a stream
+    console.log('🚀 Uploading data to Cloudinary...');
+    const uploadResult = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { public_id: 'top100-songs', resource_type: 'raw' }, // File name and type
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        }
+      );
+
+      dataStream.pipe(stream);
+    });
+
+    console.log('✅ Charts data uploaded to Cloudinary:', uploadResult.secure_url);
+
+    return {
       success: true,
-      message: 'Charts data fetched successfully',
-      dataPath: outputPath
+      message: 'Charts data fetched and uploaded successfully',
+      dataPath: uploadResult.secure_url, // Public URL for the JSON file
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error('❌ Error fetching charts data:', errorMessage);
+    console.error('❌ Error fetching or uploading charts data:', errorMessage);
     return { success: false, error: errorMessage };
   }
 }
