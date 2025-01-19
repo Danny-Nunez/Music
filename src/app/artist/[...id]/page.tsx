@@ -8,79 +8,46 @@ import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPl
 import { usePlayerStore } from '../../../store/playerStore';
 
 interface Track {
-  musicResponsiveListItemRenderer: {
-    thumbnail: {
-      musicThumbnailRenderer: {
-        thumbnail: {
-          thumbnails: { url: string; width: number; height: number }[]
-        }
-      }
-    };
-    flexColumns: [
-      {
-        musicResponsiveListItemFlexColumnRenderer: {
-          text: {
-            runs: [{ text: string }]
-          }
-        }
-      },
-      {
-        musicResponsiveListItemFlexColumnRenderer: {
-          text: {
-            runs: [{ text: string }]
-          }
-        }
-      }
-    ];
-    playlistItemData: {
-      videoId: string;
-    };
-  }
+  id: string;
+  name: string;
+  viewCount: string;
+  thumbnail: {
+    thumbnails: Array<{
+      url: string;
+      width: number;
+      height: number;
+    }>;
+  };
+  encryptedVideoId: string;
+  artists: Array<{
+    kgMid: string;
+    name: string;
+  }>;
 }
 
 interface ArtistData {
-  header: {
-    musicImmersiveHeaderRenderer: {
-      title: {
-        runs: [{ text: string }]
-      };
-      description?: {
-        runs: [{ text: string }]
-      };
-      thumbnail: {
-        musicThumbnailRenderer: {
-          thumbnail: {
-            thumbnails: { url: string; width: number; height: number }[]
-          }
-        }
-      };
-      subscriptionButton: {
-        subscribeButtonRenderer: {
-          subscriberCountText: {
-            runs: [{ text: string }]
-          }
-        }
-      }
-    }
-  };
   contents: {
-    singleColumnBrowseResultsRenderer: {
-      tabs: [{
-        tabRenderer: {
+    sectionListRenderer: {
+      contents: [{
+        musicAnalyticsSectionRenderer: {
           content: {
-            sectionListRenderer: {
-              contents: [{
-                musicShelfRenderer: {
-                  title: { runs: [{ text: string }] };
-                  contents: Track[];
-                }
-              }]
-            }
-          }
-        }
-      }]
-    }
-  }
+            perspectiveMetadata: {
+              entityId: string;
+              name: string;
+              heroMetadata: {
+                title: string;
+                heroBannerImageUrl: string;
+              };
+            };
+            trackTypes: [{
+              listType: string;
+              trackViews: Track[];
+            }];
+          };
+        };
+      }];
+    };
+  };
 }
 
 export default function ArtistPage() {
@@ -112,29 +79,24 @@ export default function ArtistPage() {
           throw new Error('Artist ID is required');
         }
 
-        // Get the encoded path from the URL and decode it
-        const encodedPath = Array.isArray(artistIdParam) ? artistIdParam.join('/') : artistIdParam;
-        // Decode the path and add leading slash
-        const fullId = `/${decodeURIComponent(encodedPath)}`;
+        // Get the full path from the URL segments and ensure it starts with a slash
+        const pathSegments = Array.isArray(artistIdParam) ? artistIdParam : [artistIdParam];
+        const fullPath = pathSegments.join('/');
+        const artistId = `/${fullPath}`;
         
         console.log('Artist page ID:', { 
           artistIdParam,
-          encodedPath,
-          decodedId: fullId
+          pathSegments,
+          fullPath,
+          artistId
         });
 
-        // Use the decoded ID for the artist insights request
+        // Use the full path directly for the artist insights request
         const response = await fetch('/api/artist-insights', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            context: {
-              client: {
-                hl: 'en',
-                gl: 'US'
-              }
-            },
-            browseId: fullId
+            browseId: artistId
           }),
         });
 
@@ -197,12 +159,11 @@ export default function ArtistPage() {
     );
   }
 
-  const header = artistData.header.musicImmersiveHeaderRenderer;
-  const artistName = header.title.runs[0].text;
-  const subscriberCount = header.subscriptionButton.subscribeButtonRenderer.subscriberCountText.runs[0].text;
-  const headerImage = header.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.slice(-1)[0].url;
-
-  const tracks = artistData.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents[0].musicShelfRenderer.contents;
+  const content = artistData.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content;
+  const metadata = content.perspectiveMetadata;
+  const artistName = metadata.name;
+  const headerImage = metadata.heroMetadata.heroBannerImageUrl;
+  const tracks = content.trackTypes[0].trackViews;
 
   return (
     <div className="flex-1 overflow-y-auto bg-gradient-to-b from-[#121212] to-black text-white mx-4 rounded-xl max-w-screen-lg">
@@ -222,9 +183,6 @@ export default function ArtistPage() {
         />
         <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
           <h1 className="text-6xl font-black ml-2">{artistName}</h1>
-          <p className="text-white text-md mt-4 ml-4 font-medium">
-            {subscriberCount}
-          </p>
         </div>
       </div>
 
@@ -233,11 +191,10 @@ export default function ArtistPage() {
         <h2 className="text-2xl font-bold mb-6">Top Songs</h2>
         <div className="grid grid-cols-1 gap-4">
           {tracks.map((track) => {
-            const renderer = track.musicResponsiveListItemRenderer;
-            const thumbnail = renderer.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.slice(-1)[0].url;
-            const title = renderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-            const artist = renderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text;
-            const videoId = renderer.playlistItemData.videoId;
+            const thumbnail = track.thumbnail.thumbnails.slice(-1)[0].url;
+            const title = track.name;
+            const artist = track.artists[0].name;
+            const videoId = track.encryptedVideoId;
             
             return (
               <div
@@ -273,16 +230,13 @@ export default function ArtistPage() {
                           onClick={(e) => {
                             e.stopPropagation();
                             // Format all tracks
-                            const formattedTracks = tracks.map((t) => {
-                              const r = t.musicResponsiveListItemRenderer;
-                              return {
-                                id: r.playlistItemData.videoId,
-                                videoId: r.playlistItemData.videoId,
-                                title: r.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-                                artist: r.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text,
-                                thumbnail: r.thumbnail.musicThumbnailRenderer.thumbnail.thumbnails.slice(-1)[0].url
-                              };
-                            });
+                            const formattedTracks = tracks.map((t) => ({
+                              id: t.encryptedVideoId,
+                              videoId: t.encryptedVideoId,
+                              title: t.name,
+                              artist: t.artists[0].name,
+                              thumbnail: t.thumbnail.thumbnails.slice(-1)[0].url
+                            }));
 
                             // Find current track index
                             const currentIndex = formattedTracks.findIndex(

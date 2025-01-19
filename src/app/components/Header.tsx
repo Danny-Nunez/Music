@@ -166,8 +166,13 @@ export default function Header() {
   const handleArtistClick = (result: SearchResult) => {
     setShowResults(false);
     setSearchQuery('');
-    const artistId = result.id.replace(/^\/[a-z]\//, '').replace(/^m\//, '');
-    router.push(`/artist/${artistId}`);
+    // Get the path segments without the leading slash
+    const pathSegments = result.id.split('/').filter(Boolean);
+    console.log('Navigating to artist:', {
+      originalId: result.id,
+      pathSegments
+    });
+    router.push(`/artist/${pathSegments.join('/')}`);
   };
 
   const createPlaylist = async () => {

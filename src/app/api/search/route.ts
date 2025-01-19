@@ -27,6 +27,7 @@ interface SearchResult {
   text: string;
   id: string;
   type: string;
+  exactMatch?: boolean;
 }
 
 export async function GET(request: Request) {
@@ -57,16 +58,67 @@ export async function GET(request: Request) {
     // Parse the JSON
     const data = JSON.parse(jsonText);
     
-    // Extract search results from the response
-    // data[1] contains the array of results
+    // Parse and log the raw data
     const parsedData = data as GoogleSearchResponse;
+    console.log('Search query:', query);
+    console.log('Raw search results:', parsedData[1].map(item => ({
+      text: item[0],
+      metadata: item[3]
+    })));
+
+    // First check if the query matches an ID format (e.g. "11h0mdlyks")
+    const isIdQuery = /^[0-9a-zA-Z_]+$/.test(query);
+    console.log('Query analysis:', { query, isIdQuery });
+
+    // Extract artist results and their full IDs
     const results: SearchResult[] = parsedData[1]
-      .filter((item) => item[3]?.type === 'ARTIST') // Only keep artist results
-      .map((item) => ({
-        text: item[0], // The display text
-        id: item[3].id, // The artist ID
-        type: item[3].type // The result type (ARTIST)
-      }));
+      .filter((item) => {
+        const isArtist = item[3]?.type === 'ARTIST';
+        if (isArtist) {
+          console.log('Found artist:', {
+            name: item[0],
+            fullId: item[3].id,
+            idPart: item[3].id.split('/').pop()
+          });
+        }
+        return isArtist;
+      })
+      .map((item) => {
+        // If searching by ID, put exact matches first
+        const idPart = item[3].id.split('/').pop();
+        const isExactMatch = isIdQuery && idPart === query;
+
+        const result = {
+          text: item[0],
+          id: item[3].id, // Keep the full ID with prefix (e.g. "/g/11h0mdlyks")
+          type: item[3].type,
+          exactMatch: isExactMatch
+        };
+
+        console.log('Mapped result:', {
+          name: result.text,
+          fullId: result.id,
+          isExactMatch
+        });
+
+        return result;
+      })
+      .sort((a, b) => {
+        // Sort exact matches first
+        if (a.exactMatch && !b.exactMatch) return -1;
+        if (!a.exactMatch && b.exactMatch) return 1;
+        return 0;
+      });
+
+    console.log('Final results:', {
+      query,
+      isIdQuery,
+      results: results.map(r => ({
+        name: r.text,
+        fullId: r.id,
+        exactMatch: r.exactMatch
+      }))
+    });
 
     return NextResponse.json({ results });
   } catch (error) {
