@@ -11,12 +11,9 @@ import toast from 'react-hot-toast';
 import SignInModal from '@/components/SignInModal';
 
 interface SearchResult {
+  text: string;
   id: string;
-  name: string;
-  viewCount: string;
-  thumbnail: {
-    thumbnails: { url: string }[];
-  };
+  type: string;
 }
 
 interface Song {
@@ -169,7 +166,7 @@ export default function Header() {
   const handleArtistClick = (result: SearchResult) => {
     setShowResults(false);
     setSearchQuery('');
-    const artistId = result.id.replace(/^\/[a-z]\//, '');
+    const artistId = result.id.replace(/^\/[a-z]\//, '').replace(/^m\//, '');
     router.push(`/artist/${artistId}`);
   };
 
@@ -252,18 +249,9 @@ export default function Header() {
                   className="flex items-center gap-3 p-3 hover:bg-[#383838] cursor-pointer"
                   onClick={() => handleArtistClick(result)}
                 >
-                  {result.thumbnail?.thumbnails[0]?.url && (
-                    <img
-                      src={result.thumbnail.thumbnails[0].url}
-                      alt={result.name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                  )}
                   <div>
-                    <h4 className="text-white font-medium">{result.name}</h4>
-                    <p className="text-gray-400 text-sm">
-                      {parseInt(result.viewCount).toLocaleString()} monthly listeners
-                    </p>
+                    <h4 className="text-white font-medium">{result.text}</h4>
+                    <p className="text-gray-400 text-sm">Artist</p>
                   </div>
                 </div>
               ))}

@@ -1,45 +1,33 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import { v2 as cloudinary } from 'cloudinary';
 
-interface Artist {
+interface SearchResultMetadata {
   id: string;
-  name: string;
-  viewCount: string;
-  thumbnail: {
-    thumbnails: Array<{ url: string }>;
+  is_launched: boolean;
+  type: string;
+}
+
+interface GoogleSearchResult {
+  0: string;        // display text
+  1: never[];      // empty array
+  2: never[];      // empty array
+  3: SearchResultMetadata;
+}
+
+interface GoogleSearchResponse {
+  0: string;        // search query
+  1: GoogleSearchResult[];
+  2: {
+    a: string;
+    j: string;
+    q: string;
   };
 }
 
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Helper to fetch the latest URL for `top100-artists.json` from Cloudinary
-const getLatestCloudinaryUrl = async (folder: string): Promise<string | null> => {
-  try {
-    const resources = await cloudinary.api.resources({
-      type: 'upload',
-      prefix: folder,
-      resource_type: 'raw',
-      max_results: 1,
-    });
-
-    if (!resources.resources || resources.resources.length === 0) {
-      console.error('No resources found in Cloudinary for folder:', folder);
-      return null;
-    }
-
-    return resources.resources[0].secure_url;
-  } catch (error) {
-    console.error('Error fetching latest Cloudinary URL:', error);
-    return null;
-  }
-};
+interface SearchResult {
+  text: string;
+  id: string;
+  type: string;
+}
 
 export async function GET(request: Request) {
   try {
@@ -50,89 +38,37 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Query parameter is required' }, { status: 400 });
     }
 
-    // Helper to fetch and search JSON data from a URL
-    const searchInCloudinary = async (url: string) => {
-      try {
-        console.log(`Fetching data from: ${url}`);
-        const response = await fetch(url);
-        if (!response.ok) {
-          console.error(`Failed to fetch ${url}. Status: ${response.status}`);
-          return [];
-        }
+    // Fetch from Google's search completion API
+    const response = await fetch(
+      `https://clients1.google.com/complete/search?client=yt-music-charts&hl=en&gs_rn=64&gs_ri=yt-music-charts&cp=1&gs_id=1a&q=${encodeURIComponent(query)}&callback=google.sbox.p50&gs_gbg=Y2wJx159XKxjzmSF851UKOcgnI3411`
+    );
 
-        const fileData = await response.json();
-        const artists =
-          fileData.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.artists[0].artistViews;
-
-        const filteredArtists = artists.filter((artist: Artist) =>
-          artist.name.toLowerCase().includes(query.toLowerCase())
-        );
-
-        console.log(`Results from ${url}:`, filteredArtists);
-        return filteredArtists;
-      } catch (error) {
-        console.error(`Error fetching or searching data from ${url}:`, error);
-        return [];
-      }
-    };
-
-    const searchInFile = (filePath: string) => {
-      try {
-        console.log(`Searching in file: ${filePath}`);
-        const fileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-        const artists =
-          fileData.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.artists[0].artistViews;
-
-        const filteredArtists = artists.filter((artist: Artist) =>
-          artist.name.toLowerCase().includes(query.toLowerCase())
-        );
-
-        console.log(`Results from ${filePath}:`, filteredArtists);
-        return filteredArtists;
-      } catch (error) {
-        console.error(`Error reading or searching file ${filePath}:`, error);
-        return [];
-      }
-    };
-
-    // Fetch the latest URL for `top100-artists.json` from Cloudinary
-    const latestCloudinaryUrl = await getLatestCloudinaryUrl('top100-artists');
-
-    // Search in `top100-artists.json` from Cloudinary
-    let matchingArtists = latestCloudinaryUrl
-      ? await searchInCloudinary(latestCloudinaryUrl)
-      : [];
-
-    // Paths to other JSON files in the public folder
-    const dominican100Path = path.join(process.cwd(), 'public', 'dominican100-artists.json');
-    const customArtistPath = path.join(process.cwd(), 'public', 'custom-artists.json');
-    const colombia100Path = path.join(process.cwd(), 'public', 'colombia100-artists.json');
-
-    // If no results found, search in other local JSON files
-    if (matchingArtists.length === 0) {
-      console.log('No results in top100-artists.json. Searching in dominican100-artists.json...');
-      matchingArtists = searchInFile(dominican100Path);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch search results: ${response.statusText}`);
     }
 
-    if (matchingArtists.length === 0) {
-      console.log('No results in dominican100-artists.json. Searching in custom-artists.json...');
-      matchingArtists = searchInFile(customArtistPath);
-    }
+    // Get the response text and parse the JSONP
+    const jsonpText = await response.text();
+    
+    // Extract the JSON part from JSONP response
+    // Remove 'google.sbox.p50 && google.sbox.p50(' from start and ')' from end
+    const jsonText = jsonpText.replace(/^[^(]+\(|\)$/g, '');
+    
+    // Parse the JSON
+    const data = JSON.parse(jsonText);
+    
+    // Extract search results from the response
+    // data[1] contains the array of results
+    const parsedData = data as GoogleSearchResponse;
+    const results: SearchResult[] = parsedData[1]
+      .filter((item) => item[3]?.type === 'ARTIST') // Only keep artist results
+      .map((item) => ({
+        text: item[0], // The display text
+        id: item[3].id, // The artist ID
+        type: item[3].type // The result type (ARTIST)
+      }));
 
-    if (matchingArtists.length === 0) {
-      console.log('No results in custom-artists.json. Searching in colombia100-artists.json...');
-      matchingArtists = searchInFile(colombia100Path);
-    }
-
-    // Final response
-    return NextResponse.json({
-      results: matchingArtists.map((artist: Artist) => ({
-        id: artist.id,
-        name: artist.name,
-        viewCount: artist.viewCount,
-        thumbnail: artist.thumbnail,
-      })),
-    });
+    return NextResponse.json({ results });
   } catch (error) {
     console.error('Search error:', error);
     return NextResponse.json(

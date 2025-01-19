@@ -50,21 +50,6 @@ interface ArtistData {
   };
 }
 
-// interface ArtistEntry {
-//   id: string;
-//   name: string;
-//   viewCount: string;
-//   thumbnail: {
-//     thumbnails: { url: string }[];
-//   };
-// }
-
-const LOCAL_JSON_FILES = [
-  '/dominican100-artists.json',
-  '/custom-artists.json',
-  '/colombia100-artists.json',
-];
-
 export default function ArtistPage() {
   const params = useParams();
   const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack, setQueue } = usePlayerStore();
@@ -72,7 +57,6 @@ export default function ArtistPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [opacity, setOpacity] = useState(1);
-  const [top100Url, setTop100Url] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,25 +71,6 @@ export default function ArtistPage() {
     };
   }, []);
 
-  // Fetch the latest Cloudinary URL
-  useEffect(() => {
-    const fetchCloudinaryUrl = async () => {
-      try {
-        const response = await fetch('/api/get-latest-cloudinary-url?folder=top100-artists');
-        if (!response.ok) {
-          throw new Error(`Failed to fetch Cloudinary URL: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setTop100Url(data.url);
-      } catch (error) {
-        console.error('Error fetching Cloudinary URL:', error);
-        setTop100Url(null);
-      }
-    };
-
-    fetchCloudinaryUrl();
-  }, []);
-
   // Fetch artist data
   useEffect(() => {
     const fetchArtistData = async () => {
@@ -115,37 +80,9 @@ export default function ArtistPage() {
           throw new Error('Artist ID is required');
         }
 
-        const fetchFromJson = async (jsonFilePath: string) => {
-          console.log(`Fetching from: ${jsonFilePath}`);
-          const response = await fetch(jsonFilePath);
-          if (!response.ok) {
-            throw new Error(`Failed to load ${jsonFilePath}`);
-          }
-          const data = await response.json();
-          const artistViews =
-            data.contents?.sectionListRenderer?.contents[0]?.musicAnalyticsSectionRenderer?.content?.artists?.[0]
-              ?.artistViews;
-
-          // Find the artist entry by ID
-          const id = Array.isArray(artistIdParam) ? artistIdParam[0] : artistIdParam;
-          return artistViews.find((artist: { id: string }) => artist.id.endsWith(id));
-        };
-
-        let artistEntry = top100Url ? await fetchFromJson(top100Url) : null;
-
-        // If not found, fallback to local JSON files
-        if (!artistEntry) {
-          for (const localFile of LOCAL_JSON_FILES) {
-            artistEntry = await fetchFromJson(localFile);
-            if (artistEntry) break;
-          }
-        }
-
-        if (!artistEntry) {
-          throw new Error('Artist not found in any JSON files');
-        }
-
-        console.log('Found Artist Entry:', artistEntry);
+        // Get the clean artist ID
+        const artistId = Array.isArray(artistIdParam) ? artistIdParam[0] : artistIdParam;
+        const fullArtistId = `/m/${artistId}`; // Add back the /m/ prefix for the API
 
         const response = await fetch('/api/artist-insights', {
           method: 'POST',
@@ -161,7 +98,7 @@ export default function ArtistPage() {
               },
             },
             browseId: 'FEmusic_analytics_insights_artist',
-            query: `perspective=ARTIST&artist_params_id=${encodeURIComponent(artistEntry.id)}`,
+            query: `perspective=ARTIST&artist_params_id=${encodeURIComponent(fullArtistId)}`,
           }),
         });
 
@@ -179,10 +116,10 @@ export default function ArtistPage() {
       }
     };
 
-    if (params?.id && top100Url) {
+    if (params?.id) {
       fetchArtistData();
     }
-  }, [params?.id, top100Url]);
+  }, [params?.id]);
   
 
   if (loading) {
@@ -283,15 +220,7 @@ export default function ArtistPage() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        const player = document.querySelector('iframe')?.contentWindow;
-                        if (player) {
-                          try {
-                            player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                            setIsPlaying(false);
-                          } catch (error) {
-                            console.error('Error pausing video:', error);
-                          }
-                        }
+                          setIsPlaying(false);
                       }}
                       className="z-10"
                     >
@@ -306,41 +235,31 @@ export default function ArtistPage() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          const player = document.querySelector('iframe')?.contentWindow;
-                          if (player) {
-                            try {
-                              // Format all tracks
-                              const formattedTracks = topTracks.map((t: Track) => ({
-                                id: t.encryptedVideoId,
-                                videoId: t.encryptedVideoId,
-                                title: t.name,
-                                artist: Array.isArray(t.artists)
-                                  ? t.artists.map((a: Artist) => a.name).join(', ')
-                                  : 'Unknown Artist',
-                                thumbnail: t.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png'
-                              }));
+                          // Format all tracks
+                          const formattedTracks = topTracks.map((t: Track) => ({
+                            id: t.encryptedVideoId,
+                            videoId: t.encryptedVideoId,
+                            title: t.name,
+                            artist: Array.isArray(t.artists)
+                              ? t.artists.map((a: Artist) => a.name).join(', ')
+                              : 'Unknown Artist',
+                            thumbnail: t.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png'
+                          }));
 
-                              // Find current track index
-                              const currentIndex = formattedTracks.findIndex(
-                                t => t.videoId === track.encryptedVideoId
-                              );
+                          // Find current track index
+                          const currentIndex = formattedTracks.findIndex(
+                            t => t.videoId === track.encryptedVideoId
+                          );
 
-                              // Set current track
-                              setCurrentTrack(formattedTracks[currentIndex]);
-
-                              // Set queue starting from current track
-                              const reorderedQueue = [
-                                ...formattedTracks.slice(currentIndex),
-                                ...formattedTracks.slice(0, currentIndex)
-                              ];
-                              setQueue(reorderedQueue);
-
-                              player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                              setIsPlaying(true);
-                            } catch (error) {
-                              console.error('Error playing video:', error);
-                            }
-                          }
+                          // Set queue first
+                          const reorderedQueue = [
+                            ...formattedTracks.slice(currentIndex),
+                            ...formattedTracks.slice(0, currentIndex)
+                          ];
+                          setQueue(reorderedQueue);
+                          
+                          // Then set current track (this will auto-play)
+                          setCurrentTrack(formattedTracks[currentIndex]);
                         }}
                         className="z-10"
                       >
