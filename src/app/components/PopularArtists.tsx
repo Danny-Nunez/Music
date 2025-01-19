@@ -80,7 +80,7 @@ export default function PopularArtists() {
           {artists.map((artist) => (
             <SwiperSlide key={artist.id}>
               <Link
-                href={`/artist/${artist.id.split('/').pop()}`}
+                href={`/artist${artist.id}`}
                 className="block group text-center w-full"
               >
                 <div className="flex flex-col items-center">
