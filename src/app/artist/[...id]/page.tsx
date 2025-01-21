@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { PauseIcon, PlayIcon } from '@heroicons/react/24/outline';
 import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPlaylistButton';
 import { usePlayerStore } from '../../../store/playerStore';
+import ArtistAlbums from '../../../components/ArtistAlbums';
 
 interface Track {
   id: string;
@@ -129,7 +130,7 @@ export default function ArtistPage() {
           <div className="h-8 w-48 bg-white/10 rounded animate-pulse mb-6"></div>
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex items-center gap-4">
+              <div key={`skeleton-${i}`} className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white/10 rounded animate-pulse"></div>
                 <div className="flex-1">
                   <div className="h-4 w-48 bg-white/10 rounded animate-pulse mb-2"></div>
@@ -191,9 +192,9 @@ export default function ArtistPage() {
         <h2 className="text-2xl font-bold mb-6">Top Songs</h2>
         <div className="grid grid-cols-1 gap-4">
           {tracks.map((track) => {
-            const thumbnail = track.thumbnail.thumbnails.slice(-1)[0].url;
-            const title = track.name;
-            const artist = track.artists[0].name;
+            const thumbnail = track.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png';
+            const title = track.name || 'Unknown Title';
+            const artist = track.artists?.[0]?.name || 'Unknown Artist';
             const videoId = track.encryptedVideoId;
             
             return (
@@ -214,7 +215,15 @@ export default function ArtistPage() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setIsPlaying(false);
+                          const player = document.querySelector('iframe')?.contentWindow;
+                          if (player) {
+                            try {
+                              player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                              setIsPlaying(false);
+                            } catch (error) {
+                              console.error('Error pausing video:', error);
+                            }
+                          }
                         }}
                         className="z-10"
                       >
@@ -233,9 +242,9 @@ export default function ArtistPage() {
                             const formattedTracks = tracks.map((t) => ({
                               id: t.encryptedVideoId,
                               videoId: t.encryptedVideoId,
-                              title: t.name,
-                              artist: t.artists[0].name,
-                              thumbnail: t.thumbnail.thumbnails.slice(-1)[0].url
+                              title: t.name || 'Unknown Title',
+                              artist: t.artists?.[0]?.name || 'Unknown Artist',
+                              thumbnail: t.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png'
                             }));
 
                             // Find current track index
@@ -250,8 +259,17 @@ export default function ArtistPage() {
                             ];
                             setQueue(reorderedQueue);
                             
-                            // Then set current track (this will auto-play)
+                            // Set current track and play
                             setCurrentTrack(formattedTracks[currentIndex]);
+                            const player = document.querySelector('iframe')?.contentWindow;
+                            if (player) {
+                              try {
+                                player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                setIsPlaying(true);
+                              } catch (error) {
+                                console.error('Error playing video:', error);
+                              }
+                            }
                           }}
                           className="z-10"
                         >
@@ -282,6 +300,9 @@ export default function ArtistPage() {
           })}
         </div>
       </div>
+
+      {/* Artist Albums */}
+      <ArtistAlbums artistName={artistName} headerImage={headerImage} />
     </div>
   );
 }

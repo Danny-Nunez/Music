@@ -28,7 +28,7 @@ const radioStreams: RadioStream[] = [
   {
     id: 'radio3',
     title: 'Rock Classic Mix Radio',
-    videoId: 'N5M1kIdcKhE'
+    videoId: 'Nt27aBceerI'
   },
   {
     id: 'radio4',
@@ -39,6 +39,44 @@ const radioStreams: RadioStream[] = [
 
 export default function RadioCards() {
   const { currentTrack, isPlaying, setCurrentTrack, setIsPlaying } = usePlayerStore();
+
+  const handlePlayPause = (stream: RadioStream, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    const player = document.querySelector('iframe')?.contentWindow;
+    if (currentTrack?.videoId === stream.videoId) {
+      if (player) {
+        try {
+          if (isPlaying) {
+            player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            setIsPlaying(false);
+          } else {
+            player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            setIsPlaying(true);
+          }
+        } catch (error) {
+          console.error('Error controlling video:', error);
+        }
+      }
+    } else {
+      setCurrentTrack({
+        id: stream.videoId,
+        videoId: stream.videoId,
+        title: stream.title,
+        artist: 'Live Radio',
+        thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
+      });
+      if (player) {
+        try {
+          player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+          setIsPlaying(true);
+        } catch (error) {
+          console.error('Error playing video:', error);
+        }
+      }
+    }
+  };
   
   return (
     <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
@@ -63,42 +101,9 @@ export default function RadioCards() {
         >
           {radioStreams.map((stream) => (
             <SwiperSlide key={stream.id}>
-              <button
-                onClick={() => {
-                  const player = document.querySelector('iframe')?.contentWindow;
-                  if (currentTrack?.videoId === stream.videoId) {
-                    if (player) {
-                      try {
-                        if (isPlaying) {
-                          player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                          setIsPlaying(false);
-                        } else {
-                          player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                          setIsPlaying(true);
-                        }
-                      } catch (error) {
-                        console.error('Error controlling video:', error);
-                      }
-                    }
-                  } else {
-                    setCurrentTrack({
-                      id: stream.videoId,
-                      videoId: stream.videoId,
-                      title: stream.title,
-                      artist: 'Live Radio',
-                      thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
-                    });
-                    if (player) {
-                      try {
-                        player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                        setIsPlaying(true);
-                      } catch (error) {
-                        console.error('Error playing video:', error);
-                      }
-                    }
-                  }
-                }}
-                className="block group text-center w-full"
+              <div
+                onClick={() => handlePlayPause(stream)}
+                className="block group text-center w-full cursor-pointer"
               >
                 <div className="flex flex-col items-center">
                   <div className="relative mb-2">
@@ -110,42 +115,9 @@ export default function RadioCards() {
                       />
                       <div className={`absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-200 ${currentTrack?.videoId === stream.videoId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                         <button
+                          type="button"
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-2 sm:p-3 rounded-full hover:bg-red-700 transition-colors"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const player = document.querySelector('iframe')?.contentWindow;
-                            if (currentTrack?.videoId === stream.videoId) {
-                              if (player) {
-                                try {
-                                  if (isPlaying) {
-                                    player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                                    setIsPlaying(false);
-                                  } else {
-                                    player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                                    setIsPlaying(true);
-                                  }
-                                } catch (error) {
-                                  console.error('Error controlling video:', error);
-                                }
-                              }
-                            } else {
-                              setCurrentTrack({
-                                id: stream.videoId,
-                                videoId: stream.videoId,
-                                title: stream.title,
-                                artist: 'Live Radio',
-                                thumbnail: `https://img.youtube.com/vi/${stream.videoId}/0.jpg`
-                              });
-                              if (player) {
-                                try {
-                                  player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                                  setIsPlaying(true);
-                                } catch (error) {
-                                  console.error('Error playing video:', error);
-                                }
-                              }
-                            }
-                          }}
+                          onClick={(e) => handlePlayPause(stream, e)}
                         >
                           {currentTrack?.videoId === stream.videoId ? (
                             isPlaying ? (
@@ -166,7 +138,7 @@ export default function RadioCards() {
                     </h3>
                   </div>
                 </div>
-              </button>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

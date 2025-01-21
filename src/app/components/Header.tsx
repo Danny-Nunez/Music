@@ -6,15 +6,54 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT, SONG_ADDED_EVENT, emitPlaylistCreated } from '../../lib/events';
 import { useRouter } from 'next/navigation';
-import { PlusIcon, CheckIcon, XMarkIcon, QueueListIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, CheckIcon, XMarkIcon, QueueListIcon, PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 import SignInModal from '@/components/SignInModal';
+import ArtistPageAddToPlaylistButton from '@/components/ArtistPageAddToPlaylistButton';
+import { usePlayerStore } from '../../store/playerStore';
 
-interface SearchResult {
+interface ArtistResult {
   text: string;
   id: string;
-  type: string;
+  type: 'artist';
+  exactMatch?: boolean;
 }
+
+interface SongResult {
+  type: 'song';
+  videoId: string;
+  name: string;
+  artist: {
+    name: string;
+    browseId: string;
+  };
+  album?: {
+    name: string;
+    browseId: string;
+  };
+  duration: number;
+  thumbnails: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
+}
+
+interface VideoResult {
+  type: 'video';
+  videoId: string;
+  name: string;
+  author: string;
+  views: string;
+  duration: number;
+  thumbnails: {
+    url: string;
+    width: number;
+    height: number;
+  };
+}
+
+type SearchResult = ArtistResult | VideoResult | SongResult;
 
 interface Song {
   videoId: string;
@@ -31,6 +70,7 @@ interface Playlist {
 
 export default function Header() {
   const { data: session, status } = useSession();
+  const { currentTrack, isPlaying, setCurrentTrack, setIsPlaying } = usePlayerStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -120,20 +160,48 @@ export default function Header() {
       return;
     }
 
+    let songs = [];
+    let videos = [];
+    let artists = [];
+
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-      if (!response.ok) {
-        throw new Error('Search failed');
+      // Fetch songs from YouTube Music API
+      const songResponse = await fetch(`/api/youtubemusic?q=${encodeURIComponent(query)}&type=song`);
+      if (songResponse.ok) {
+        const songData = await songResponse.json();
+        songs = songData.content || [];
       }
-      const data = await response.json();
-      setSearchResults(data.results);
-      setShowResults(true);
     } catch (error) {
-      console.error('Error searching:', error);
-      setSearchResults([]);
-    } finally {
-      setIsSearching(false);
+      console.error('Song search error:', error);
     }
+
+    try {
+      // Fetch videos from YouTube Music API
+      const videoResponse = await fetch(`/api/youtubemusic?q=${encodeURIComponent(query)}&type=video`);
+      if (videoResponse.ok) {
+        const videoData = await videoResponse.json();
+        videos = videoData.content || [];
+      }
+    } catch (error) {
+      console.error('Video search error:', error);
+    }
+
+    try {
+      // Fetch artists from search API
+      const searchResponse = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      if (searchResponse.ok) {
+        const searchData = await searchResponse.json();
+        artists = searchData.artists || [];
+      }
+    } catch (error) {
+      console.error('Artist search error:', error);
+    }
+
+    // Combine results from all sources
+    const combinedResults = [...songs, ...artists, ...videos];
+    setSearchResults(combinedResults);
+    setShowResults(combinedResults.length > 0);
+    setIsSearching(false);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +219,13 @@ export default function Header() {
   };
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (!(e.target as HTMLElement).closest('.search-container')) {
+    const target = e.target as HTMLElement;
+    const isSearchContainer = target.closest('.search-container');
+    const isVideoClick = target.closest('button') || target.closest('.video-result');
+    const isPlayPauseClick = target.closest('.play-pause-button');
+    
+    // Don't close if clicking inside search container, video elements, or play/pause button
+    if (!isSearchContainer && !isVideoClick && !isPlayPauseClick) {
       setShowResults(false);
     }
   };
@@ -163,16 +237,31 @@ export default function Header() {
     };
   }, []);
 
-  const handleArtistClick = (result: SearchResult) => {
+  const handleArtistClick = (result: ArtistResult) => {
     setShowResults(false);
     setSearchQuery('');
-    // Get the path segments without the leading slash
+    
+    // Handle artist click
     const pathSegments = result.id.split('/').filter(Boolean);
     console.log('Navigating to artist:', {
       originalId: result.id,
       pathSegments
     });
     router.push(`/artist/${pathSegments.join('/')}`);
+  };
+
+  const handleVideoClick = (result: VideoResult, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+    const player = document.querySelector('iframe')?.contentWindow;
+    setCurrentTrack({
+      id: result.videoId,
+      videoId: result.videoId,
+      title: result.name,
+      artist: result.author,
+      thumbnail: result.thumbnails.url
+    });
+    player?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    setIsPlaying(true);
   };
 
   const createPlaylist = async () => {
@@ -247,19 +336,261 @@ export default function Header() {
           </div>
 
           {showResults && searchResults.length > 0 && (
-            <div className="absolute top-full mt-2 w-full bg-[#282828] rounded-lg shadow-lg overflow-hidden max-h-[300px] overflow-y-auto z-40">
-              {searchResults.map((result) => (
-                <div
-                  key={result.id}
-                  className="flex items-center gap-3 p-3 hover:bg-[#383838] cursor-pointer"
-                  onClick={() => handleArtistClick(result)}
-                >
-                  <div>
-                    <h4 className="text-white font-medium">{result.text}</h4>
-                    <p className="text-gray-400 text-sm">Artist</p>
+            <div 
+              className="absolute top-full mt-2 w-full bg-[#282828] rounded-lg shadow-lg overflow-hidden max-h-[400px] overflow-y-auto z-40 search-container"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              {/* Artists Section */}
+              {searchResults.some(r => r.type === 'artist') && (
+                <div>
+                  <div className="px-3 py-2 bg-[#1d1d1d] border-b border-[#383838]">
+                    <h3 className="text-gray-400 text-sm font-medium">Artists</h3>
                   </div>
+                  {searchResults.filter(r => r.type === 'artist').map((result) => (
+                    <div
+                      key={result.id}
+                      className="flex items-center gap-3 p-3 hover:bg-[#383838] cursor-pointer"
+                      onClick={() => handleArtistClick(result as ArtistResult)}
+                    >
+                      <div>
+                        <h4 className="text-white font-medium">{(result as ArtistResult).text}</h4>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+
+              {/* Songs Section */}
+              {searchResults.some(r => r.type === 'song') && (
+                <div>
+                  <div className="px-3 py-2 bg-[#1d1d1d] border-b border-[#383838]">
+                    <h3 className="text-gray-400 text-sm font-medium">Songs</h3>
+                  </div>
+                  {searchResults.filter(r => r.type === 'song').map((result) => {
+                    const songResult = result as SongResult;
+                    const thumbnail = songResult.thumbnails[songResult.thumbnails.length - 1]?.url;
+                    return (
+                      <div
+                        key={songResult.videoId}
+                        className="group flex items-center gap-3 p-3 hover:bg-[#383838] cursor-default video-result"
+                      >
+                        <div className="flex items-center gap-3 w-full video-result">
+                          <div className="relative w-12 h-12 flex-shrink-0">
+                            <Image
+                              src={thumbnail}
+                              alt={songResult.name}
+                              fill
+                              className="object-cover rounded"
+                            />
+                            {currentTrack?.videoId === songResult.videoId ? (
+                              <div 
+                                className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors video-result"
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
+                              >
+                                <button
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                  }}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const player = document.querySelector('iframe')?.contentWindow;
+                                    if (isPlaying) {
+                                      player?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                      setIsPlaying(false);
+                                    } else {
+                                      player?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                      setIsPlaying(true);
+                                    }
+                                    return false;
+                                  }}
+                                  className="z-10 video-result play-pause-button"
+                                >
+                                  <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                                    {isPlaying ? (
+                                      <PauseIcon className="h-4 w-4 text-white pointer-events-none" />
+                                    ) : (
+                                      <PlayIcon className="h-4 w-4 text-white pointer-events-none" />
+                                    )}
+                                  </div>
+                                </button>
+                              </div>
+                            ) : (
+                              <div 
+                                className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-colors video-result"
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
+                              >
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      setCurrentTrack({
+                                        id: songResult.videoId,
+                                        videoId: songResult.videoId,
+                                        title: songResult.name,
+                                        artist: songResult.artist.name,
+                                        thumbnail: thumbnail
+                                      });
+                                      const player = document.querySelector('iframe')?.contentWindow;
+                                      player?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                      setIsPlaying(true);
+                                    }}
+                                    className="z-10 video-result"
+                                  >
+                                    <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                                      <PlayIcon className="h-4 w-4 text-white pointer-events-none" />
+                                    </div>
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-white font-medium line-clamp-1">{songResult.name}</h4>
+                            <div className="flex items-center gap-2 text-gray-400 text-sm">
+                              <span>{songResult.artist.name}</span>
+                              {songResult.album && (
+                                <>
+                                  <span>•</span>
+                                  <span>{songResult.album.name}</span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <ArtistPageAddToPlaylistButton
+                            track={{
+                              id: songResult.videoId,
+                              videoId: songResult.videoId,
+                              title: songResult.name,
+                              thumbnail: thumbnail,
+                              artist: songResult.artist.name
+                            }}
+                            className="opacity-0 group-hover:opacity-100 video-result"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Videos Section */}
+              {searchResults.some(r => r.type === 'video') && (
+                <div>
+                  <div className="px-3 py-2 bg-[#1d1d1d] border-b border-[#383838]">
+                    <h3 className="text-gray-400 text-sm font-medium">Videos</h3>
+                  </div>
+                  {searchResults.filter(r => r.type === 'video').map((result) => (
+                    <div
+                      key={result.videoId}
+                      className="group flex items-center gap-3 p-3 hover:bg-[#383838] cursor-default video-result"
+                    >
+                      <div 
+                        className="flex items-center gap-3 w-full video-result"
+                      >
+                        <div className="relative w-12 h-12 flex-shrink-0">
+                          <Image
+                            src={(result as VideoResult).thumbnails.url}
+                            alt={(result as VideoResult).name}
+                            fill
+                            className="object-cover rounded"
+                          />
+                          {currentTrack?.videoId === result.videoId ? (
+                            <div 
+                              className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors video-result"
+                              onMouseDown={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }}
+                            >
+                                <button
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                  }}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const player = document.querySelector('iframe')?.contentWindow;
+                                    if (isPlaying) {
+                                      player?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                      setIsPlaying(false);
+                                    } else {
+                                      player?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                      setIsPlaying(true);
+                                    }
+                                    return false;
+                                  }}
+                                  className="z-10 video-result play-pause-button"
+                              >
+                                <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                                  {isPlaying ? (
+                                    <PauseIcon className="h-4 w-4 text-white pointer-events-none" />
+                                  ) : (
+                                    <PlayIcon className="h-4 w-4 text-white pointer-events-none" />
+                                  )}
+                                </div>
+                              </button>
+                            </div>
+                          ) : (
+                            <div 
+                              className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-colors video-result"
+                              onMouseDown={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }}
+                            >
+                              <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200">
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleVideoClick(result as VideoResult, e);
+                                  }}
+                                  className="z-10 video-result"
+                                >
+                                  <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
+                                    <PlayIcon className="h-4 w-4 text-white pointer-events-none" />
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-white font-medium line-clamp-1">{(result as VideoResult).name}</h4>
+                          <div className="flex items-center gap-2 text-gray-400 text-sm">
+                            <span>{(result as VideoResult).author}</span>
+                            <span>•</span>
+                            <span>{(result as VideoResult).views}</span>
+                          </div>
+                        </div>
+                        <ArtistPageAddToPlaylistButton
+                          track={{
+                            id: result.videoId,
+                            videoId: result.videoId,
+                            title: result.name,
+                            thumbnail: result.thumbnails.url,
+                            artist: result.author
+                          }}
+                          className="opacity-0 group-hover:opacity-100 video-result"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

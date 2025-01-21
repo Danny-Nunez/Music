@@ -1,15 +1,12 @@
 'use client';
 
-declare global {
-  interface Window {
-    YT: typeof YT;
-  }
-}
-
 import { useEffect, useRef, useState } from 'react';
-import type { Player } from '../../types/youtube';
 import { useSession } from 'next-auth/react';
+import type { ComponentType } from 'react';
+import type { YouTubeProps } from 'react-youtube';
 import YouTube from 'react-youtube';
+
+const YouTubePlayer = YouTube as ComponentType<YouTubeProps>;
 import SignInModal from '../../components/SignInModal';
 import toast from 'react-hot-toast';
 import { usePlayerStore } from '../../store/playerStore';
@@ -39,6 +36,7 @@ export default function Player() {
   const [backgroundColor, setBackgroundColor] = useState('rgb(17, 24, 39)');
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
@@ -185,6 +183,9 @@ export default function Player() {
     const player = playerRef.current;
     try {
       if (!isPlaying) {
+        if (!hasUserInteracted) {
+          setHasUserInteracted(true);
+        }
         await player.playVideo();
         setIsPlaying(true);
       } else {
@@ -259,6 +260,13 @@ export default function Player() {
     }
     } else if (event.data === YT.PlayerState.PAUSED) {
       setIsPlaying(false);
+      // Clear any existing timer
+      if (thumbnailTimerRef.current) {
+        clearTimeout(thumbnailTimerRef.current);
+        thumbnailTimerRef.current = null;
+      }
+      // Show thumbnail when paused
+      setShowThumbnail(true);
     } else if (event.data === YT.PlayerState.UNSTARTED || event.data === YT.PlayerState.CUED) {
       setIsPlayerReady(true);
       if (isPlaying) {
@@ -290,7 +298,9 @@ export default function Player() {
       
       // Check if player is still valid
       if (playerRef.current === player && isPlaying) {
-        await player.playVideo();
+        try {
+          await player.playVideo();
+        } catch {} // Silently handle any player initialization errors
       }
     } catch (error) {
       console.error('Initial playback failed:', error);
@@ -298,9 +308,9 @@ export default function Player() {
         // If playback fails, try one more time with a longer delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         // Check if player is still valid
-        if (playerRef.current === player) {
+        if (playerRef.current === player && player?.cueVideoById) {
           await player.cueVideoById(currentTrack.videoId);
-          if (isPlaying) {
+          if (isPlaying && player?.playVideo) {
             await player.playVideo();
           }
         }
@@ -321,37 +331,37 @@ export default function Player() {
   };
 
   const handlePrevious = async () => {
-  if (!isPlayerReady || !currentTrack || !playerRef.current || isLoading) return;
+    if (!isPlayerReady || !currentTrack || !playerRef.current || isLoading) return;
 
-  if (currentTime > 3) {
-    const player = playerRef.current;
-    try {
-      if (playerRef.current === player) {
-        // Clear any existing timer
-        if (thumbnailTimerRef.current) {
-          clearTimeout(thumbnailTimerRef.current);
-          thumbnailTimerRef.current = null;
+    if (currentTime > 3) {
+      const player = playerRef.current;
+      try {
+        if (playerRef.current === player) {
+          // Clear any existing timer
+          if (thumbnailTimerRef.current) {
+            clearTimeout(thumbnailTimerRef.current);
+            thumbnailTimerRef.current = null;
+          }
+          setShowThumbnail(true);
+          await player.seekTo(0, true);
+          setCurrentTime(0);
         }
-        setShowThumbnail(true);
-        await player.seekTo(0, true);
-        setCurrentTime(0);
+      } catch (error) {
+        console.error('Error seeking to start:', error);
       }
-    } catch (error) {
-      console.error('Error seeking to start:', error);
-    }
-  } else {
-    setIsLoading(true);
-    
-    // Clear any existing timer and show thumbnail
-    if (thumbnailTimerRef.current) {
-      clearTimeout(thumbnailTimerRef.current);
-      thumbnailTimerRef.current = null;
-    }
-    setShowThumbnail(true);
-    
-    const prevTrack = currentTrack;
-    playPrevious();
+    } else {
+      setIsLoading(true);
       
+      // Clear any existing timer and show thumbnail
+      if (thumbnailTimerRef.current) {
+        clearTimeout(thumbnailTimerRef.current);
+        thumbnailTimerRef.current = null;
+      }
+      setShowThumbnail(true);
+      
+      const prevTrack = currentTrack;
+      playPrevious();
+        
       const player = playerRef.current;
       if (!player || !currentTrack || currentTrack === prevTrack) {
         setIsLoading(false);
@@ -361,16 +371,20 @@ export default function Player() {
       try {
         if (playerRef.current === player) {
           await player.cueVideoById(currentTrack.videoId);
-          await new Promise(resolve => setTimeout(resolve, 500));
-          if (playerRef.current === player) {
-            await player.playVideo();
+          
+          // Only autoplay if user has interacted before (mobile requirement)
+          if (hasUserInteracted) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            if (playerRef.current === player) {
+              await player.playVideo();
+            }
           }
         }
       } catch (error) {
         console.error('Error playing previous video:', error);
         try {
           await new Promise(resolve => setTimeout(resolve, 1000));
-          if (playerRef.current === player) {
+          if (playerRef.current === player && hasUserInteracted) {
             await player.cueVideoById(currentTrack.videoId);
             await player.playVideo();
           }
@@ -542,14 +556,14 @@ export default function Player() {
                 </div>
                 
                 {/* Video Player */}
-                <YouTube
+                <YouTubePlayer
                   videoId={currentTrack.videoId}
                   id={`youtube-player-${currentTrack.videoId}`}
                   opts={{
                     height: '100%',
                     width: '100%',
                     playerVars: {
-                      autoplay: 0,
+                      autoplay: 1,
                       controls: 0,
                       disablekb: 1,
                       enablejsapi: 1,
