@@ -215,7 +215,7 @@ export default function AlbumPage() {
             }}
           />
           <div className="flex-1 mt-4">
-            <h1 className="text-4xl font-bold mb-2">{albumData.name}</h1>
+            <h1 className="md:text-4xl text-2xl font-bold mb-2">{albumData.name}</h1>
             <p className="text-gray-400 md:text-lg text-md mb-1">{albumData.artist.name}</p>
             <p className="text-gray-400">{albumData.year}</p>
           </div>
