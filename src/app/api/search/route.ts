@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { youtube } from 'scrape-youtube';
 
 interface SearchResultMetadata {
   id: string;
@@ -23,11 +24,30 @@ interface GoogleSearchResponse {
   };
 }
 
-interface SearchResult {
+interface ArtistResult {
   text: string;
   id: string;
-  type: string;
+  type: 'artist';
   exactMatch?: boolean;
+}
+
+interface VideoResult {
+  id: string;
+  title: string;
+  thumbnail: string;
+  duration: number;
+  durationString: string;
+  views: number;
+  channel: {
+    name: string;
+    thumbnail: string;
+  };
+  type: 'video';
+}
+
+interface SearchResults {
+  artists: ArtistResult[];
+  videos: VideoResult[];
 }
 
 export async function GET(request: Request) {
@@ -39,92 +59,77 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Query parameter is required' }, { status: 400 });
     }
 
-    // Fetch from Google's search completion API
-    const response = await fetch(
+    // Fetch artists from Google's search completion API
+    const artistResponse = await fetch(
       `https://clients1.google.com/complete/search?client=yt-music-charts&hl=en&gs_rn=64&gs_ri=yt-music-charts&cp=1&gs_id=1a&q=${encodeURIComponent(query)}&callback=google.sbox.p50&gs_gbg=Y2wJx159XKxjzmSF851UKOcgnI3411`
     );
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch search results: ${response.statusText}`);
+    if (!artistResponse.ok) {
+      throw new Error(`Failed to fetch artist results: ${artistResponse.statusText}`);
     }
 
     // Get the response text and parse the JSONP
-    const jsonpText = await response.text();
-    
-    // Extract the JSON part from JSONP response
-    // Remove 'google.sbox.p50 && google.sbox.p50(' from start and ')' from end
+    const jsonpText = await artistResponse.text();
     const jsonText = jsonpText.replace(/^[^(]+\(|\)$/g, '');
-    
-    // Parse the JSON
-    const data = JSON.parse(jsonText);
-    
-    // Parse and log the raw data
-    const parsedData = data as GoogleSearchResponse;
-    console.log('Search query:', query);
-    console.log('Raw search results:', parsedData[1].map(item => ({
-      text: item[0],
-      metadata: item[3]
-    })));
+    const data = JSON.parse(jsonText) as GoogleSearchResponse;
 
-    // First check if the query matches an ID format (e.g. "11h0mdlyks")
+    // Check if the query matches an ID format
     const isIdQuery = /^[0-9a-zA-Z_]+$/.test(query);
     console.log('Query analysis:', { query, isIdQuery });
 
-    // Extract artist results and their full IDs
-    const results: SearchResult[] = parsedData[1]
-      .filter((item) => {
-        const isArtist = item[3]?.type === 'ARTIST';
-        if (isArtist) {
-          console.log('Found artist:', {
-            name: item[0],
-            fullId: item[3].id,
-            idPart: item[3].id.split('/').pop()
-          });
-        }
-        return isArtist;
-      })
+    // Extract artist results
+    const artistResults: ArtistResult[] = data[1]
+      .filter((item) => item[3]?.type === 'ARTIST')
       .map((item) => {
-        // If searching by ID, put exact matches first
         const idPart = item[3].id.split('/').pop();
         const isExactMatch = isIdQuery && idPart === query;
 
-        const result = {
+        return {
           text: item[0],
-          id: item[3].id, // Keep the full ID with prefix (e.g. "/g/11h0mdlyks")
-          type: item[3].type,
+          id: item[3].id,
+          type: 'artist' as const,
           exactMatch: isExactMatch
         };
-
-        console.log('Mapped result:', {
-          name: result.text,
-          fullId: result.id,
-          isExactMatch
-        });
-
-        return result;
       })
       .sort((a, b) => {
-        // Sort exact matches first
         if (a.exactMatch && !b.exactMatch) return -1;
         if (!a.exactMatch && b.exactMatch) return 1;
         return 0;
       });
 
-    console.log('Final results:', {
+    // Fetch video results using scrape-youtube
+    const videoResults = await youtube.search(query);
+    const formattedVideoResults: VideoResult[] = videoResults.videos.map(video => ({
+      id: video.id,
+      title: video.title,
+      thumbnail: video.thumbnail,
+      duration: video.duration,
+      durationString: video.durationString,
+      views: video.views,
+      channel: {
+        name: video.channel.name,
+        thumbnail: video.channel.thumbnail
+      },
+      type: 'video' as const
+    }));
+
+    // Combine results
+    const results: SearchResults = {
+      artists: artistResults,
+      videos: formattedVideoResults
+    };
+
+    console.log('Search results:', {
       query,
-      isIdQuery,
-      results: results.map(r => ({
-        name: r.text,
-        fullId: r.id,
-        exactMatch: r.exactMatch
-      }))
+      artistCount: results.artists.length,
+      videoCount: results.videos.length
     });
 
-    return NextResponse.json({ results });
+    return NextResponse.json(results);
   } catch (error) {
     console.error('Search error:', error);
     return NextResponse.json(
-      { error: 'Failed to search artists' },
+      { error: 'Failed to search' },
       { status: 500 }
     );
   }
