@@ -108,7 +108,7 @@ export default function AlbumPage() {
       <div className="flex-1 overflow-y-auto bg-gradient-to-b from-zinc-900 to-black text-white pt-20 rounded-lg">
         <div className="p-8">
           <div className="flex items-center gap-8 mb-8">
-            <div className="w-48 h-48 bg-white/10 rounded animate-pulse"></div>
+            <div className="md:w-48 md:h-48 w-32 h-32 bg-white/10 rounded animate-pulse"></div>
             <div className="flex-1">
               <div className="h-8 w-48 bg-white/10 rounded animate-pulse mb-4"></div>
               <div className="h-6 w-32 bg-white/10 rounded animate-pulse"></div>
@@ -208,7 +208,7 @@ export default function AlbumPage() {
           <img
             src={albumThumbnail}
             alt={albumData.name}
-            className="w-48 h-48 object-cover rounded-lg shadow-xl"
+            className="md:w-48 md:h-48 w-32 h-32 object-cover rounded-lg shadow-xl"
             onError={(e) => {
               const img = e.target as HTMLImageElement;
               img.src = '/defaultcover.png';
@@ -216,7 +216,7 @@ export default function AlbumPage() {
           />
           <div className="flex-1 mt-4">
             <h1 className="text-4xl font-bold mb-2">{albumData.name}</h1>
-            <p className="text-gray-400 text-lg mb-1">{albumData.artist.name}</p>
+            <p className="text-gray-400 md:text-lg text-md mb-1">{albumData.artist.name}</p>
             <p className="text-gray-400">{albumData.year}</p>
           </div>
         </div>
