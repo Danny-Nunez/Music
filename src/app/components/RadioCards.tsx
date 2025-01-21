@@ -22,8 +22,8 @@ const radioStreams: RadioStream[] = [
   },
   {
     id: 'radio2',
-    title: '2000 Hip Hop Mix Radio',
-    videoId: 'tB604VtXqyo'
+    title: 'Dance Hip Hop Mix Radio',
+    videoId: 'hQ9mwj7fhoM'
   },
   {
     id: 'radio3',
