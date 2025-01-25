@@ -133,8 +133,8 @@ export default function Home() {
 
         
 
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl sm:text-2xl font-bold text-white">Trending Songs</h1>
+        <div className="flex justify-between items-center mb-6" aria-label="Trending songs section">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Trending Songs</h2>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
@@ -146,9 +146,9 @@ export default function Home() {
               <div className="relative">
                 {song.thumbnail?.thumbnails[0]?.url && (
                   <div className="relative">
-                    <img
+                      <img
                       src={song.thumbnail.thumbnails[0].url}
-                      alt={song.name}
+                      alt={`Album cover for ${song.name} by ${song.artists[0].name}`}
                       className="w-full aspect-square object-cover"
                     />
                     {currentTrack?.videoId === song.encryptedVideoId ? (
