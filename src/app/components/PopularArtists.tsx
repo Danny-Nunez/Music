@@ -10,12 +10,23 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+interface YoutubeMusicArtist {
+  type: string;
+  name: string;
+  thumbnails: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
+}
+
 interface Artist {
   id: string;
   name: string;
   thumbnail: {
     thumbnails: { url: string }[];
   };
+  alternativeImage?: string;
 }
 
 export default function PopularArtists() {
@@ -43,9 +54,33 @@ export default function PopularArtists() {
             name: artist.name,
             thumbnail: artist.thumbnail,
           }))
-          .slice(0, 40);
+          .slice(0, 10);
 
-        setArtists(topArtists);
+        // Fetch alternative images for each artist
+        const artistsWithImages = await Promise.all(
+          topArtists.map(async (artist: Artist) => {
+            try {
+              const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artist.name)}&type=artist`);
+              if (!response.ok) throw new Error('Failed to fetch alternative image');
+              
+              const data = await response.json();
+              const matchingArtist = data.content?.find((item: YoutubeMusicArtist) => 
+                item.type === 'artist' && 
+                item.name.toLowerCase() === artist.name.toLowerCase()
+              );
+              
+              return {
+                ...artist,
+                alternativeImage: matchingArtist?.thumbnails?.[1]?.url || null
+              };
+            } catch (error) {
+              console.error(`Error fetching image for ${artist.name}:`, error);
+              return artist;
+            }
+          })
+        );
+
+        setArtists(artistsWithImages);
       } catch (error) {
         console.error('Error fetching artists:', error);
       }
@@ -90,10 +125,11 @@ export default function PopularArtists() {
                     {/* Image Container */}
                     <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 overflow-hidden rounded-full border-2 border-transparent">
                       <Image
-                        src={`/api/proxy-image?url=${encodeURIComponent(artist.thumbnail.thumbnails[0].url)}`}
+                        src={artist.alternativeImage || '/defaultcover.png'}
                         alt={artist.name}
                         layout="fill"
                         className="object-cover rounded-full"
+                        unoptimized
                       />
                       {/* Dark Overlay */}
                       <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
