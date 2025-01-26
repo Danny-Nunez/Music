@@ -20,22 +20,28 @@ interface YoutubeMusicResponse {
   }>;
 }
 
-interface Track {
-  id: string;
+interface YoutubeMusicSong {
+  type: string;
+  videoId: string;
   name: string;
-  viewCount: string;
-  thumbnail: {
-    thumbnails: Array<{
-      url: string;
-      width: number;
-      height: number;
-    }>;
-  };
-  encryptedVideoId: string;
-  artists: Array<{
-    kgMid: string;
+  artist: {
     name: string;
+    browseId: string;
+  };
+  album: {
+    name: string;
+    browseId: string[];
+  };
+  duration: number;
+  thumbnails: Array<{
+    url: string;
+    width: number;
+    height: number;
   }>;
+}
+
+interface YoutubeMusicSongsResponse {
+  content: YoutubeMusicSong[];
 }
 
 interface ArtistData {
@@ -52,10 +58,9 @@ interface ArtistData {
                 heroBannerImageUrl: string;
               };
             };
-            trackTypes: [{
+            trackTypes: Array<{
               listType: string;
-              trackViews: Track[];
-            }];
+            }>;
           };
         };
       }];
@@ -67,9 +72,25 @@ export default function ArtistPage() {
   const params = useParams();
   const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack, setQueue } = usePlayerStore();
   const [artistData, setArtistData] = useState<ArtistData | null>(null);
+  const [topSongs, setTopSongs] = useState<YoutubeMusicSong[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [artistImage, setArtistImage] = useState<string | null>(null);
+
+  const fetchArtistSongs = async (artistName: string) => {
+    try {
+      const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artistName)}&type=songs`);
+      if (!response.ok) throw new Error('Failed to fetch artist songs');
+      
+      const data = await response.json();
+      const songs = (data as YoutubeMusicSongsResponse).content
+        .filter(item => item.type === 'song')
+        .slice(0, 20);
+      setTopSongs(songs);
+    } catch (error) {
+      console.error('Error fetching artist songs:', error);
+    }
+  };
 
   const fetchArtistImage = async (artistName: string) => {
     try {
@@ -128,7 +149,10 @@ export default function ArtistPage() {
         
         // Fetch artist image after getting artist data
         const artistName = data.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.perspectiveMetadata.name;
-        await fetchArtistImage(artistName);
+        await Promise.all([
+          fetchArtistImage(artistName),
+          fetchArtistSongs(artistName)
+        ]);
       } catch (err) {
         console.error('Error fetching artist data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -186,7 +210,6 @@ export default function ArtistPage() {
   const metadata = content.perspectiveMetadata;
   const artistName = metadata.name;
   const headerImage = metadata.heroMetadata.heroBannerImageUrl;
-  const tracks = content.trackTypes[0].trackViews;
 
   return (
     <div className="flex-1 overflow-y-auto bg-gradient-to-b from-[#121212] to-black text-white mx-4 rounded-xl max-w-screen-lg">
@@ -210,15 +233,14 @@ export default function ArtistPage() {
         </div>
       </div>
 
-      {/* Top Tracks
       <div className="p-8">
         <h2 className="text-2xl font-bold mb-6">Top Songs</h2>
         <div className="grid grid-cols-1 gap-4">
-          {tracks.map((track) => {
-            const thumbnail = track.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png';
-            const title = track.name || 'Unknown Title';
-            const artist = track.artists?.[0]?.name || 'Unknown Artist';
-            const videoId = track.encryptedVideoId;
+          {topSongs.map((song) => {
+            const thumbnail = song.thumbnails?.[1]?.url || '/defaultcover.png';
+            const title = song.name || 'Unknown Title';
+            const artist = song.artist?.name || 'Unknown Artist';
+            const videoId = song.videoId;
             
             return (
               <div
@@ -262,12 +284,12 @@ export default function ArtistPage() {
                           onClick={(e) => {
                             e.stopPropagation();
                             // Format all tracks
-                            const formattedTracks = tracks.map((t) => ({
-                              id: t.encryptedVideoId,
-                              videoId: t.encryptedVideoId,
-                              title: t.name || 'Unknown Title',
-                              artist: t.artists?.[0]?.name || 'Unknown Artist',
-                              thumbnail: t.thumbnail?.thumbnails?.[0]?.url || '/defaultcover.png'
+                            const formattedTracks = topSongs.map((s) => ({
+                              id: s.videoId,
+                              videoId: s.videoId,
+                              title: s.name || 'Unknown Title',
+                              artist: s.artist?.name || 'Unknown Artist',
+                              thumbnail: s.thumbnails?.[1]?.url || '/defaultcover.png'
                             }));
 
                             // Find current track index
@@ -322,7 +344,7 @@ export default function ArtistPage() {
             );
           })}
         </div>
-      </div> */}
+      </div>
 
       {/* Artist Albums */}
       <ArtistAlbums artistName={artistName} headerImage={headerImage} />
