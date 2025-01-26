@@ -79,7 +79,7 @@ export default function ArtistPage() {
 
   const fetchArtistSongs = async (artistName: string) => {
     try {
-      const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artistName)}&type=songs`);
+      const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artistName)}&type=song`);
       if (!response.ok) throw new Error('Failed to fetch artist songs');
       
       const data = await response.json();
