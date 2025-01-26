@@ -24,18 +24,22 @@ export default function PopularArtists() {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        // Use the Cloudinary URL to fetch the JSON
-        const response = await fetch(
-          'https://res.cloudinary.com/dwkkzpn5e/raw/upload/v1736949767/top100-artists'
-        );
+        // Get latest Cloudinary URL
+        const cloudinaryResponse = await fetch('/api/get-latest-cloudinary-url?folder=top100-artists');
+        if (!cloudinaryResponse.ok) {
+          throw new Error(`Failed to get Cloudinary URL: ${cloudinaryResponse.status}`);
+        }
+        const { url } = await cloudinaryResponse.json();
+        // console.log('Fetching artist data from:', url);
+        
+        // Fetch artist data from Cloudinary
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
 
-        const artistViews =
-          data?.contents?.sectionListRenderer?.contents?.[0]?.musicAnalyticsSectionRenderer?.content?.artists?.[0]?.artistViews;
-
+        const artistViews = data?.contents?.sectionListRenderer?.contents?.[0]?.musicAnalyticsSectionRenderer?.content?.artists?.[0]?.artistViews;
         if (!artistViews) throw new Error('Artist views not found');
 
         const topArtists = artistViews
