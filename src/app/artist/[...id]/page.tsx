@@ -218,7 +218,7 @@ export default function ArtistPage() {
         {/* Artist Image */}
         <div className="relative w-52 h-52 md:w-60 md:h-60  flex-shrink-0 rounded-lg overflow-hidden">
           <Image
-            src={artistImage || headerImage}
+            src={artistImage ? `/api/proxy-image?url=${encodeURIComponent(artistImage)}` : headerImage}
             alt={artistName}
             fill
             sizes="(max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
@@ -237,7 +237,9 @@ export default function ArtistPage() {
         <h2 className="text-2xl font-bold mb-6">Top Songs</h2>
         <div className="grid grid-cols-1 gap-4">
           {topSongs.map((song) => {
-            const thumbnail = song.thumbnails?.[1]?.url || '/defaultcover.png';
+            const thumbnail = song.thumbnails?.[1]?.url ? 
+              `/api/proxy-image?url=${encodeURIComponent(song.thumbnails[1].url)}` : 
+              '/defaultcover.png';
             const title = song.name || 'Unknown Title';
             const artist = song.artist?.name || 'Unknown Artist';
             const videoId = song.videoId;
@@ -289,7 +291,9 @@ export default function ArtistPage() {
                               videoId: s.videoId,
                               title: s.name || 'Unknown Title',
                               artist: s.artist?.name || 'Unknown Artist',
-                              thumbnail: s.thumbnails?.[1]?.url || '/defaultcover.png'
+                              thumbnail: s.thumbnails?.[1]?.url ? 
+                                `/api/proxy-image?url=${encodeURIComponent(s.thumbnails[1].url)}` : 
+                                '/defaultcover.png'
                             }));
 
                             // Find current track index

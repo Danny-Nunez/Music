@@ -9,7 +9,14 @@ export async function GET(request: Request) {
       return new NextResponse('Image URL is required', { status: 400 });
     }
 
-    const response = await fetch(imageUrl);
+    const response = await fetch(imageUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Referer': 'https://music.youtube.com/'
+      }
+    });
     
     if (!response.ok) {
       throw new Error(`Failed to fetch image: ${response.status}`);
@@ -22,6 +29,7 @@ export async function GET(request: Request) {
       headers: {
         'Content-Type': contentType || 'image/jpeg',
         'Cache-Control': 'public, max-age=31536000',
+        'Access-Control-Allow-Origin': '*',
       },
     });
   } catch (error) {
