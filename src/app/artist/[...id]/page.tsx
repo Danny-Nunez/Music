@@ -8,6 +8,18 @@ import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPl
 import { usePlayerStore } from '../../../store/playerStore';
 import ArtistAlbums from '../../../components/ArtistAlbums';
 
+interface YoutubeMusicResponse {
+  content: Array<{
+    type: string;
+    name: string;
+    thumbnails: Array<{
+      url: string;
+      width: number;
+      height: number;
+    }>;
+  }>;
+}
+
 interface Track {
   id: string;
   name: string;
@@ -57,20 +69,26 @@ export default function ArtistPage() {
   const [artistData, setArtistData] = useState<ArtistData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [opacity, setOpacity] = useState(1);
+  const [artistImage, setArtistImage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const newOpacity = Math.max(1 - scrollTop / 300, 0);
-      setOpacity(newOpacity);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const fetchArtistImage = async (artistName: string) => {
+    try {
+      const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artistName)}&type=artist`);
+      if (!response.ok) throw new Error('Failed to fetch artist image');
+      
+      const data = await response.json();
+      const matchingArtist = (data as YoutubeMusicResponse).content?.find((item) => 
+        item.type === 'artist' && 
+        item.name.toLowerCase() === artistName.toLowerCase()
+      );
+      
+      if (matchingArtist?.thumbnails?.[1]?.url) {
+        setArtistImage(matchingArtist.thumbnails[1].url);
+      }
+    } catch (error) {
+      console.error('Error fetching artist image:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchArtistData = async () => {
@@ -107,6 +125,10 @@ export default function ArtistPage() {
 
         const data = await response.json();
         setArtistData(data);
+        
+        // Fetch artist image after getting artist data
+        const artistName = data.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.perspectiveMetadata.name;
+        await fetchArtistImage(artistName);
       } catch (err) {
         console.error('Error fetching artist data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
@@ -169,21 +191,22 @@ export default function ArtistPage() {
   return (
     <div className="flex-1 overflow-y-auto bg-gradient-to-b from-[#121212] to-black text-white mx-4 rounded-xl max-w-screen-lg">
       {/* Artist Header */}
-      <div className="relative h-[400px] w-full">
-        <Image
-          style={{
-            opacity,
-            transition: 'opacity 0.1s ease-in-out',
-          }}
-          src={headerImage}
-          alt={artistName}
-          fill
-          sizes="100vw"
-          className="object-cover object-top"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
-          <h1 className="text-6xl font-black ml-2">{artistName}</h1>
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 bg-gradient-to-b from-zinc-800/50 to-black">
+        {/* Artist Image */}
+        <div className="relative w-52 h-52 md:w-60 md:h-60  flex-shrink-0 rounded-lg overflow-hidden">
+          <Image
+            src={artistImage || headerImage}
+            alt={artistName}
+            fill
+            sizes="(max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
+            className="object-cover"
+            priority
+          />
+        </div>
+        {/* Artist Info */}
+        <div className="flex flex-col justify-center md:justify-end h-full w-full text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4">{artistName}</h1>
+          <div className="text-gray-300 text-lg md:text-xl">Artist</div>
         </div>
       </div>
 
