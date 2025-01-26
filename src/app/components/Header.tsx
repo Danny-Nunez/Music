@@ -258,7 +258,7 @@ export default function Header() {
       videoId: result.videoId,
       title: result.name,
       artist: result.author,
-      thumbnail: result.thumbnails.url
+      thumbnail: `/api/proxy-image?url=${encodeURIComponent(result.thumbnails.url)}`
     });
     player?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
     setIsPlaying(true);
@@ -371,7 +371,10 @@ export default function Header() {
                   </div>
                   {searchResults.filter(r => r.type === 'song').map((result) => {
                     const songResult = result as SongResult;
-                    const thumbnail = songResult.thumbnails[songResult.thumbnails.length - 1]?.url;
+                    const originalThumbnail = songResult.thumbnails[songResult.thumbnails.length - 1]?.url;
+                    const thumbnail = originalThumbnail ? 
+                      `/api/proxy-image?url=${encodeURIComponent(originalThumbnail)}` : 
+                      '/defaultcover.png';
                     return (
                       <div
                         key={songResult.videoId}
@@ -501,7 +504,7 @@ export default function Header() {
                       >
                         <div className="relative w-12 h-12 flex-shrink-0">
                           <Image
-                            src={(result as VideoResult).thumbnails.url}
+                            src={`/api/proxy-image?url=${encodeURIComponent((result as VideoResult).thumbnails.url)}`}
                             alt={(result as VideoResult).name}
                             fill
                             className="object-cover rounded"
@@ -581,7 +584,7 @@ export default function Header() {
                             id: result.videoId,
                             videoId: result.videoId,
                             title: result.name,
-                            thumbnail: result.thumbnails.url,
+                            thumbnail: `/api/proxy-image?url=${encodeURIComponent(result.thumbnails.url)}`,
                             artist: result.author
                           }}
                           className="opacity-0 group-hover:opacity-100 video-result"
