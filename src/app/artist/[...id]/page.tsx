@@ -210,7 +210,7 @@ export default function ArtistPage() {
         </div>
       </div>
 
-      {/* Top Tracks */}
+      {/* Top Tracks
       <div className="p-8">
         <h2 className="text-2xl font-bold mb-6">Top Songs</h2>
         <div className="grid grid-cols-1 gap-4">
@@ -322,7 +322,7 @@ export default function ArtistPage() {
             );
           })}
         </div>
-      </div>
+      </div> */}
 
       {/* Artist Albums */}
       <ArtistAlbums artistName={artistName} headerImage={headerImage} />
