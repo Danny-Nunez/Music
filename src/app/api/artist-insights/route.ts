@@ -13,14 +13,10 @@ export async function POST(request: Request) {
       }
     });
 
-    const response = await fetch('https://music.youtube.com/youtubei/v1/browse?key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30', {
+    const response = await fetch('https://charts.youtube.com/youtubei/v1/browse?alt=json', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'https://music.youtube.com',
-        'Referer': 'https://music.youtube.com/',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'X-Origin': 'https://music.youtube.com'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         context: {

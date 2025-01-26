@@ -24,25 +24,19 @@ export default function PopularArtists() {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        // Get latest Cloudinary URL
-        const cloudinaryResponse = await fetch('/api/get-latest-cloudinary-url?folder=top100-artists');
-        if (!cloudinaryResponse.ok) {
-          throw new Error(`Failed to get Cloudinary URL: ${cloudinaryResponse.status}`);
-        }
-        const { url } = await cloudinaryResponse.json();
-        // console.log('Fetching artist data from:', url);
-        
-        // Fetch artist data from Cloudinary
-        const response = await fetch(url);
+        const response = await fetch('/api/popular-artists', {
+          method: 'POST'
+        });
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
 
-        const artistViews = data?.contents?.sectionListRenderer?.contents?.[0]?.musicAnalyticsSectionRenderer?.content?.artists?.[0]?.artistViews;
-        if (!artistViews) throw new Error('Artist views not found');
+        const artists = data?.contents?.sectionListRenderer?.contents?.[0]?.musicAnalyticsSectionRenderer?.content?.artists?.[0]?.artistViews;
+        if (!artists) throw new Error('Artists not found');
 
-        const topArtists = artistViews
+        const topArtists = artists
           .filter((artist: Artist) => artist?.thumbnail?.thumbnails?.[0]?.url)
           .map((artist: Artist) => ({
             id: artist.id,
