@@ -7,6 +7,7 @@ import { PauseIcon, PlayIcon } from '@heroicons/react/24/outline';
 import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPlaylistButton';
 import { usePlayerStore } from '../../../store/playerStore';
 import ArtistAlbums from '../../../components/ArtistAlbums';
+import ArtistPlaylists from '../../../components/ArtistPlaylists';
 
 interface YoutubeMusicResponse {
   content: Array<{
@@ -351,7 +352,10 @@ export default function ArtistPage() {
       </div>
 
       {/* Artist Albums */}
-      <ArtistAlbums artistName={artistName} headerImage={headerImage} />
+      <div className="ml-2">
+        <ArtistAlbums artistName={artistName} headerImage={headerImage} />
+        <ArtistPlaylists artistName={artistName} headerImage={headerImage} />
+      </div>
     </div>
   );
 }

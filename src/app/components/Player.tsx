@@ -78,7 +78,7 @@ export default function Player() {
         try {
           const img = document.createElement('img');
           img.crossOrigin = "Anonymous";
-          img.src = currentTrack.thumbnail;
+          img.src = `/api/proxy-image?url=${encodeURIComponent(currentTrack.thumbnail)}`;
           
           img.onload = () => {
             const canvas = document.createElement('canvas');
@@ -487,7 +487,7 @@ export default function Player() {
               style={{ opacity: isExpanded ? 0 : (showThumbnail ? 1 : 0), zIndex: 10 }}
             >
               <Image
-                src={currentTrack.thumbnail}
+                src={`/api/proxy-image?url=${encodeURIComponent(currentTrack.thumbnail)}`}
                 alt={currentTrack.title}
                 fill
                 className="object-cover"
@@ -547,7 +547,7 @@ export default function Player() {
                   style={{ opacity: isExpanded || showThumbnail ? 1 : 0, zIndex: 20 }}
                 >
                   <Image
-                    src={currentTrack.thumbnail}
+                    src={`/api/proxy-image?url=${encodeURIComponent(currentTrack.thumbnail)}`}
                     alt={currentTrack.title}
                     fill
                     className="object-cover"

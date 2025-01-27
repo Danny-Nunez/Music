@@ -31,6 +31,8 @@ interface Artist {
 
 export default function PopularArtists() {
   const [artists, setArtists] = useState<Artist[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState<{[key: string]: boolean}>({});
 
   useEffect(() => {
     const fetchArtists = async () => {
@@ -81,13 +83,28 @@ export default function PopularArtists() {
         );
 
         setArtists(artistsWithImages);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching artists:', error);
+        setLoading(false);
       }
     };
 
     fetchArtists();
   }, []);
+
+  const LoadingPlaceholder = () => (
+    <div className="flex flex-col items-center">
+      <div className="relative mb-2">
+        <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-full overflow-hidden">
+          <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-full" />
+        </div>
+      </div>
+      <div className="w-full px-2">
+        <div className="h-4 bg-gray-800 animate-pulse rounded w-3/4 mx-auto" />
+      </div>
+    </div>
+  );
 
   return (
     <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
@@ -110,41 +127,64 @@ export default function PopularArtists() {
           }}
           className="popular-artists-swiper"
         >
-          {artists.map((artist) => (
-            <SwiperSlide key={artist.id}>
-              <Link
-                href={`/artist${artist.id}`}
-                className="block group text-center w-full"
-              >
-                <div className="flex flex-col items-center">
-                  <div className="relative mb-2">
-                    {/* Border Animation Container */}
-                    <div className="absolute inset-0 rounded-full border-2 border-transparent overflow-hidden">
-                      <div className="absolute inset-0 rounded-full bg-transparent group-hover:bg-fill-circle transition-all"></div>
+          {loading ? (
+            // Loading placeholders
+            Array(6).fill(0).map((_, index) => (
+              <SwiperSlide key={`placeholder-${index}`}>
+                <LoadingPlaceholder />
+              </SwiperSlide>
+            ))
+          ) : (
+            // Actual artists
+            artists.map((artist) => (
+              <SwiperSlide key={artist.id}>
+                <Link
+                  href={`/artist${artist.id}`}
+                  className="block group text-center w-full"
+                >
+                  <div className="flex flex-col items-center">
+                    <div className="relative mb-2">
+                      {/* Border Animation Container */}
+                      <div className="absolute inset-0 rounded-full border-2 border-transparent overflow-hidden">
+                        <div className="absolute inset-0 rounded-full bg-transparent group-hover:bg-fill-circle transition-all"></div>
+                      </div>
+                      {/* Image Container */}
+                      <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 overflow-hidden rounded-full border-2 border-transparent">
+                        <div className="relative w-full h-full">
+                          {(!imageLoaded[artist.id] || !artist.alternativeImage) && (
+                            <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-full" />
+                          )}
+                          <Image
+                            src={artist.alternativeImage ? `/api/proxy-image?url=${encodeURIComponent(artist.alternativeImage)}` : '/defaultcover.png'}
+                            alt={artist.name}
+                            layout="fill"
+                            className={`object-cover rounded-full transition-opacity duration-300 ${
+                              imageLoaded[artist.id] ? 'opacity-100' : 'opacity-0'
+                            }`}
+                            unoptimized
+                            onLoad={() => {
+                              setImageLoaded(prev => ({
+                                ...prev,
+                                [artist.id]: true
+                              }));
+                            }}
+                          />
+                        </div>
+                        {/* Dark Overlay */}
+                        <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                      </div>
                     </div>
-                    {/* Image Container */}
-                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 overflow-hidden rounded-full border-2 border-transparent">
-                      <Image
-                        src={artist.alternativeImage || '/defaultcover.png'}
-                        alt={artist.name}
-                        layout="fill"
-                        className="object-cover rounded-full"
-                        unoptimized
-                      />
-                      {/* Dark Overlay */}
-                      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    {/* Gray Text on Hover */}
+                    <div className="w-full px-2">
+                      <h3 className="text-white group-hover:text-gray-400 font-medium text-xs sm:text-sm truncate mt-1 sm:mt-2">
+                        {artist.name}
+                      </h3>
                     </div>
                   </div>
-                  {/* Gray Text on Hover */}
-                  <div className="w-full px-2">
-                    <h3 className="text-white group-hover:text-gray-400 font-medium text-xs sm:text-sm truncate mt-1 sm:mt-2">
-                      {artist.name}
-                    </h3>
-                  </div>
-                </div>
-              </Link>
-            </SwiperSlide>
-          ))}
+                </Link>
+              </SwiperSlide>
+            ))
+          )}
         </Swiper>
       </div>
     </div>

@@ -9,7 +9,12 @@ export async function GET(request: Request) {
       return new NextResponse('Image URL is required', { status: 400 });
     }
 
-    const response = await fetch(imageUrl, {
+    // Check if the URL is already a proxy URL and extract the original URL
+    const actualUrl = imageUrl.startsWith('/api/proxy-image?url=') 
+      ? decodeURIComponent(imageUrl.replace('/api/proxy-image?url=', ''))
+      : imageUrl;
+
+    const response = await fetch(actualUrl, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',

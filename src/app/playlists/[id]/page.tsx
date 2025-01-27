@@ -109,7 +109,7 @@ export default function PlaylistPage() {
         videoId: song.videoId,
         title: song.title,
         artist: song.artist || 'From Playlist',
-        thumbnail: song.thumbnail
+        thumbnail: song.thumbnail ? `/api/proxy-image?url=${encodeURIComponent(song.thumbnail)}` : '/defaultcover.png'
       }));
 
       // Set the first song as current and the rest as queue
@@ -177,7 +177,7 @@ export default function PlaylistPage() {
       videoId: s.videoId,
       title: s.title,
       artist: s.artist || 'From Playlist',
-      thumbnail: s.thumbnail
+      thumbnail: s.thumbnail ? `/api/proxy-image?url=${encodeURIComponent(s.thumbnail)}` : '/defaultcover.png'
     }));
 
     // Set the clicked song as current
@@ -254,7 +254,7 @@ export default function PlaylistPage() {
       {playlist.songs.slice(0, 4).map((song, index) => (
         <img
           key={song.videoId}
-          src={song.thumbnail || '/defaultcover.png'}
+          src={song.thumbnail ? `/api/proxy-image?url=${encodeURIComponent(song.thumbnail)}` : '/defaultcover.png'}
           alt={`${playlist.name} - Image ${index + 1}`}
           className="w-full h-full object-cover"
           style={{
@@ -267,7 +267,7 @@ export default function PlaylistPage() {
   ) : (
     <div className="flex-shrink-0 w-full md:w-1/3 h-full relative">
       <img
-        src={playlist.songs[0]?.thumbnail || '/defaultcover.png'}
+        src={playlist.songs[0]?.thumbnail ? `/api/proxy-image?url=${encodeURIComponent(playlist.songs[0].thumbnail)}` : '/defaultcover.png'}
         alt={playlist.name}
         className="w-full h-full object-cover object-center"
         style={{
@@ -362,7 +362,7 @@ export default function PlaylistPage() {
             >
               <div className="relative w-16 h-16 flex-shrink-0">
                 <img
-                  src={song.thumbnail || '/defaultcover.png'}
+                  src={song.thumbnail ? `/api/proxy-image?url=${encodeURIComponent(song.thumbnail)}` : '/defaultcover.png'}
                   alt={song.title}
                   className="w-full h-full object-cover rounded"
                 />
