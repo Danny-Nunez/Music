@@ -747,7 +747,7 @@ export default function Header() {
                       onClick={handleNavLinkClick}
                     >
                       <Image
-                        src={playlist.songs?.[0]?.thumbnail || '/defaultcover.png'}
+                        src={playlist.songs?.[0]?.thumbnail ? `/api/proxy-image?url=${encodeURIComponent(playlist.songs[0].thumbnail)}` : '/defaultcover.png'}
                         alt={playlist.name}
                         width={40}
                         height={40}
