@@ -24,6 +24,13 @@ export default function ArtistPageAddToPlaylistButton({ track, className = '' }:
       <button
         onClick={(e) => {
           e.stopPropagation();
+          console.log('Track data in ArtistPageAddToPlaylistButton:', {
+            id: track.id,
+            videoId: track.videoId,
+            title: track.title,
+            artist: track.artist, // Log artist field specifically
+            thumbnail: track.thumbnail
+          });
           setShowModal(true);
         }}
         className={`p-2 text-gray-400 hover:text-white transition-colors ${className}`}
@@ -48,9 +55,10 @@ export default function ArtistPageAddToPlaylistButton({ track, className = '' }:
           onClose={() => setShowModal(false)}
           song={{
             id: track.videoId,
+            videoId: track.videoId,
             title: track.title,
-            artist: track.artist,
-            thumbnail: track.thumbnail
+            artist: track.artist || 'Unknown Artist',
+            thumbnail: track.thumbnail.startsWith('/api/proxy-image') ? track.thumbnail : `/api/proxy-image?url=${encodeURIComponent(track.thumbnail)}`
           }}
         />
       )}

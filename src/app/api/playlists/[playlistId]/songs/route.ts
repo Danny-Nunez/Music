@@ -44,6 +44,7 @@ export async function POST(
     }
     console.log('Found user:', user);
 
+    // Parse and validate request body
     let songData;
     try {
       const body = await request.json();
@@ -57,19 +58,32 @@ export async function POST(
         );
       }
       
-      if (!body.id || !body.title || !body.artist) {
+      if (!body.id || !body.title) {
         console.log('Missing required fields:', body);
         return NextResponse.json(
-          { error: 'Missing required song data fields' },
+          { error: 'Missing required song data fields (id or title)' },
           { status: 400 }
         );
       }
-      
-      songData = body;
+
+      // Create songData with required fields and ensure artist has a value
+      songData = {
+        id: body.id,
+        title: body.title,
+        artist: body.artist || 'Unknown Artist',
+        thumbnail: body.thumbnail || ''
+      };
     } catch (error) {
       console.error('Error parsing request body:', error);
       return NextResponse.json(
         { error: 'Invalid request body' },
+        { status: 400 }
+      );
+    }
+
+    if (!songData) {
+      return NextResponse.json(
+        { error: 'Failed to process song data' },
         { status: 400 }
       );
     }

@@ -580,13 +580,18 @@ export default function Header() {
                           </div>
                         </div>
                         <ArtistPageAddToPlaylistButton
-                          track={{
-                            id: result.videoId,
-                            videoId: result.videoId,
-                            title: result.name,
-                            thumbnail: `/api/proxy-image?url=${encodeURIComponent(result.thumbnails.url)}`,
-                            artist: result.author
-                          }}
+                            track={(() => {
+                              const videoResult = result as VideoResult;
+                              const track = {
+                                id: videoResult.videoId,
+                                videoId: videoResult.videoId,
+                                title: videoResult.name,
+                                thumbnail: `/api/proxy-image?url=${encodeURIComponent(videoResult.thumbnails.url)}`,
+                                artist: videoResult.author || 'Unknown Artist'
+                              };
+                              console.log('Track data being passed to ArtistPageAddToPlaylistButton:', track);
+                              return track;
+                            })()}
                           className="opacity-0 group-hover:opacity-100 video-result"
                         />
                       </div>

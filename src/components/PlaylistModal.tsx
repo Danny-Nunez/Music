@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { emitPlaylistCreated } from '../lib/events';
+import { createPortal } from 'react-dom';
 
 interface Song {
   id: string;
+  videoId?: string; // Optional videoId field
   title: string;
   artist: string;
   thumbnail: string;
@@ -90,13 +92,31 @@ export default function PlaylistModal({ onClose, song }: PlaylistModalProps) {
     setError(null);
 
     try {
-      console.log('Adding song to playlist:', { playlistId, song });
+      console.log('Adding song to playlist:', { 
+        playlistId, 
+        songData: {
+          id: song.id,
+          videoId: song.videoId,
+          title: song.title,
+          artist: song.artist,
+          thumbnail: song.thumbnail
+        }
+      });
+      
+      // Create song data with fallback for artist
+      const songData = {
+        id: song.id,
+        title: song.title,
+        artist: song.artist || 'Unknown Artist',
+        thumbnail: song.thumbnail || '/defaultcover.png'
+      };
+      
       const response = await fetch(`/api/playlists/${playlistId}/songs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(song),
+        body: JSON.stringify(songData),
       });
 
       if (!response.ok) {
@@ -123,19 +143,22 @@ export default function PlaylistModal({ onClose, song }: PlaylistModalProps) {
   };
 
   if (status === 'loading') {
-    return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-[#282828] p-6 rounded-lg">
+    const loadingContent = (
+      <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-[99999] overflow-y-auto pt-4 sm:pt-0">
+        <div className="bg-[#282828] p-6 rounded-lg mx-4 sm:mx-auto my-4 sm:my-auto">
           <div className="text-white">Loading...</div>
         </div>
       </div>
     );
+    return typeof document !== 'undefined' 
+      ? createPortal(loadingContent, document.body)
+      : null;
   }
 
   if (status !== 'authenticated') {
-    return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-[#282828] p-6 rounded-lg">
+    const unauthContent = (
+      <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-[99999] overflow-y-auto pt-4 sm:pt-0">
+        <div className="bg-[#282828] p-6 rounded-lg mx-4 sm:mx-auto my-4 sm:my-auto">
           <div className="text-white mb-4">Please log in to add songs to playlists</div>
           <button
             onClick={onClose}
@@ -146,11 +169,14 @@ export default function PlaylistModal({ onClose, song }: PlaylistModalProps) {
         </div>
       </div>
     );
+    return typeof document !== 'undefined' 
+      ? createPortal(unauthContent, document.body)
+      : null;
   }
 
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-[#282828] p-6 rounded-lg w-full max-w-md">
+  const modalContent = (
+    <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-[99999] overflow-y-auto pt-4 sm:pt-0">
+      <div className="bg-[#282828] p-6 rounded-lg w-full max-w-md mx-4 sm:mx-auto my-4 sm:my-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-white">Add to Playlist</h2>
           <button
@@ -219,4 +245,9 @@ export default function PlaylistModal({ onClose, song }: PlaylistModalProps) {
       </div>
     </div>
   );
+
+  // Use createPortal to render the modal at the root level
+  return typeof document !== 'undefined' 
+    ? createPortal(modalContent, document.body)
+    : null;
 }
