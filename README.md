@@ -186,9 +186,7 @@ Request a password reset.
 }
 ```
 
-#### YouTube Music Integration
-
-```http
+#### YouTube Music Integration```http
 GET /api/youtubemusic
 ```
 Search YouTube Music.
