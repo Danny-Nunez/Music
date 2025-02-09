@@ -70,10 +70,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
+          <div className="fixed z-[99999999]">
           <Toaster
             position="bottom-center"
             reverseOrder={false}
-          />
+          /></div>
         </Providers>
       </body>
     </html>
