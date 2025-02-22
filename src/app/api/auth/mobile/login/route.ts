@@ -58,9 +58,13 @@ export async function POST(request: Request) {
     });
 
     // Return user data and session token
-    const { password, ...userWithoutPassword } = user;
     return NextResponse.json({
-      user: userWithoutPassword,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+      },
       sessionToken: session.sessionToken,
     });
   } catch (error) {
