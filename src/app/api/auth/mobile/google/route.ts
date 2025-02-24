@@ -1,19 +1,18 @@
 import { NextResponse } from 'next/server';
-import { prisma } from 'lib/prisma';
+import { prisma } from '@/lib/prisma';  // Using the @ alias, or use relative path '../../../../../lib/prisma'
 import crypto from 'crypto';
 import { google } from 'googleapis';
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  // For mobile apps, we don't need a redirect URI since we're using the authorization code flow
-  undefined
+  undefined  // No redirect URI needed for mobile flow
 );
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { idToken: code } = body; // Rename to code since that's what it actually is
+    const { idToken: code } = body;  // Frontend sends authorization code as idToken
 
     if (!code) {
       return NextResponse.json(
