@@ -1,65 +1,68 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from 'lib/prisma';
 import crypto from 'crypto';
 import { google } from 'googleapis';
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET
+  process.env.GOOGLE_CLIENT_SECRET,
+  // For mobile apps, we don't need a redirect URI since we're using the authorization code flow
+  undefined
 );
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { idToken } = body;
+    const { idToken: code } = body; // Rename to code since that's what it actually is
 
-    if (!idToken) {
+    if (!code) {
       return NextResponse.json(
-        { error: 'Google ID token is required' },
+        { error: 'Google authorization code is required' },
         { status: 400 }
       );
     }
 
-    // Verify Google ID token
-    let payload;
+    // Exchange authorization code for tokens
+    let tokens;
     try {
-      const ticket = await oauth2Client.verifyIdToken({
-        idToken,
-        audience: process.env.GOOGLE_CLIENT_ID,
-      });
-      payload = ticket.getPayload();
+      const { tokens: authTokens } = await oauth2Client.getToken(code);
+      tokens = authTokens;
     } catch (error) {
-      console.error('Google token verification error:', error);
+      console.error('Google token exchange error:', error);
       return NextResponse.json(
-        { error: 'Invalid Google ID token' },
-        { status: 401 }
-      );
-    }
-    if (!payload) {
-      return NextResponse.json(
-        { error: 'Invalid Google ID token' },
+        { error: 'Invalid authorization code' },
         { status: 401 }
       );
     }
 
-    const { email, name, picture: image, sub: googleId } = payload;
+    // Get user info using access token
+    oauth2Client.setCredentials(tokens);
+    const oauth2 = google.oauth2('v2');
+    const { data: userInfo } = await oauth2.userinfo.get({ auth: oauth2Client });
+
+    if (!userInfo.email) {
+      return NextResponse.json(
+        { error: 'Could not get user email from Google' },
+        { status: 400 }
+      );
+    }
 
     // Find or create user
     const user = await prisma.user.upsert({
-      where: { email: email || '' },
+      where: { email: userInfo.email },
       update: {
-        name: name || null,
-        image: image || null,
+        name: userInfo.name || null,
+        image: userInfo.picture || null,
       },
       create: {
-        email: email || '',
-        name: name || null,
-        image: image || null,
+        email: userInfo.email,
+        name: userInfo.name || null,
+        image: userInfo.picture || null,
         accounts: {
           create: {
             type: 'oauth',
             provider: 'google',
-            providerAccountId: googleId,
+            providerAccountId: userInfo.id,
           },
         },
       },
