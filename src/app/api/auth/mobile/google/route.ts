@@ -53,7 +53,7 @@ export async function POST(request: Request) {
           hasName: !!userInfo.name,
           hasPicture: !!userInfo.picture
         });
-        
+
       } catch (error) {
         console.error('Google token exchange error:', error);
         return NextResponse.json(
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       try {
         const ticket = await oauth2Client.verifyIdToken({
           idToken,
-          audience: process.env.GOOGLE_CLIENT_ID,
+          audience: process.env.GOOGLE_IOS_CLIENT_ID,
         });
         const payload = ticket.getPayload();
         if (!payload) {
