@@ -12,7 +12,7 @@ const oauth2Client = new google.auth.OAuth2(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { code, redirectUri } = body;   // Accept either idToken or authorization code
+    const { code, redirectUri, idToken } = body;   // Accept either idToken or authorization code
 
     let userInfo;
 
