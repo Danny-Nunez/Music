@@ -12,13 +12,14 @@ const oauth2Client = new google.auth.OAuth2(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { code, redirectUri, idToken } = body;   // Accept either idToken or authorization code
+    const { code, redirectUri, idToken, codeVerifier } = body;   // Accept either idToken or authorization code
 
     console.log('Received auth request:', {
       hasCode: !!code,
       hasIdToken: !!idToken,
       redirectUri,
-      clientId: process.env.GOOGLE_IOS_CLIENT_ID
+      clientId: process.env.GOOGLE_IOS_CLIENT_ID,
+      hasCodeVerifier: !!codeVerifier 
     });
 
     let userInfo;
@@ -29,21 +30,29 @@ export async function POST(request: Request) {
         console.log('Attempting token exchange with:', {
           code,
           redirect_uri: redirectUri,
-          client_id: process.env.GOOGLE_IOS_CLIENT_ID
+          client_id: process.env.GOOGLE_IOS_CLIENT_ID,
+          codeVerifier  // Use camelCase
         });
-
-        const { tokens } = await oauth2Client.getToken({
+    
+        // Get token response
+        const tokenResponse = await oauth2Client.getToken({
           code,
-          redirect_uri: redirectUri
+          redirect_uri: redirectUri,
+          codeVerifier  // Use camelCase here too
         });
-
+    
+        // Check if we have tokens
+        if (!tokenResponse.tokens) {
+          throw new Error('No tokens received from Google');
+        }
+    
         console.log('Token exchange successful, got tokens:', {
-          hasAccessToken: !!tokens.access_token,
-          hasRefreshToken: !!tokens.refresh_token,
-          expiryDate: tokens.expiry_date
+          hasAccessToken: !!tokenResponse.tokens.access_token,
+          hasRefreshToken: !!tokenResponse.tokens.refresh_token,
+          expiryDate: tokenResponse.tokens.expiry_date
         });
-
-        oauth2Client.setCredentials(tokens);
+    
+        oauth2Client.setCredentials(tokenResponse.tokens);
         const oauth2 = google.oauth2('v2');
         const { data } = await oauth2.userinfo.get({ auth: oauth2Client });
         userInfo = data;
