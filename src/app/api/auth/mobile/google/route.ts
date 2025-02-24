@@ -12,14 +12,17 @@ const oauth2Client = new google.auth.OAuth2(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { idToken, code } = body;  // Accept either idToken or authorization code
+    const { code, redirectUri } = body;   // Accept either idToken or authorization code
 
     let userInfo;
 
     if (code) {
       // Authorization code flow
       try {
-        const { tokens } = await oauth2Client.getToken(code);
+        const { tokens } = await oauth2Client.getToken({
+          code,
+          redirect_uri: redirectUri
+        });
         oauth2Client.setCredentials(tokens);
         const oauth2 = google.oauth2('v2');
         const { data } = await oauth2.userinfo.get({ auth: oauth2Client });
