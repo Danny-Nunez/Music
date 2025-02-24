@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';  // Using the @ alias, or use relative path '../../../../../lib/prisma'
+import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
 import { google } from 'googleapis';
 
@@ -12,34 +12,60 @@ const oauth2Client = new google.auth.OAuth2(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { idToken: code } = body;  // Frontend sends authorization code as idToken
+    const { idToken, code } = body;  // Accept either idToken or authorization code
 
-    if (!code) {
+    let userInfo;
+
+    if (code) {
+      // Authorization code flow
+      try {
+        const { tokens } = await oauth2Client.getToken(code);
+        oauth2Client.setCredentials(tokens);
+        const oauth2 = google.oauth2('v2');
+        const { data } = await oauth2.userinfo.get({ auth: oauth2Client });
+        userInfo = data;
+      } catch (error) {
+        console.error('Google token exchange error:', error);
+        return NextResponse.json(
+          { error: 'Invalid authorization code' },
+          { status: 401 }
+        );
+      }
+    } else if (idToken) {
+      // ID Token flow
+      try {
+        const ticket = await oauth2Client.verifyIdToken({
+          idToken,
+          audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        if (!payload) {
+          return NextResponse.json(
+            { error: 'Invalid ID token' },
+            { status: 401 }
+          );
+        }
+        userInfo = {
+          id: payload.sub,
+          email: payload.email,
+          name: payload.name,
+          picture: payload.picture,
+        };
+      } catch (error) {
+        console.error('Google ID token verification error:', error);
+        return NextResponse.json(
+          { error: 'Invalid ID token' },
+          { status: 401 }
+        );
+      }
+    } else {
       return NextResponse.json(
-        { error: 'Google authorization code is required' },
+        { error: 'Either authorization code or ID token is required' },
         { status: 400 }
       );
     }
 
-    // Exchange authorization code for tokens
-    let tokens;
-    try {
-      const { tokens: authTokens } = await oauth2Client.getToken(code);
-      tokens = authTokens;
-    } catch (error) {
-      console.error('Google token exchange error:', error);
-      return NextResponse.json(
-        { error: 'Invalid authorization code' },
-        { status: 401 }
-      );
-    }
-
-    // Get user info using access token
-    oauth2Client.setCredentials(tokens);
-    const oauth2 = google.oauth2('v2');
-    const { data: userInfo } = await oauth2.userinfo.get({ auth: oauth2Client });
-
-    if (!userInfo.email) {
+    if (!userInfo?.email) {
       return NextResponse.json(
         { error: 'Could not get user email from Google' },
         { status: 400 }
@@ -61,7 +87,7 @@ export async function POST(request: Request) {
           create: {
             type: 'oauth',
             provider: 'google',
-            providerAccountId: userInfo.id,
+            providerAccountId: userInfo.id || '',  // Ensure string type
           },
         },
       },
