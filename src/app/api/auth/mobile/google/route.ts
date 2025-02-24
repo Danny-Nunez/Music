@@ -4,8 +4,8 @@ import crypto from 'crypto';
 import { google } from 'googleapis';
 
 const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_IOS_CLIENT_ID,
+  process.env.GOOGLE_EXPO_CLIENT_SECRET,
   undefined  // No redirect URI needed for mobile flow
 );
 
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       hasCode: !!code,
       hasIdToken: !!idToken,
       redirectUri,
-      clientId: process.env.GOOGLE_CLIENT_ID
+      clientId: process.env.GOOGLE_IOS_CLIENT_ID
     });
 
     let userInfo;
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
         console.log('Attempting token exchange with:', {
           code,
           redirect_uri: redirectUri,
-          client_id: process.env.GOOGLE_CLIENT_ID
+          client_id: process.env.GOOGLE_IOS_CLIENT_ID
         });
 
         const { tokens } = await oauth2Client.getToken({
