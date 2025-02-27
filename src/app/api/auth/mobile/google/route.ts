@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       hasCode: !!code,
       hasIdToken: !!idToken,
       redirectUri,
-      clientId: process.env.GOOGLE_IOS_CLIENT_ID,
+      clientId: process.env.GOOGLE_EXPO_CLIENT_ID,
       hasCodeVerifier: !!codeVerifier 
     });
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         console.log('Attempting token exchange with:', {
           code,
           redirect_uri: redirectUri,
-          client_id: process.env.GOOGLE_IOS_CLIENT_ID,
+          client_id: process.env.GOOGLE_EXPO_CLIENT_ID,
           codeVerifier  // Use camelCase
         });
     
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       try {
         const ticket = await oauth2Client.verifyIdToken({
           idToken,
-          audience: process.env.GOOGLE_IOS_CLIENT_ID,
+          audience: process.env.GOOGLE_EXPO_CLIENT_ID,
         });
         const payload = ticket.getPayload();
         if (!payload) {
