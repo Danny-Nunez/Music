@@ -3,24 +3,43 @@ import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
 import { google } from 'googleapis';
 
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_EXPO_CLIENT_ID,
-  process.env.GOOGLE_EXPO_CLIENT_SECRET,
-  undefined  // No redirect URI needed for mobile flow
-);
+// Create a function to get the appropriate OAuth client based on the client ID
+const getOAuth2Client = (clientId?: string) => {
+  // Check if this is the iOS client ID (which doesn't use a client secret)
+  const isIosClientId = clientId?.includes('g0g2t71ei8aroin55ahhtcq491tk2ts8');
+  
+  // Use the provided client ID or fall back to the Expo client ID
+  const useClientId = clientId || process.env.GOOGLE_EXPO_CLIENT_ID;
+  
+  // For iOS client ID, don't use a client secret
+  const clientSecret = isIosClientId ? '' : process.env.GOOGLE_EXPO_CLIENT_SECRET;
+  
+  return new google.auth.OAuth2(
+    useClientId,
+    clientSecret,
+    undefined  // No redirect URI needed for mobile flow
+  );
+};
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { code, redirectUri, idToken, codeVerifier } = body;   // Accept either idToken or authorization code
+    const { code, redirectUri, idToken, codeVerifier, clientId } = body;   // Accept client ID from request
+
+    // Check if this is the iOS client ID
+    const isIosClientId = clientId?.includes('g0g2t71ei8aroin55ahhtcq491tk2ts8');
 
     console.log('Received auth request:', {
       hasCode: !!code,
       hasIdToken: !!idToken,
       redirectUri,
-      clientId: process.env.GOOGLE_EXPO_CLIENT_ID,
+      clientId: clientId || process.env.GOOGLE_EXPO_CLIENT_ID,
+      isIosClientId,
       hasCodeVerifier: !!codeVerifier 
     });
+
+    // Get the appropriate OAuth client based on the request
+    const oauth2Client = getOAuth2Client(clientId);
 
     let userInfo;
 
@@ -30,7 +49,8 @@ export async function POST(request: Request) {
         console.log('Attempting token exchange with:', {
           code,
           redirect_uri: redirectUri,
-          client_id: process.env.GOOGLE_EXPO_CLIENT_ID,
+          client_id: clientId || process.env.GOOGLE_EXPO_CLIENT_ID,
+          isIosClientId,
           codeVerifier  // Use camelCase
         });
     
@@ -75,7 +95,7 @@ export async function POST(request: Request) {
       try {
         const ticket = await oauth2Client.verifyIdToken({
           idToken,
-          audience: process.env.GOOGLE_EXPO_CLIENT_ID,
+          audience: clientId || process.env.GOOGLE_EXPO_CLIENT_ID,
         });
         const payload = ticket.getPayload();
         if (!payload) {
