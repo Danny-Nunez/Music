@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
-import { OAuth2Client } from 'google-auth-library';
 
-const googleClient = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID // Your iOS client ID
-);
 
 export async function POST(request: Request) {
   try {
@@ -19,16 +15,26 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify Google token
+    // Verify Google token by using it to fetch user info
     try {
-      const ticket = await googleClient.verifyIdToken({
-        idToken: accessToken,
-        audience: process.env.GOOGLE_CLIENT_ID
+      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
       });
-      const payload = ticket.getPayload();
-      if (payload?.email !== email) {
+
+      if (!userInfoResponse.ok) {
+        console.error('Google API error:', await userInfoResponse.text());
         return NextResponse.json(
           { error: 'Invalid Google token' },
+          { status: 401 }
+        );
+      }
+
+      const userInfo = await userInfoResponse.json();
+      if (userInfo.email !== email) {
+        return NextResponse.json(
+          { error: 'Email mismatch' },
           { status: 401 }
         );
       }
