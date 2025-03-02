@@ -1,14 +1,38 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Origin': '*'
+    },
+  });
+}
+
 export async function GET(request: Request) {
   try {
+    // Log request details
+    console.log('Request method:', request.method);
+    console.log('All headers:', Object.fromEntries(request.headers.entries()));
+    
+    // Add CORS headers to response
+    const headers = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    };
+
     const sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
-    console.log('Received token:', sessionToken);
+    console.log('Raw Authorization header:', request.headers.get('Authorization'));
+    console.log('Extracted token:', sessionToken);
+
     if (!sessionToken) {
       return NextResponse.json(
         { error: 'Unauthorized' },
-        { status: 401 }
+        { status: 401, headers }
       );
     }
 
@@ -17,11 +41,16 @@ export async function GET(request: Request) {
       where: { sessionToken },
       include: { user: true }
     });
-    console.log('Found session:', session ? 'yes' : 'no');
+    console.log('Session lookup result:', session ? { 
+      id: session.id, 
+      userId: session.userId,
+      expires: session.expires 
+    } : 'not found');
+
     if (!session?.user) {
       return NextResponse.json(
         { error: 'Invalid session' },
-        { status: 401 }
+        { status: 401, headers }
       );
     }
 
@@ -37,12 +66,19 @@ export async function GET(request: Request) {
       }
     });
 
-    return NextResponse.json(playlists);
+    return NextResponse.json(playlists, { headers });
   } catch (error) {
     console.error('Error fetching playlists:', error);
     return NextResponse.json(
       { error: 'Server error' },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+        }
+      }
     );
   }
 }
