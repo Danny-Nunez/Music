@@ -40,6 +40,7 @@ export async function GET(request: Request) {
         headers: { 'Content-Type': 'application/json' }
       });
     } catch (error) {
+      console.error('Error fetching playlists:', error);
       return new Response(JSON.stringify({ error: 'Server error' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
