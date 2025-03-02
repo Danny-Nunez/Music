@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   try {
     const sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
+    console.log('Received token:', sessionToken);
     if (!sessionToken) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -16,7 +17,7 @@ export async function GET(request: Request) {
       where: { sessionToken },
       include: { user: true }
     });
-
+    console.log('Found session:', session ? 'yes' : 'no');
     if (!session?.user) {
       return NextResponse.json(
         { error: 'Invalid session' },
