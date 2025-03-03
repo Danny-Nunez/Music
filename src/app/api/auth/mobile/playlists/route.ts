@@ -25,9 +25,26 @@ export async function GET(request: Request) {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     };
 
-    const sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
-    console.log('Raw Authorization header:', request.headers.get('Authorization'));
-    console.log('Extracted token:', sessionToken);
+    // Try to get Authorization from x-vercel-sc-headers
+    let sessionToken;
+    const scHeaders = request.headers.get('x-vercel-sc-headers');
+    if (scHeaders) {
+      try {
+        const parsedHeaders = JSON.parse(scHeaders);
+        sessionToken = parsedHeaders.Authorization?.replace('Bearer ', '');
+        console.log('Token from x-vercel-sc-headers:', sessionToken);
+      } catch (e) {
+        console.error('Failed to parse x-vercel-sc-headers:', e);
+      }
+    }
+
+    // Fallback to normal Authorization header if not found in x-vercel-sc-headers
+    if (!sessionToken) {
+      sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
+      console.log('Token from Authorization header:', sessionToken);
+    }
+
+    console.log('Final token being used:', sessionToken);
 
     if (!sessionToken) {
       return NextResponse.json(
