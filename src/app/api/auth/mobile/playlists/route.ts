@@ -16,7 +16,6 @@ export async function GET(request: Request) {
   try {
     // Log request details
     console.log('Request method:', request.method);
-    console.log('All headers:', Object.fromEntries(request.headers.entries()));
     
     // Add CORS headers to response
     const headers = {
@@ -25,23 +24,24 @@ export async function GET(request: Request) {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     };
 
-    // Try to get Authorization from x-vercel-sc-headers
-    let sessionToken;
-    const scHeaders = request.headers.get('x-vercel-sc-headers');
-    if (scHeaders) {
-      try {
-        const parsedHeaders = JSON.parse(scHeaders);
-        sessionToken = parsedHeaders.Authorization?.replace('Bearer ', '');
-        console.log('Token from x-vercel-sc-headers:', sessionToken);
-      } catch (e) {
-        console.error('Failed to parse x-vercel-sc-headers:', e);
-      }
-    }
+    // Get token from Authorization header first
+    let sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
+    console.log('Token from Authorization header:', sessionToken);
 
-    // Fallback to normal Authorization header if not found in x-vercel-sc-headers
+    // If no token in Authorization header, check forwarded header
     if (!sessionToken) {
-      sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
-      console.log('Token from Authorization header:', sessionToken);
+      const forwarded = request.headers.get('forwarded');
+      if (forwarded) {
+        const match = forwarded.match(/sig=([^;]+)/);
+        if (match) {
+          const sig = match[1];
+          // Decode base64
+          const decoded = Buffer.from(sig, 'base64').toString();
+          // Extract token from "Bearer <token>"
+          sessionToken = decoded.replace('Bearer ', '');
+          console.log('Token from forwarded header:', sessionToken);
+        }
+      }
     }
 
     console.log('Final token being used:', sessionToken);
