@@ -24,23 +24,22 @@ export async function GET(request: Request) {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     };
 
-    // Get token from Authorization header first
-    let sessionToken = request.headers.get('Authorization')?.replace('Bearer ', '');
-    console.log('Token from Authorization header:', sessionToken);
-
-    // If no token in Authorization header, check forwarded header
+    // Try different headers to get the token
+    let sessionToken;
+    
+    // Try Authorization header first
+    const authHeader = request.headers.get('Authorization');
+    if (authHeader) {
+      sessionToken = authHeader.replace('Bearer ', '');
+      console.log('Token from Authorization:', sessionToken);
+    }
+    
+    // Try x-vercel-proxy-signature if no Authorization header
     if (!sessionToken) {
-      const forwarded = request.headers.get('forwarded');
-      if (forwarded) {
-        const match = forwarded.match(/sig=([^;]+)/);
-        if (match) {
-          const sig = match[1];
-          // Decode base64
-          const decoded = Buffer.from(sig, 'base64').toString();
-          // Extract token from "Bearer <token>"
-          sessionToken = decoded.replace('Bearer ', '');
-          console.log('Token from forwarded header:', sessionToken);
-        }
+      const proxySignature = request.headers.get('x-vercel-proxy-signature');
+      if (proxySignature) {
+        sessionToken = proxySignature.replace('Bearer ', '');
+        console.log('Token from proxy signature:', sessionToken);
       }
     }
 
