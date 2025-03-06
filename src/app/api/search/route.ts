@@ -45,9 +45,22 @@ interface VideoResult {
   type: 'video';
 }
 
+interface LiveResult {
+  id: string;
+  title: string;
+  thumbnail: string;
+  viewers: number;
+  channel: {
+    name: string;
+    thumbnail: string;
+  };
+  type: 'live';
+}
+
 interface SearchResults {
   artists: ArtistResult[];
   videos: VideoResult[];
+  live: LiveResult[];
 }
 
 export async function GET(request: Request) {
@@ -99,6 +112,7 @@ export async function GET(request: Request) {
 
     // Fetch video results using scrape-youtube
     const videoResults = await youtube.search(query);
+    const liveResultsRaw = await youtube.search(query, { type: 'live' });
     const formattedVideoResults: VideoResult[] = videoResults.videos.map(video => ({
       id: video.id,
       title: video.title,
@@ -113,16 +127,35 @@ export async function GET(request: Request) {
       type: 'video' as const
     }));
 
+    const liveResults = liveResultsRaw.streams.map(live => ({
+      id: live.id,
+      title: live.title,
+      thumbnail: live.thumbnail,
+      link: `https://youtu.be/${live.id}`,
+      watching: live.viewers,
+      channel: {
+        name: live.channel.name,
+        thumbnail: live.channel.thumbnail,
+        id: live.channel.id,
+        handle: live.channel.handle,
+        verified: live.channel.verified,
+        link: `https://www.youtube.com/${live.channel.handle}`
+      },
+      type: 'live' as const
+    }))
+
     // Combine results
     const results: SearchResults = {
       artists: artistResults,
-      videos: formattedVideoResults
+      videos: formattedVideoResults,
+      live: liveResults
     };
 
     console.log('Search results:', {
       query,
       artistCount: results.artists.length,
-      videoCount: results.videos.length
+      videoCount: results.videos.length,
+      liveCount: results.live.length
     });
 
     return NextResponse.json(results);
