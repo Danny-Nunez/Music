@@ -26,7 +26,7 @@ const RADIO_SEARCH_TERMS = [
   "CNN News",
   "NBC News",
   "ABC News",
-  "Univision News"
+  "Telemundo Noticias"
 ];
 
 export async function GET() {
