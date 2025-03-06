@@ -46,12 +46,12 @@ export async function GET() {
             title: liveStream.title,
             thumbnail: liveStream.thumbnail,
             link: `https://youtu.be/${liveStream.id}`,
-            watching: liveStream.viewers,
+            watching: liveStream?.watching || 0,
             channel: {
               id: liveStream.channel.id,
               name: liveStream.channel.name,
-              link: `https://www.youtube.com/${liveStream.channel.handle}`,
-              handle: liveStream.channel.handle,
+              link: `https://www.youtube.com/${liveStream.channel.handle || ""}`,
+              handle: liveStream.channel.handle || "",
               verified: liveStream.channel.verified,
               thumbnail: liveStream.channel.thumbnail
             }
