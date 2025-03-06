@@ -25,7 +25,7 @@ const RADIO_SEARCH_TERMS = [
   "One World Radio",
   "Classic Rock",
   "Today's Hits",
-  "Hip Hop Radio",
+  "Hip Hop Hits Radio",
   "Spanish Hits Radio"
 ];
 
