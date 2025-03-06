@@ -132,7 +132,7 @@ export async function GET(request: Request) {
       title: live.title,
       thumbnail: live.thumbnail,
       link: `https://youtu.be/${live.id}`,
-      watching: live.viewers,
+      watching: live?.watching || 0,
       channel: {
         name: live.channel.name,
         thumbnail: live.channel.thumbnail,
