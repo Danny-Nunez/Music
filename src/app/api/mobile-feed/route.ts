@@ -189,6 +189,9 @@ export async function GET(): Promise<Response> {
             const renderer = item.musicTwoRowItemRenderer;
             if (!renderer) return null;
 
+            const playlistId = renderer.menu?.menuRenderer?.items?.[0]?.menuNavigationItemRenderer?.navigationEndpoint?.watchPlaylistEndpoint?.playlistId;
+            if (!playlistId) return null;
+
             const itemThumbnails = renderer.thumbnailRenderer?.musicThumbnailRenderer?.thumbnail?.thumbnails || [];
             const subtitleRuns = renderer.subtitle?.runs || [];
             
@@ -204,7 +207,7 @@ export async function GET(): Promise<Response> {
               type: subtitleRuns.find((run: SubtitleRun) => run.text === 'Album' || run.text === 'Single')?.text || ''
             };
           })
-          .filter((item): item is YouTubeMusicItem => item !== null);
+          .filter((item): item is YouTubeMusicItem => item !== null && item.playlistId !== '');
 
         return {
           title,
@@ -214,7 +217,7 @@ export async function GET(): Promise<Response> {
           contents
         };
       })
-      .filter(Boolean);
+      .filter((section) => section.contents.length > 0);
 
     console.log('📦 Processing YouTube Music data...');
 
@@ -235,10 +238,12 @@ export async function GET(): Promise<Response> {
       const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
           {
-            public_id: 'response-mobile.json', // Fixed filename that will be overwritten
+            public_id: 'response-mobile', // Fixed filename without extension
             resource_type: 'raw',       // Set as 'raw' for JSON files
             tags: ['mobile-feed', 'youtube-music'], // Add tags for better organization
             overwrite: true,           // Ensure it overwrites the existing file
+            format: 'json',            // Add format explicitly
+            invalidate: true           // Invalidate CDN cache
           },
           (error, result) => {
             if (error || !result) {
@@ -257,39 +262,69 @@ export async function GET(): Promise<Response> {
 
       console.log('📎 Cloudinary URL:', uploadResult.secure_url);
 
-      return new Response(
+      const response = new Response(
         JSON.stringify({ 
           success: true,
           musicItems,
           cloudinaryUrl: uploadResult.secure_url,
           timestamp: new Date().toISOString()
         }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+        { 
+          status: 200, 
+          headers: { 
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+            'Surrogate-Control': 'no-store'
+          } 
+        }
       );
+      return response;
     } catch (uploadError) {
       console.error('❌ Error uploading to Cloudinary:', uploadError);
       // If Cloudinary upload fails, still return the music items
-      return new Response(
+      const errorResponse = new Response(
         JSON.stringify({ 
           success: true,
           musicItems,
           error: 'Failed to upload to Cloudinary, but data is still available',
           timestamp: new Date().toISOString()
         }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+        { 
+          status: 200, 
+          headers: { 
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+            'Surrogate-Control': 'no-store'
+          } 
+        }
       );
+      return errorResponse;
     }
   } catch (error) {
     console.error('❌ Error fetching YouTube Music data:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    return new Response(
+    const failureResponse = new Response(
       JSON.stringify({ 
         success: false, 
         error: 'Failed to fetch YouTube Music data',
         details: errorMessage,
         timestamp: new Date().toISOString()
       }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { 
+        status: 500, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store'
+        } 
+      }
     );
+    return failureResponse;
   }
 }
