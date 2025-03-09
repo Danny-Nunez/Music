@@ -53,9 +53,14 @@ export async function GET(req: NextRequest) {
       timeoutPromise
     ]) as Awaited<ReturnType<typeof playlist_info>>;
 
-    // Get only the first page of videos
+    // Get videos based on playlist size
     const videos = await Promise.race([
       (async () => {
+        // If total videos is less than max, get all videos
+        if (playlistInfo.total_videos && playlistInfo.total_videos <= MAX_VIDEOS) {
+          return await playlistInfo.all_videos();
+        }
+        // Otherwise get first page only
         const firstPage = await playlistInfo.next();
         return firstPage?.slice(0, MAX_VIDEOS) || [];
       })(),
