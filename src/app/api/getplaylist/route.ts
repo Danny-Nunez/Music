@@ -15,7 +15,7 @@ interface PlayDLVideo {
 // Default timeout of 30 seconds
 const TIMEOUT = 30000;
 // Maximum of 60 videos per playlist
-const MAX_VIDEOS = 100;
+const MAX_VIDEOS = 80;
 
 export async function GET(req: NextRequest) {
   // Create a timeout promise
