@@ -12,19 +12,12 @@ interface PlayDLVideo {
   };
 }
 
-// Default timeout of 30 seconds
-const TIMEOUT = 30000;
-// Maximum of 60 videos per playlist
-const MAX_VIDEOS = 80;
+// Single timeout value for all operations
+const TIMEOUT = 15000;
+// Maximum videos to return
+const MAX_VIDEOS = 65;
 
 export async function GET(req: NextRequest) {
-  // Create a timeout promise
-  const timeoutPromise = new Promise((_, reject) => {
-    setTimeout(() => {
-      reject(new Error('Request timeout'));
-    }, TIMEOUT);
-  });
-
   const { searchParams } = new URL(req.url);
   const playlistUrl = searchParams.get('url');
 
@@ -36,7 +29,6 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-
     // Extract playlist ID from URL
     const playlistId = playlistUrl.split('list=')[1]?.split('&')[0];
     
@@ -50,24 +42,29 @@ export async function GET(req: NextRequest) {
     // Get playlist info
     const playlistInfo = await Promise.race([
       playlist_info(playlistUrl, { incomplete: true }),
-      timeoutPromise
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT))
     ]) as Awaited<ReturnType<typeof playlist_info>>;
 
-    // Get videos based on playlist size
-    const videos = await Promise.race([
-      (async () => {
-        // If total videos is less than max, get all videos
-        if (playlistInfo.total_videos && playlistInfo.total_videos <= MAX_VIDEOS) {
-          return await playlistInfo.all_videos();
-        }
-        // Otherwise get first page only
-        const firstPage = await playlistInfo.next();
-        return firstPage?.slice(0, MAX_VIDEOS) || [];
-      })(),
-      timeoutPromise
-    ]) as PlayDLVideo[];
+    // Always try all_videos first with a quick timeout
+    let videos: PlayDLVideo[] = [];
+    try {
+      videos = await Promise.race([
+        playlistInfo.all_videos(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Quick timeout')), 5000))
+      ]) as PlayDLVideo[];
+    } catch {
+      // If quick all_videos fails, try next() with full timeout
+      const firstPage = await Promise.race([
+        playlistInfo.next(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT))
+      ]) as PlayDLVideo[];
+      videos = firstPage || [];
+    }
+
+    // Ensure we don't exceed MAX_VIDEOS
+    const limitedVideos = videos.slice(0, MAX_VIDEOS);
     
-    const playlist = videos.map(video => ({
+    const playlist = limitedVideos.map(video => ({
       id: video.id,
       title: video.title,
       url: `https://www.youtube.com/watch?v=${video.id}`,
@@ -85,8 +82,8 @@ export async function GET(req: NextRequest) {
         thumbnail: playlistInfo.thumbnail?.url,
         videos: playlist,
         totalVideos: playlistInfo.total_videos || videos.length,
-        returnedVideos: videos.length,
-        limited: (playlistInfo.total_videos || videos.length) > videos.length
+        returnedVideos: playlist.length,
+        limited: (playlistInfo.total_videos || videos.length) > playlist.length
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
