@@ -1,13 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+import { getToken } from 'next-auth/jwt';
+
+export async function middleware(request: NextRequest) {
   // Skip NextAuth for /api/mobile paths
   if (request.nextUrl.pathname.startsWith('/api/mobile')) {
     return NextResponse.next();
   }
 
-  // Continue with default handling for other paths
+  // For all other paths, check for session
+  const session = await getToken({ req: request });
+  if (!session && !request.nextUrl.pathname.startsWith('/api/mobile')) {
+    return NextResponse.redirect(new URL('/auth/signin', request.url));
+  }
+
   return NextResponse.next();
 }
 
