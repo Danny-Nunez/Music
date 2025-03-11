@@ -4,14 +4,14 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function middleware(request: NextRequest) {
-  // Skip NextAuth for /api/mobile paths
-  if (request.nextUrl.pathname.startsWith('/api/mobile')) {
+  // Skip NextAuth for mobile API paths
+  if (request.nextUrl.pathname.startsWith('/api/mobile') || request.nextUrl.pathname.startsWith('/api/auth/mobile')) {
     return NextResponse.next();
   }
 
   // For all other paths, check for session
   const session = await getToken({ req: request });
-  if (!session && !request.nextUrl.pathname.startsWith('/api/mobile')) {
+  if (!session) {
     return NextResponse.redirect(new URL('/auth/signin', request.url));
   }
 
@@ -21,6 +21,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/api/:path*',
-    '/((?!api/mobile|_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };
