@@ -6,28 +6,16 @@
     }
   ],
   "buildCommand": "prisma generate && next build",
-  "rewrites": [
-    {
-      "source": "/api/mobile/:path*",
-      "has": [
-        {
-          "type": "method",
-          "value": "POST"
-        }
-      ],
-      "destination": "/api/mobile/:path*?_method=POST"
+  "functions": {
+    "api/mobile/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
     },
-    {
-      "source": "/api/auth/mobile/:path*",
-      "has": [
-        {
-          "type": "method",
-          "value": "POST"
-        }
-      ],
-      "destination": "/api/auth/mobile/:path*?_method=POST"
+    "api/auth/mobile/**/*": {
+      "memory": 1024,
+      "maxDuration": 10
     }
-  ],
+  },
   "headers": [
     {
       "source": "/(.*)",

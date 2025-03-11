@@ -2,16 +2,20 @@ import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return [
-      {
-        source: '/api/mobile/:path*',
-        destination: '/api/mobile/:path*',
-      },
-      {
-        source: '/api/auth/mobile/:path*',
-        destination: '/api/auth/mobile/:path*',
-      },
-    ];
+    return {
+      beforeFiles: [
+        {
+          source: '/api/mobile/proxy/:path*',
+          destination: '/api/mobile/:path*',
+        },
+        {
+          source: '/api/auth/mobile/proxy/:path*',
+          destination: '/api/auth/mobile/:path*',
+        }
+      ],
+      afterFiles: [],
+      fallback: []
+    };
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
