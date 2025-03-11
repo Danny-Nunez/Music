@@ -24,7 +24,7 @@ export async function resetPassword(email: string): Promise<void> {
 }
 
 export const authOptions: NextAuthOptions = {
-  debug: true,
+  debug: false,
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({
