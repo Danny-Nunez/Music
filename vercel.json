@@ -1,21 +1,5 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "buildCommand": "prisma generate && next build",
-  "functions": {
-    "api/mobile/**/*": {
-      "memory": 1024,
-      "maxDuration": 10
-    },
-    "api/auth/mobile/**/*": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
