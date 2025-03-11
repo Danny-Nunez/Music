@@ -1,27 +1,33 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Session-Token'
+};
+
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
-    headers: {
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, X-Session-Token',
-      'Access-Control-Allow-Origin': '*'
-    },
+    headers: corsHeaders
   });
+}
+
+export async function GET() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { 
+      status: 405,
+      headers: corsHeaders
+    }
+  );
 }
 
 export async function POST(request: Request) {
   try {
     console.log('Received POST request to add song to playlist');
     console.log('Request headers:', Object.fromEntries(request.headers.entries()));
-
-    const headers = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, X-Session-Token'
-    };
 
     // Get token from custom header
     const sessionToken = request.headers.get('x-session-token');
@@ -31,7 +37,7 @@ export async function POST(request: Request) {
       console.log('No session token provided');
       return NextResponse.json(
         { error: 'Unauthorized' },
-        { status: 401, headers }
+        { status: 401, headers: corsHeaders }
       );
     }
 
@@ -50,7 +56,7 @@ export async function POST(request: Request) {
       console.log('Invalid session');
       return NextResponse.json(
         { error: 'Invalid session' },
-        { status: 401, headers }
+        { status: 401, headers: corsHeaders }
       );
     }
 
@@ -63,7 +69,7 @@ export async function POST(request: Request) {
       console.log('Missing required fields in request');
       return NextResponse.json(
         { error: 'Missing required fields' },
-        { status: 400, headers }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -79,7 +85,7 @@ export async function POST(request: Request) {
       console.log('Playlist not found or unauthorized');
       return NextResponse.json(
         { error: 'Playlist not found or unauthorized' },
-        { status: 404, headers }
+        { status: 404, headers: corsHeaders }
       );
     }
 
@@ -130,7 +136,7 @@ export async function POST(request: Request) {
         message: 'Song added to playlist',
         song: result
       },
-      { headers }
+      { headers: corsHeaders }
     );
 
   } catch (error: unknown) {
@@ -142,11 +148,7 @@ export async function POST(request: Request) {
       },
       { 
         status: 500,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, X-Session-Token'
-        }
+        headers: corsHeaders
       }
     );
   }
