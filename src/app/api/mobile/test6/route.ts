@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
   console.log('=== GET /api/mobile/test6 ===');
   console.log('URL:', req.url);
   console.log('Headers:', Object.fromEntries(req.headers.entries()));
+  
 
   try {
     // Get data from query parameter
