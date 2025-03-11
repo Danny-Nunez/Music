@@ -17,7 +17,7 @@ interface PlaylistWithSongs {
 
 export async function POST(
   request: Request,
-  { params }: { params: { playlistId: string } }
+  context: { params: { playlistId: string } }
 ) {
   try {
     console.log('Starting mobile song addition process...');
@@ -53,7 +53,7 @@ export async function POST(
       );
     }
 
-    const { playlistId } = params;
+    const { playlistId } = context.params;
     if (!playlistId) {
       throw new Error('No playlistId available');
     }
