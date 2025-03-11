@@ -8,7 +8,7 @@
   "buildCommand": "prisma generate && next build",
   "rewrites": [
     {
-      "source": "/api/mobile/playlists/add-song",
+      "source": "/api/auth/mobile/playlists/add-song",
       "destination": "/api/mobile/playlists/add-song"
     }
   ],
