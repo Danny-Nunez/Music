@@ -9,11 +9,23 @@
   "rewrites": [
     {
       "source": "/api/mobile/:path*",
-      "destination": "/api/mobile/:path*"
+      "has": [
+        {
+          "type": "method",
+          "value": "POST"
+        }
+      ],
+      "destination": "/api/mobile/:path*?_method=POST"
     },
     {
       "source": "/api/auth/mobile/:path*",
-      "destination": "/api/auth/mobile/:path*"
+      "has": [
+        {
+          "type": "method",
+          "value": "POST"
+        }
+      ],
+      "destination": "/api/auth/mobile/:path*?_method=POST"
     }
   ],
   "headers": [
