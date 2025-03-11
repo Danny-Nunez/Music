@@ -6,6 +6,12 @@
     }
   ],
   "buildCommand": "prisma generate && next build",
+  "rewrites": [
+    {
+      "source": "/api/mobile/playlists/add-song",
+      "destination": "/api/mobile/playlists/add-song"
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

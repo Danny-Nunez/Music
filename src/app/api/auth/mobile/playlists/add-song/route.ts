@@ -12,8 +12,24 @@ export async function OPTIONS() {
   });
 }
 
+export async function GET() {
+  return new NextResponse(
+    JSON.stringify({ error: 'Method not allowed' }),
+    { 
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    }
+  );
+}
+
 export async function POST(request: Request) {
   try {
+    console.log('Received POST request to add song to playlist');
+    console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+
     const headers = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -25,6 +41,7 @@ export async function POST(request: Request) {
     console.log('Session token from custom header:', sessionToken);
 
     if (!sessionToken) {
+      console.log('No session token provided');
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401, headers }
@@ -43,6 +60,7 @@ export async function POST(request: Request) {
     } : 'not found');
 
     if (!session?.user) {
+      console.log('Invalid session');
       return NextResponse.json(
         { error: 'Invalid session' },
         { status: 401, headers }
@@ -51,9 +69,11 @@ export async function POST(request: Request) {
 
     // Parse request body
     const body = await request.json();
+    console.log('Request body:', body);
     const { playlistId, song } = body;
 
     if (!playlistId || !song?.videoId || !song?.title || !song?.artist || !song?.thumbnail) {
+      console.log('Missing required fields in request');
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400, headers }
@@ -69,6 +89,7 @@ export async function POST(request: Request) {
     });
 
     if (!playlist) {
+      console.log('Playlist not found or unauthorized');
       return NextResponse.json(
         { error: 'Playlist not found or unauthorized' },
         { status: 404, headers }
@@ -77,6 +98,7 @@ export async function POST(request: Request) {
 
     // Add song to playlist using a transaction
     const result = await prisma.$transaction(async (tx) => {
+      console.log('Starting transaction to add song');
       // Create or update the song
       const upsertedSong = await tx.song.upsert({
         where: { videoId: song.videoId },
@@ -92,15 +114,17 @@ export async function POST(request: Request) {
           thumbnail: song.thumbnail
         }
       });
+      console.log('Upserted song:', upsertedSong);
 
       // Create the playlist-song connection if it doesn't exist
       try {
-        await tx.playlistSong.create({
+        const playlistSong = await tx.playlistSong.create({
           data: {
             playlistId: playlist.id,
             songId: upsertedSong.videoId
           }
         });
+        console.log('Created playlist-song connection:', playlistSong);
       } catch (error: unknown) {
         // If the song is already in the playlist, we can ignore the unique constraint error
         if (error instanceof Error && 'code' in error && error.code !== 'P2002') { // P2002 is Prisma's unique constraint violation error
@@ -112,6 +136,7 @@ export async function POST(request: Request) {
       return upsertedSong;
     });
 
+    console.log('Successfully added song to playlist');
     return NextResponse.json(
       { 
         success: true,
