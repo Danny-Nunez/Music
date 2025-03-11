@@ -27,8 +27,15 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    console.log('Received POST request to add song to playlist');
-    console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+    console.log('=== POST /api/auth/mobile/playlists/add-song ===');
+    console.log('Method:', request.method);
+    console.log('URL:', request.url);
+    console.log('Headers:', Object.fromEntries(request.headers.entries()));
+    
+    // Clone request to read body multiple times
+    const clonedRequest = request.clone();
+    const rawBody = await clonedRequest.text();
+    console.log('Raw request body:', rawBody);
 
     const headers = {
       'Access-Control-Allow-Origin': '*',
