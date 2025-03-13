@@ -5,7 +5,11 @@ import { getToken } from 'next-auth/jwt';
 
 export async function middleware(request: NextRequest) {
   // Skip auth check for mobile API paths
-  if (request.nextUrl.pathname.startsWith('/api/mobile') || request.nextUrl.pathname.startsWith('/api/auth/mobile')) {
+  if (
+    request.nextUrl.pathname.startsWith('/api/mobile') || 
+    request.nextUrl.pathname.startsWith('/api/auth/mobile') ||
+    request.nextUrl.pathname.startsWith('/api/playlists/mobile')
+  ) {
     console.log('Skipping auth for mobile path:', request.nextUrl.pathname);
     return NextResponse.next();
   }
@@ -23,7 +27,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Include all API routes except mobile paths
-    '/(api/(?!mobile|auth/mobile).*)',
+    '/(api/(?!mobile|auth/mobile|playlists/mobile).*)',
     // Include all non-API routes except static assets
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
