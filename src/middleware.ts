@@ -1,34 +1,40 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import { getToken } from 'next-auth/jwt';
-
-export async function middleware(request: NextRequest) {
-  // Skip auth check for mobile API paths
-  if (
-    request.nextUrl.pathname.startsWith('/api/mobile') || 
-    request.nextUrl.pathname.startsWith('/api/auth/mobile') ||
-    request.nextUrl.pathname.startsWith('/api/playlists/mobile')
-  ) {
-    console.log('Skipping auth for mobile path:', request.nextUrl.pathname);
-    return NextResponse.next();
+export function middleware(request: NextRequest) {
+  // Handle CORS preflight requests
+  if (request.method === 'OPTIONS') {
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, X-Session-Token',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Max-Age': '86400',
+      },
+    });
   }
 
-  // For all other paths, check for session
-  const session = await getToken({ req: request });
-  if (!session) {
-    console.log('No session, redirecting to signin');
-    return NextResponse.redirect(new URL('/auth/signin', request.url));
-  }
+  // Handle actual request
+  const response = NextResponse.next();
 
-  return NextResponse.next();
+  // Add CORS headers to all responses
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, X-Session-Token');
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
+
+  return response;
 }
 
+// Configure which paths should be processed by this middleware
 export const config = {
   matcher: [
-    // Include all API routes except mobile paths
-    '/(api/(?!mobile|auth/mobile|playlists/mobile).*)',
-    // Include all non-API routes except static assets
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/api/:path*',
+    '/api/popular-artists',
+    '/api/proxy-image',
+    '/api/search',
+    '/api/get-latest-cloudinary-url',
   ],
 };
