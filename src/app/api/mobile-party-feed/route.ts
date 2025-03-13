@@ -156,7 +156,7 @@ interface YouTubeResponse {
   };
 }
 
-const YOUTUBE_MUSIC_URL = 'https://music.youtube.com/youtubei/v1/browse?ctoken=4qmFsgKJAxIMRkVtdXNpY19ob21lGvgCQ0FaNnl3RkhUMHhSYzNVeUxXZEpkMFJYYjFGQ1EyOUZRa05wVWpWa1JqbDNXVmRrYkZnelRuVlpXRUo2WVVjNU1GZ3lNVEZqTW14cVdETkNhRm95Vm1aamJWWnVZVmM1ZFZsWGQxTklNRlUwWW0xM2QyTkhNVmxhV0hCMlZqRkdSR0ZXVG5GbFIzaERWVlZvTWxOSGNGbGhNbVJZVVcxellVOUZNVEZqTW14cVVrZHNlbGt5T1RKYVdFbzFWVWRHYmxwV1RteGpibHB3V1RKVmRGSXlWakJUUnpsMFdsWkNhRm95VlVGQlVVSnNZbWRCUWxaV1RVRkJWbFpVUVVGRlFrRjNSVTh0Y0hwSWRsRnJRME5CWTRJRFFrb0VDQXdRQVVvRUNBa1FBVW9FQ0FRUUFVb0VDQWdRQVVvRUNBY1FBVW9FQ0E0UUEwb0VDQU1RQVVvRUNBMFFBVW9FQ0FvUUFVb0VDQVlRQVVvRUNBVVFBUSUzRCUzRA%253D%253D&continuation=4qmFsgKJAxIMRkVtdXNpY19ob21lGvgCQ0FaNnl3RkhUMHhSYzNVeUxXZEpkMFJYYjFGQ1EyOUZRa05wVWpWa1JqbDNXVmRrYkZnelRuVlpXRUo2WVVjNU1GZ3lNVEZqTW14cVdETkNhRm95Vm1aamJWWnVZVmM1ZFZsWGQxTklNRlUwWW0xM2QyTkhNVmxhV0hCMlZqRkdSR0ZXVG5GbFIzaERWVlZvTWxOSGNGbGhNbVJZVVcxellVOUZNVEZqTW14cVVrZHNlbGt5T1RKYVdFbzFWVWRHYmxwV1RteGpibHB3V1RKVmRGSXlWakJUUnpsMFdsWkNhRm95VlVGQlVVSnNZbWRCUWxaV1RVRkJWbFpVUVVGRlFrRjNSVTh0Y0hwSWRsRnJRME5CWTRJRFFrb0VDQXdRQVVvRUNBa1FBVW9FQ0FRUUFVb0VDQWdRQVVvRUNBY1FBVW9FQ0E0UUEwb0VDQU1RQVVvRUNBMFFBVW9FQ0FvUUFVb0VDQVlRQVVvRUNBVVFBUSUzRCUzRA%253D%253D&type=next&itct=CAIQybcCIhMI7b_x7r6AjAMVLYXkBh2lUxs_&prettyPrint=false';
+const YOUTUBE_MUSIC_URL = 'https://music.youtube.com/youtubei/v1/browse?prettyPrint=false';
 
 const defaultRequestBody = {
   "context": {
@@ -166,29 +166,30 @@ const defaultRequestBody = {
       "remoteHost": "96.244.37.40",
       "deviceMake": "Apple",
       "deviceModel": "",
-      "visitorData": "CgtxazJ6azlZeDZ4OCjesr2-BjIKCgJVUxIEGgAgOA%3D%3D",
+      "visitorData": "CgtxazJ6azlZeDZ4OCi71MW-BjIKCgJVUxIEGgAgOA%3D%3D",
       "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36,gzip(gfe)",
       "clientName": "WEB_REMIX",
       "clientVersion": "1.20250305.01.00",
       "osName": "Macintosh",
       "osVersion": "10_15_7",
-      "originalUrl": "https://music.youtube.com/",
+      "originalUrl": "https://music.youtube.com/moods_and_genres",
       "screenPixelDensity": 2,
       "platform": "DESKTOP",
       "clientFormFactor": "UNKNOWN_FORM_FACTOR",
       "configInfo": {
-        "appInstallData": "CN6yvb4GEJXkzhwQibDOHBDW8v8SEK_lzhwQ3cjOHBCT2c4cEIiHsAUQvoqwBRC4284cEPirsQUQztrOHBCe0LAFENvazhwQ7d7OHBCE-f8SELjkzhwQ4riwBRD2q7AFELfq_hIQlPyvBRDJ968FENPhrwUQ3rzOHBDr6P4SEOTn_xIQvZmwBRCU_rAFEO_ZzhwQudnOHBDf3M4cEJ7bzhwQmufOHBCBzc4cEPyyzhwQ8JywBRDM364FEN_YzhwQ44O4IhCZjbEFEL22rgUQhL3OHBDg4P8SEIjjrwUQh6zOHBCCg7giEN6tsQUQu9nOHBD63c4cEL6-zhwQ8OLOHBCZmLEFEMnmsAUQgNHOHBCF4c4cKiRDQU1TRlJVV3BiMndETnprQm9PejlBdm1vUWo2N0FNZEJ3PT0%3D",
-        "coldConfigData": "CN6yvb4GGjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQSIyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEEwAQ%3D%3D",
-        "coldHashData": "CKa8vb4GEhQxMzY4OTgzMTgxNjcwMDY5MTY3NRimvL2-BjIyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE6MkFPakZveDNCa05tOU9Ka2JaMWFpTzJkaDEyakRJRkowOUR4QWtwb0ltV01zVXNhdTBBQlhDQU1TUEEwUnVOMjNBdDRVemczdktjYzJ1c2ViRVBJVnR3T1lMUlVscHQ2MUg1cTdCdjlaMWNZRTFNNEdpTGdHcUJYZlc3eXFCdFktdUd5VGpRWHZLQT09",
-        "hotHashData": "CKa8vb4GEhM1MDkwODgzODc0MjY1NzY0ODc4GKa8vb4GKJTk_BIo2pn-EijIyv4SKK7M_hIot-r-EiiygP8SKMGD_xIopcf_Eii9zv8SKOvZ_xIo4OD_Eijk5_8SKPzt_xIo1vL_EijF9_8SKIT5_xIoyPn_EjIyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE6MkFPakZveDNCa05tOU9Ka2JaMWFpTzJkaDEyakRJRkowOUR4QWtwb0ltV01zVXNhdTBBQhxDQU1TRVEwQnlKSDRGWk5ORlFDYjdxZ2YyTTBK"
+        "appInstallData": "CLvUxb4GENPhrwUQ4OD_EhDW8v8SELvZzhwQ_LLOHBCJ9_8SEPCcsAUQlPyvBRC9tq4FEParsAUQztrOHBCT2c4cEJT-sAUQ29rOHBDJ968FEIHNzhwQmZixBRC52c4cEL2ZsAUQ6-j-EhCHrM4cEO3ezhwQmufOHBCe0LAFEN68zhwQntvOHBC45M4cEIKDuCIQyeawBRC-vs4cEOTn_xIQzN-uBRDw4s4cELfq_hIQuNvOHBCW5M4cEO_szhwQiIewBRDdyM4cEOODuCIQhL3OHBDf3M4cEOK4sAUQmY2xBRCJsM4cEIjjrwUQ79nOHBC-irAFEIT5_xIQ-KuxBRCA0c4cEIXhzhwqJENBTVNGUlVXcGIyd0ROemtCb096OUF2bW9RajY3QU1kQnc9PQ%3D%3D",
+        "coldConfigData": "CLvUxb4GGjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQSIyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE%3D",
+        "coldHashData": "CLvUxb4GEhM4MzcyMjg4Nzg1MDY2MDg0NzkyGLvUxb4GMjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQToyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE%3D",
+        "hotHashData": "CLvUxb4GEhM1MDkwODgzODc0MjY1NzY0ODc4GLvUxb4GMjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQToyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE%3D"
       },
       "screenDensityFloat": 2,
       "timeZone": "America/New_York",
       "browserName": "Chrome",
       "browserVersion": "133.0.0.0",
       "acceptHeader": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-      "deviceExperimentId": "ChxOelE0TURJNU5UYzJOemMyTnpZME1EY3lOQT09EN6yvb4GGN6yvb4G",
-      "screenWidthPoints": 399,
+      "deviceExperimentId": "ChxOelE0TURnM056STFPRFF6T1RBeE1EVXpOQT09ELvUxb4GGLvUxb4G",
+      "rolloutToken": "COiJ74u7ksqFjwEQ0IHb3ZuUigMYxIudz7GCjAM%3D",
+      "screenWidthPoints": 608,
       "screenHeightPoints": 866,
       "utcOffsetMinutes": -240,
       "userInterfaceTheme": "USER_INTERFACE_THEME_LIGHT",
@@ -205,32 +206,39 @@ const defaultRequestBody = {
     },
     "request": {
       "useSsl": true,
-      "internalExperimentFlags": [],
-      "consistencyTokenJars": []
+      "consistencyTokenJars": [{
+        "encryptedTokenJarContents": "AKreu9uMaCWmUMNJu7VBeSuEHjjZlapvbAq9oCTxffXvIgZS4qjgmFDIyPUgudhW5HNGSKLDbTyYB45XOjoKVKQKAWshQJrWq-wU1iqd_GBOXqK4i-G2Ezp1FxcyQbrj3f2gMbEd6CE9SXM9NqcFXghIBlXPIlVay9_jrqL3PHksMubKtXQujnIZ9veWGsr4rGuElUF3nMFj5enhnazVarxhFAJkprX9iTtFSKGAHy4cpCfBSev-rTaj-NXg2h3RDw"
+      }],
+      "internalExperimentFlags": []
+    },
+    "clickTracking": {
+      "clickTrackingParams": "CCUQuKEFGAYiEwiHqYDasoSMAxXDm-QGHQ9AJDs="
     },
     "adSignalsInfo": {
       "params": [
-        {"key": "dt", "value": "1741642078835"},
+        {"key": "dt", "value": "1741777468593"},
         {"key": "flash", "value": "0"},
         {"key": "frm", "value": "0"},
         {"key": "u_tz", "value": "-240"},
-        {"key": "u_his", "value": "36"},
+        {"key": "u_his", "value": "45"},
         {"key": "u_h", "value": "1120"},
         {"key": "u_w", "value": "1792"},
-        {"key": "u_ah", "value": "1013"},
+        {"key": "u_ah", "value": "1019"},
         {"key": "u_aw", "value": "1792"},
         {"key": "u_cd", "value": "24"},
         {"key": "bc", "value": "31"},
         {"key": "bih", "value": "866"},
-        {"key": "biw", "value": "399"},
-        {"key": "brdim", "value": "107,42,107,42,1792,25,1392,987,399,866"},
+        {"key": "biw", "value": "608"},
+        {"key": "brdim", "value": "191,30,191,30,1792,25,1533,987,608,866"},
         {"key": "vis", "value": "1"},
         {"key": "wgl", "value": "true"},
         {"key": "ca_type", "value": "image"}
       ],
-      "bid": "ANyPxKq1SqC4dlDjZBIiNtukG3Vsqqir2cholmuT5wnQAkcttj3pxDb_BMuKKMfZg2_HwMKY2Ijz"
+      "bid": "ANyPxKoQk2jhXmf0cNdFTCAdTSYjTgtpGa-3vel3UoO6-PyXKkrfeXbi4zBfbUaPBAjZyRMUbCsf"
     }
-  }
+  },
+  "browseId": "FEmusic_moods_and_genres_category",
+  "params": "ggMPOg1uX2w1aW1CRDFTSUNo"
 };
 
 function processRenderer(renderer: YouTubeRenderer): YouTubeMusicItem | null {
@@ -501,6 +509,83 @@ export async function GET(): Promise<Response> {
 export async function POST(request: Request): Promise<Response> {
   try {
     const body = await request.json();
+    
+    // Validate required context values
+    if (!body.context?.client || !body.context?.user || !body.context?.request || !body.context?.clickTracking || !body.context?.adSignalsInfo) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Missing required context fields',
+          required: ['context.client', 'context.user', 'context.request', 'context.clickTracking', 'context.adSignalsInfo']
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate browseId and params
+    if (!body.browseId || !body.params) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Missing required fields',
+          required: ['browseId', 'params']
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const requiredClientFields = [
+      'hl',
+      'gl',
+      'remoteHost',
+      'deviceMake',
+      'deviceModel',
+      'visitorData',
+      'userAgent',
+      'clientName',
+      'clientVersion',
+      'osName',
+      'osVersion',
+      'originalUrl',
+      'screenPixelDensity',
+      'platform',
+      'clientFormFactor',
+      'configInfo',
+      'screenDensityFloat',
+      'timeZone',
+      'browserName',
+      'browserVersion',
+      'acceptHeader',
+      'deviceExperimentId',
+      'screenWidthPoints',
+      'screenHeightPoints',
+      'utcOffsetMinutes',
+      'userInterfaceTheme',
+      'musicAppInfo'
+    ];
+
+    const missingFields = requiredClientFields.filter(field => !body.context.client[field]);
+    if (missingFields.length > 0) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Missing required client fields',
+          missingFields
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate configInfo fields
+    const requiredConfigFields = ['appInstallData', 'coldConfigData', 'coldHashData', 'hotHashData'];
+    const missingConfigFields = requiredConfigFields.filter(field => !body.context.client.configInfo[field]);
+    if (missingConfigFields.length > 0) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Missing required configInfo fields',
+          missingConfigFields
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     console.log('🚀 Fetching YouTube Music data...');
     console.log('📤 Request URL:', YOUTUBE_MUSIC_URL);
     console.log('📤 Request Body:', JSON.stringify(body, null, 2));
