@@ -28,25 +28,37 @@ interface YouTubeMusicSection {
   contents: YouTubeMusicItem[];
 }
 
+interface TextRun {
+  text: string;
+  navigationEndpoint?: {
+    browseEndpoint?: {
+      browseId: string;
+    };
+    watchEndpoint?: {
+      videoId?: string;
+      playlistId?: string;
+    };
+  };
+}
+
+interface FlexColumnText {
+  runs: TextRun[];
+}
+
+interface FlexColumnRenderer {
+  text?: FlexColumnText;
+  displayPriority?: string;
+}
+
 interface YouTubeRenderer {
+  flexColumns?: Array<{
+    musicResponsiveListItemFlexColumnRenderer?: FlexColumnRenderer;
+  }>;
   title?: {
-    runs?: Array<{
-      text: string;
-      navigationEndpoint?: {
-        browseEndpoint?: {
-          browseId: string;
-        };
-        watchEndpoint?: {
-          videoId?: string;
-          playlistId?: string;
-        };
-      };
-    }>;
+    runs?: TextRun[];
   };
   subtitle?: {
-    runs?: Array<{
-      text: string;
-    }>;
+    runs?: TextRun[];
   };
   thumbnail?: {
     musicThumbnailRenderer?: {
@@ -111,12 +123,12 @@ interface YouTubeShelfRenderer {
   header?: {
     musicCarouselShelfBasicHeaderRenderer?: {
       title?: {
-        runs?: Array<{ text: string }>;
+        runs?: TextRun[];
       };
     };
     musicImmersiveCarouselShelfBasicHeaderRenderer?: {
       title?: {
-        runs?: Array<{ text: string }>;
+        runs?: TextRun[];
       };
     };
   };
@@ -156,90 +168,6 @@ interface YouTubeResponse {
   };
 }
 
-const YOUTUBE_MUSIC_URL = 'https://music.youtube.com/youtubei/v1/browse?ctoken=4qmFsgKhAhIMRkVtdXNpY19ob21lGpACQ0FONnh3RkhTWGt5YnpoSWRtcHZkMFJYYjBWQ1EyNDRTMHBJYkRCWU0wSm9XakpXWm1NeU5XaGpTRTV2WWpOU1ptSllWbnBoVjA1bVkwZEdibHBXT1hsYVYyUndZakkxYUdKQ1NXWlNWR2gxWWtSQ2QySldhR3hsYlRsWVZWVk9jRlV5Y0RSaVJVcFNVMGhXV1dSdFJUTk5NV1JUWVhodk1sUllWbnBoVjA1RllWaE9hbUl6V214amJteFJXVmRrYkZVeVZubGtiV3hxV2xNeFNGcFlVa2xpTWpGc1ZVZEdibHBSUVVKQlIxWjFRVUZHVmxWM1FVSldWazFCUVZGRlJDMXdla2gyVVd0RFEwRlI%253D&continuation=4qmFsgKhAhIMRkVtdXNpY19ob21lGpACQ0FONnh3RkhTWGt5YnpoSWRtcHZkMFJYYjBWQ1EyNDRTMHBJYkRCWU0wSm9XakpXWm1NeU5XaGpTRTV2WWpOU1ptSllWbnBoVjA1bVkwZEdibHBXT1hsYVYyUndZakkxYUdKQ1NXWlNWR2gxWWtSQ2QySldhR3hsYlRsWVZWVk9jRlV5Y0RSaVJVcFNVMGhXV1dSdFJUTk5NV1JUWVhodk1sUllWbnBoVjA1RllWaE9hbUl6V214amJteFJXVmRrYkZVeVZubGtiV3hxV2xNeFNGcFlVa2xpTWpGc1ZVZEdibHBSUVVKQlIxWjFRVUZHVmxWM1FVSldWazFCUVZGRlJDMXdla2gyVVd0RFEwRlI%253D&type=next&itct=CBAQybcCIhMI14OLwe-OjAMV6YDkBh30chol&prettyPrint=true';
-
-const defaultRequestBody = {
-  "context": {
-    "client": {
-      "hl": "en",
-      "gl": "US",
-      "remoteHost": "96.244.37.40",
-      "deviceMake": "Apple",
-      "deviceModel": "",
-      "visitorData": "CgtxazJ6azlZeDZ4OCi71MW-BjIKCgJVUxIEGgAgOA%3D%3D",
-      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36,gzip(gfe)",
-      "clientName": "WEB_REMIX",
-      "clientVersion": "1.20250305.01.00",
-      "osName": "Macintosh",
-      "osVersion": "10_15_7",
-      "originalUrl": "https://music.youtube.com",
-      "screenPixelDensity": 2,
-      "platform": "DESKTOP",
-      "clientFormFactor": "UNKNOWN_FORM_FACTOR",
-      "configInfo": {
-        "appInstallData": "CLvUxb4GENPhrwUQ4OD_EhDW8v8SELvZzhwQ_LLOHBCJ9_8SEPCcsAUQlPyvBRC9tq4FEParsAUQztrOHBCT2c4cEJT-sAUQ29rOHBDJ968FEIHNzhwQmZixBRC52c4cEL2ZsAUQ6-j-EhCHrM4cEO3ezhwQmufOHBCe0LAFEN68zhwQntvOHBC45M4cEIKDuCIQyeawBRC-vs4cEOTn_xIQzN-uBRDw4s4cELfq_hIQuNvOHBCW5M4cEO_szhwQiIewBRDdyM4cEOODuCIQhL3OHBDf3M4cEOK4sAUQmY2xBRCJsM4cEIjjrwUQ79nOHBC-irAFEIT5_xIQ-KuxBRCA0c4cEIXhzhwqJENBTVNGUlVXcGIyd0ROemtCb096OUF2bW9RajY3QU1kQnc9PQ%3D%3D",
-        "coldConfigData": "CLvUxb4GGjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQSIyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE%3D",
-        "coldHashData": "CLvUxb4GEhM4MzcyMjg4Nzg1MDY2MDg0NzkyGLvUxb4GMjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQToyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE%3D",
-        "hotHashData": "CLvUxb4GEhM1MDkwODgzODc0MjY1NzY0ODc4GLvUxb4GMjJBT2pGb3gzQmtObTlPSmtiWjFhaU8yZGgxMmpESUZKMDlEeEFrcG9JbVdNc1VzYXUwQToyQU9qRm94M0JrTm05T0prYloxYWlPMmRoMTJqRElGSjA5RHhBa3BvSW1XTXNVc2F1MEE%3D"
-      },
-      "screenDensityFloat": 2,
-      "timeZone": "America/New_York",
-      "browserName": "Chrome",
-      "browserVersion": "133.0.0.0",
-      "acceptHeader": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-      "deviceExperimentId": "ChxOelE0TURnM056STFPRFF6T1RBeE1EVXpOQT09ELvUxb4GGLvUxb4G",
-      "rolloutToken": "COiJ74u7ksqFjwEQ0IHb3ZuUigMYxIudz7GCjAM%3D",
-      "screenWidthPoints": 608,
-      "screenHeightPoints": 866,
-      "utcOffsetMinutes": -240,
-      "userInterfaceTheme": "USER_INTERFACE_THEME_LIGHT",
-      "musicAppInfo": {
-        "pwaInstallabilityStatus": "PWA_INSTALLABILITY_STATUS_CAN_BE_INSTALLED",
-        "webDisplayMode": "WEB_DISPLAY_MODE_BROWSER",
-        "storeDigitalGoodsApiSupportStatus": {
-          "playStoreDigitalGoodsApiSupportStatus": "DIGITAL_GOODS_API_SUPPORT_STATUS_UNSUPPORTED"
-        }
-      }
-    },
-    "user": {
-      "lockedSafetyMode": false
-    },
-    "request": {
-      "useSsl": true,
-      "consistencyTokenJars": [{
-        "encryptedTokenJarContents": "AKreu9uMaCWmUMNJu7VBeSuEHjjZlapvbAq9oCTxffXvIgZS4qjgmFDIyPUgudhW5HNGSKLDbTyYB45XOjoKVKQKAWshQJrWq-wU1iqd_GBOXqK4i-G2Ezp1FxcyQbrj3f2gMbEd6CE9SXM9NqcFXghIBlXPIlVay9_jrqL3PHksMubKtXQujnIZ9veWGsr4rGuElUF3nMFj5enhnazVarxhFAJkprX9iTtFSKGAHy4cpCfBSev-rTaj-NXg2h3RDw"
-      }],
-      "internalExperimentFlags": []
-    },
-    "clickTracking": {
-      "clickTrackingParams": "CCUQuKEFGAYiEwiHqYDasoSMAxXDm-QGHQ9AJDs="
-    },
-    "adSignalsInfo": {
-      "params": [
-        {"key": "dt", "value": "1741777468593"},
-        {"key": "flash", "value": "0"},
-        {"key": "frm", "value": "0"},
-        {"key": "u_tz", "value": "-240"},
-        {"key": "u_his", "value": "45"},
-        {"key": "u_h", "value": "1120"},
-        {"key": "u_w", "value": "1792"},
-        {"key": "u_ah", "value": "1019"},
-        {"key": "u_aw", "value": "1792"},
-        {"key": "u_cd", "value": "24"},
-        {"key": "bc", "value": "31"},
-        {"key": "bih", "value": "866"},
-        {"key": "biw", "value": "608"},
-        {"key": "brdim", "value": "191,30,191,30,1792,25,1533,987,608,866"},
-        {"key": "vis", "value": "1"},
-        {"key": "wgl", "value": "true"},
-        {"key": "ca_type", "value": "image"}
-      ],
-      "bid": "ANyPxKoQk2jhXmf0cNdFTCAdTSYjTgtpGa-3vel3UoO6-PyXKkrfeXbi4zBfbUaPBAjZyRMUbCsf"
-    }
-  },
-  "browseId": "FEmusic_moods_and_genres_category"
-};
-
 function processRenderer(renderer: YouTubeRenderer): YouTubeMusicItem | null {
   try {
     console.log('📝 Processing renderer:', JSON.stringify(renderer, null, 2));
@@ -266,19 +194,17 @@ function processRenderer(renderer: YouTubeRenderer): YouTubeMusicItem | null {
     let title = 'Unknown';
     let artists = '';
 
-    if (Array.isArray((renderer as any).flexColumns)) {
-      const flexColumns = (renderer as any).flexColumns;
-      
+    if (renderer.flexColumns) {
       // First column usually contains the title
-      const titleColumn = flexColumns[0]?.musicResponsiveListItemFlexColumnRenderer;
+      const titleColumn = renderer.flexColumns[0]?.musicResponsiveListItemFlexColumnRenderer;
       if (titleColumn?.text?.runs?.[0]) {
         title = titleColumn.text.runs[0].text;
       }
 
       // Second column usually contains the artists
-      const artistColumn = flexColumns[1]?.musicResponsiveListItemFlexColumnRenderer;
+      const artistColumn = renderer.flexColumns[1]?.musicResponsiveListItemFlexColumnRenderer;
       if (artistColumn?.text?.runs) {
-        artists = artistColumn.text.runs.map((run: any) => run.text).join('');
+        artists = artistColumn.text.runs.map(run => run.text).join('');
       }
     } else {
       // Fallback to old method if flexColumns not present
@@ -366,45 +292,34 @@ function extractMusicSections(sections: YouTubeSection[]): YouTubeMusicSection[]
 export async function GET(): Promise<Response> {
   try {
     console.log('🚀 Fetching YouTube Music data...');
-    console.log('📤 Request URL:', YOUTUBE_MUSIC_URL);
-    console.log('📤 Request Body:', JSON.stringify(defaultRequestBody, null, 2));
-
-    const response = await fetch(YOUTUBE_MUSIC_URL, {
+    const response = await fetch('https://music.youtube.com/youtubei/v1/browse', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         'Origin': 'https://music.youtube.com',
         'Referer': 'https://music.youtube.com/',
-        'User-Agent': defaultRequestBody.context.client.userAgent,
-        'X-Goog-Visitor-Id': defaultRequestBody.context.client.visitorData,
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
         'X-YouTube-Client-Name': '67',
-        'X-YouTube-Client-Version': defaultRequestBody.context.client.clientVersion,
-        'X-Origin': 'https://music.youtube.com'
+        'X-YouTube-Client-Version': '1.20210101.00.00'
       },
-      body: JSON.stringify(defaultRequestBody),
+      body: JSON.stringify({
+        context: {
+          client: {
+            clientName: 'WEB_REMIX',
+            clientVersion: '1.20210101.00.00',
+            hl: 'en',
+            gl: 'US'
+          }
+        },
+        browseId: 'FEmusic_home'
+      }),
     });
 
-    console.log('📥 Response Status:', response.status);
-    console.log('📥 Response Headers:', Object.fromEntries(response.headers.entries()));
-
     if (!response.ok) {
-      console.error('❌ YouTube API Error:', response.status);
-      const errorText = await response.text();
-      console.error('❌ Error details:', errorText);
-      return new Response(
-        JSON.stringify({ 
-          error: `YouTube API Error: ${response.status}`,
-          details: errorText
-        }),
-        { status: response.status, headers: { 'Content-Type': 'application/json' } }
-      );
+      throw new Error(`YouTube API Error: ${response.status}`);
     }
 
-    const rawData = await response.text();
-    console.log('📥 Raw Response:', rawData);
-
-    const data = JSON.parse(rawData) as YouTubeResponse;
-
+    const data = await response.json() as YouTubeResponse;
     console.log('📥 Response Structure:', JSON.stringify({
       hasContinuationContents: Boolean(data.continuationContents),
       hasMainContents: Boolean(data.contents),
@@ -416,15 +331,8 @@ export async function GET(): Promise<Response> {
     const sections = data.continuationContents?.sectionListContinuation?.contents || 
                     data.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents || [];
 
-    console.log('🔍 Found sections:', sections.length);
-    if (sections.length === 0) {
-      console.log('⚠️ No sections found in response');
-      console.log('📥 Full Response Data:', JSON.stringify(data, null, 2));
-    }
-
     // Extract all music sections recursively
     const musicItems = extractMusicSections(sections);
-    console.log('📦 Final musicItems:', musicItems);
 
     // Create a Readable stream from the musicItems data
     const dataStream = new Readable({
@@ -437,96 +345,79 @@ export async function GET(): Promise<Response> {
     dataStream.push(jsonData);
     dataStream.push(null); // End the stream
 
-    try {
-      console.log('🚀 Uploading to Cloudinary...');
-      const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            public_id: 'response-home-feed',
-            resource_type: 'raw',
-            tags: ['part-feed', 'youtube-music'],
-            overwrite: true,
-            format: 'json',
-            invalidate: true
-          },
-          (error, result) => {
-            if (error || !result) {
-              console.error('❌ Cloudinary Upload Error:', error || 'No result returned');
-              reject(error || new Error('No upload result returned'));
-            } else {
-              console.log('✅ Successfully uploaded to Cloudinary');
-              resolve(result);
+      try {
+        console.log('🚀 Uploading to Cloudinary...');
+        const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            {
+              public_id: 'response-home-feed',
+              resource_type: 'raw',
+              tags: ['home-feed', 'youtube-music'],
+              overwrite: true,
+              format: 'json',
+              invalidate: true
+            },
+            (error, result) => {
+              if (error || !result) {
+                console.error('❌ Cloudinary Upload Error:', error || 'No result returned');
+                reject(error || new Error('No upload result returned'));
+              } else {
+                console.log('✅ Successfully uploaded to Cloudinary');
+                resolve(result);
+              }
             }
+          );
+
+          dataStream.pipe(uploadStream);
+        });
+
+        console.log('📎 Cloudinary URL:', uploadResult.secure_url);
+
+        return new Response(
+          JSON.stringify({ 
+            success: true,
+            musicItems,
+            cloudinaryUrl: uploadResult.secure_url,
+            timestamp: new Date().toISOString()
+          }),
+          { 
+            status: 200, 
+            headers: { 
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+            } 
           }
         );
-
-        dataStream.pipe(uploadStream);
-      });
-
-      console.log('📎 Cloudinary URL:', uploadResult.secure_url);
-
+      } catch (uploadError) {
+        console.error('❌ Error uploading to Cloudinary:', uploadError);
+        return new Response(
+          JSON.stringify({ 
+            success: true,
+            musicItems,
+            error: 'Failed to upload to Cloudinary, but data is still available',
+            timestamp: new Date().toISOString()
+          }),
+          { 
+            status: 200, 
+            headers: { 
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+            } 
+          }
+        );
+      }
+    } catch (error) {
+      console.error('❌ Error:', error);
       return new Response(
         JSON.stringify({ 
-          success: true,
-          musicItems,
-          cloudinaryUrl: uploadResult.secure_url,
-          timestamp: new Date().toISOString()
+          success: false, 
+          error: 'Failed to fetch YouTube Music data',
+          details: error instanceof Error ? error.message : 'Unknown error'
         }),
-        { 
-          status: 200, 
-          headers: { 
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Surrogate-Control': 'no-store'
-          } 
-        }
-      );
-    } catch (uploadError) {
-      console.error('❌ Error uploading to Cloudinary:', uploadError);
-      return new Response(
-        JSON.stringify({ 
-          success: true,
-          musicItems,
-          error: 'Failed to upload to Cloudinary, but data is still available',
-          timestamp: new Date().toISOString()
-        }),
-        { 
-          status: 200, 
-          headers: { 
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Surrogate-Control': 'no-store'
-          } 
-        }
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
-  } catch (error) {
-    console.error('❌ Error fetching YouTube Music data:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: 'Failed to fetch YouTube Music data',
-        details: errorMessage,
-        timestamp: new Date().toISOString()
-      }),
-      { 
-        status: 500, 
-        headers: { 
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0',
-          'Surrogate-Control': 'no-store'
-        } 
-      }
-    );
   }
-}
 
 export async function POST(request: Request): Promise<Response> {
   try {
@@ -602,11 +493,7 @@ export async function POST(request: Request): Promise<Response> {
       );
     }
 
-    console.log('🚀 Fetching YouTube Music data...');
-    console.log('📤 Request URL:', YOUTUBE_MUSIC_URL);
-    console.log('📤 Request Body:', JSON.stringify(body, null, 2));
-
-    const response = await fetch('https://music.youtube.com/youtubei/v1/browse?key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30', {
+    const response = await fetch('https://music.youtube.com/youtubei/v1/browse', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -618,159 +505,45 @@ export async function POST(request: Request): Promise<Response> {
         'X-YouTube-Client-Version': body.context.client.clientVersion,
         'X-Origin': 'https://music.youtube.com'
       },
-      body: JSON.stringify({
-        ...body,
-        browseId: "FEmusic_home"
-      }),
+      body: JSON.stringify(body),
     });
 
-    console.log('📥 Response Status:', response.status);
-    console.log('📥 Response Headers:', Object.fromEntries(response.headers.entries()));
-
     if (!response.ok) {
-      console.error('❌ YouTube API Error:', response.status);
-      const errorText = await response.text();
-      console.error('❌ Error details:', errorText);
-      return new Response(
-        JSON.stringify({ 
-          error: `YouTube API Error: ${response.status}`,
-          details: errorText
-        }),
-        { status: response.status, headers: { 'Content-Type': 'application/json' } }
-      );
+      throw new Error(`YouTube API Error: ${response.status}`);
     }
 
     const data = await response.json() as YouTubeResponse;
-    console.log('📥 Raw Response:', JSON.stringify(data, null, 2));
 
-    console.log('📥 Response Structure:', JSON.stringify({
-      hasContinuationContents: Boolean(data.continuationContents),
-      hasMainContents: Boolean(data.contents),
-      sections: data.continuationContents?.sectionListContinuation?.contents?.length || 
-               data.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents?.length || 0
-    }, null, 2));
-
-    // Get sections from the response
-    const sections = [];
-    
-    // Check for main content sections
-    if (data.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents) {
-      sections.push(...data.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents);
-    }
-    
-    // Check for continuation sections
-    if (data.continuationContents?.sectionListContinuation?.contents) {
-      sections.push(...data.continuationContents.sectionListContinuation.contents);
-    }
-
-    console.log('🔍 Found sections:', sections.length);
-    if (sections.length === 0) {
-      console.log('⚠️ No sections found in response');
-      console.log('📥 Full Response Data:', JSON.stringify(data, null, 2));
-    }
+    // Get sections from either continuationContents or main contents
+    const sections = data.continuationContents?.sectionListContinuation?.contents || 
+                    data.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content?.sectionListRenderer?.contents || [];
 
     // Extract all music sections recursively
     const musicItems = extractMusicSections(sections);
-    console.log('📦 Final musicItems:', musicItems);
 
-    // Create a Readable stream from the musicItems data
-    const dataStream = new Readable({
-      read() {} // Required implementation
-    });
-    
-    const jsonData = JSON.stringify({ musicItems }, null, 2);
-    console.log(`📊 Data size: ${jsonData.length} bytes`);
-    
-    dataStream.push(jsonData);
-    dataStream.push(null); // End the stream
-
-    try {
-      console.log('🚀 Uploading to Cloudinary...');
-      const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            public_id: 'response-part',
-            resource_type: 'raw',
-            tags: ['part-feed', 'youtube-music'],
-            overwrite: true,
-            format: 'json',
-            invalidate: true
-          },
-          (error, result) => {
-            if (error || !result) {
-              console.error('❌ Cloudinary Upload Error:', error || 'No result returned');
-              reject(error || new Error('No upload result returned'));
-            } else {
-              console.log('✅ Successfully uploaded to Cloudinary');
-              resolve(result);
-            }
-          }
-        );
-
-        dataStream.pipe(uploadStream);
-      });
-
-      console.log('📎 Cloudinary URL:', uploadResult.secure_url);
-
-      return new Response(
-        JSON.stringify({ 
-          success: true,
-          musicItems,
-          cloudinaryUrl: uploadResult.secure_url,
-          timestamp: new Date().toISOString()
-        }),
-        { 
-          status: 200, 
-          headers: { 
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Surrogate-Control': 'no-store'
-          } 
-        }
-      );
-    } catch (uploadError) {
-      console.error('❌ Error uploading to Cloudinary:', uploadError);
-      return new Response(
-        JSON.stringify({ 
-          success: true,
-          musicItems,
-          error: 'Failed to upload to Cloudinary, but data is still available',
-          timestamp: new Date().toISOString()
-        }),
-        { 
-          status: 200, 
-          headers: { 
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Surrogate-Control': 'no-store'
-          } 
-        }
-      );
-    }
+    return new Response(
+      JSON.stringify({ 
+        success: true,
+        musicItems,
+        timestamp: new Date().toISOString()
+      }),
+      { 
+        status: 200, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+        } 
+      }
+    );
   } catch (error) {
-    console.error('❌ Error fetching YouTube Music data:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('❌ Error:', error);
     return new Response(
       JSON.stringify({ 
         success: false, 
         error: 'Failed to fetch YouTube Music data',
-        details: errorMessage,
-        timestamp: new Date().toISOString()
+        details: error instanceof Error ? error.message : 'Unknown error'
       }),
-      { 
-        status: 500, 
-        headers: { 
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0',
-          'Surrogate-Control': 'no-store'
-        } 
-      }
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
 }
