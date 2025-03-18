@@ -6,7 +6,7 @@ export async function GET() {
 
     // Add timestamp to prevent caching
     const timestamp = Date.now();
-    const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/response-trending-songs.json?t=${timestamp}`;
+    const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/response-home-feed.json?t=${timestamp}`;
     console.log('📎 Fetching from:', cloudinaryUrl);
 
     // Fetch the JSON data with no-cache headers
