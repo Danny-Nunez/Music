@@ -8,13 +8,41 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept, Content-Length, multipart/form-data',
+  'Access-Control-Allow-Credentials': 'true'
+};
+
 export async function POST(request: Request): Promise<Response> {
+  console.log('Received upload request');
+  console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+
+  // Handle preflight request
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers: corsHeaders
+    });
+  }
+
   try {
     // Get the form data from the request
     const formData = await request.formData();
-    const file = formData.get('file') as File | null;
+    console.log('FormData received');
+
+    // Log all form data entries
+    const entries = Array.from(formData.entries());
+    entries.forEach(([key, value]) => {
+      console.log(`Form data entry - ${key}:`, value);
+    });
+
+    const file = formData.get('file');
+    console.log('File from form:', file);
 
     if (!file) {
+      console.log('No file provided');
       return new Response(
         JSON.stringify({ 
           success: false,
@@ -22,19 +50,26 @@ export async function POST(request: Request): Promise<Response> {
         }),
         { 
           status: 400,
-          headers: { 
+          headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST',
-            'Access-Control-Allow-Headers': 'Content-Type'
+            ...corsHeaders
           }
         }
       );
     }
 
-    // Convert File to Buffer
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    // Convert the file data to a buffer
+    let buffer: Buffer;
+    try {
+      // Get the raw file data
+      const rawData = await request.arrayBuffer();
+      buffer = Buffer.from(rawData);
+    } catch (error) {
+      console.error('Error processing file:', error);
+      throw new Error(`Failed to process file: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+
+    console.log('File processed, uploading to Cloudinary...');
 
     // Upload to Cloudinary
     const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
@@ -50,8 +85,10 @@ export async function POST(request: Request): Promise<Response> {
         },
         (error, result) => {
           if (error || !result) {
+            console.error('Cloudinary upload error:', error);
             reject(error || new Error('Upload failed'));
           } else {
+            console.log('Cloudinary upload successful');
             resolve(result);
           }
         }
@@ -60,6 +97,8 @@ export async function POST(request: Request): Promise<Response> {
       // Write buffer to stream
       uploadStream.end(buffer);
     });
+
+    console.log('Upload complete, returning response');
 
     // Return the Cloudinary URL with CORS headers
     return new Response(
@@ -72,11 +111,9 @@ export async function POST(request: Request): Promise<Response> {
       }),
       { 
         status: 200,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type'
+          ...corsHeaders
         }
       }
     );
@@ -91,27 +128,20 @@ export async function POST(request: Request): Promise<Response> {
       }),
       { 
         status: 500,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type'
+          ...corsHeaders
         }
       }
     );
   }
 }
 
-// Add OPTIONS handler for CORS preflight requests
+// Handle OPTIONS preflight request
 export async function OPTIONS(): Promise<Response> {
   return new Response(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Max-Age': '86400' // 24 hours
-    }
+    status: 200,
+    headers: corsHeaders
   });
 }
 
