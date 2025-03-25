@@ -22,7 +22,12 @@ export async function POST(request: Request): Promise<Response> {
         }),
         { 
           status: 400,
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type'
+          }
         }
       );
     }
@@ -37,10 +42,10 @@ export async function POST(request: Request): Promise<Response> {
         {
           folder: 'profile-images',
           resource_type: 'image',
-          allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
+          allowed_formats: ['jpg', 'jpeg'], // Restrict to JPEG since that's what the app sends
           transformation: [
-            { width: 500, height: 500, crop: 'fill' },
-            { quality: 'auto' }
+            { width: 500, height: 500, crop: 'fill' }, // Match app's 1:1 aspect ratio
+            { quality: 80 } // Match app's quality setting
           ]
         },
         (error, result) => {
@@ -56,7 +61,7 @@ export async function POST(request: Request): Promise<Response> {
       uploadStream.end(buffer);
     });
 
-    // Return the Cloudinary URL
+    // Return the Cloudinary URL with CORS headers
     return new Response(
       JSON.stringify({
         success: true,
@@ -67,7 +72,12 @@ export async function POST(request: Request): Promise<Response> {
       }),
       { 
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
       }
     );
 
@@ -81,13 +91,31 @@ export async function POST(request: Request): Promise<Response> {
       }),
       { 
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
       }
     );
   }
 }
 
-// Configure max file size (optional)
+// Add OPTIONS handler for CORS preflight requests
+export async function OPTIONS(): Promise<Response> {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400' // 24 hours
+    }
+  });
+}
+
+// Configure max file size
 export const config = {
   api: {
     bodyParser: {
