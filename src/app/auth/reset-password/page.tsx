@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { logger } from '@/lib/logger';
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function ResetPassword() {
     const params = new URLSearchParams(window.location.search);
     const tokenFromUrl = params.get('token');
     setToken(tokenFromUrl);
-    console.log('Token extracted from URL:', tokenFromUrl);
+    logger.debug('Reset token received', { hasToken: !!tokenFromUrl }); // Only log presence, not actual token
   }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
@@ -27,13 +28,13 @@ export default function ResetPassword() {
 
     if (!token) {
       toast.error('Invalid or missing reset token.');
-      console.error('No token provided.');
+      logger.warn('Password reset attempted without token');
       return;
     }
 
     setLoading(true);
     try {
-      console.log('Submitting payload:', { token, password });
+      logger.debug('Submitting password reset request');
 
       const response = await fetch('/api/reset-password/confirm', {
         method: 'POST',
@@ -41,7 +42,7 @@ export default function ResetPassword() {
         body: JSON.stringify({ token, password }),
       });
 
-      console.log('Response status:', response.status);
+      logger.debug('Password reset response received', { status: response.status });
 
       const contentType = response.headers.get('Content-Type');
       let data;
@@ -49,11 +50,11 @@ export default function ResetPassword() {
         data = await response.json();
       } else {
         const text = await response.text();
-        console.error('Unexpected response format:', text);
+        logger.error('Unexpected response format from password reset API', { contentType });
         throw new Error('Unexpected response format.');
       }
 
-      console.log('Response data:', data);
+      logger.debug('Password reset API response processed', { success: response.ok });
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to reset password.');
@@ -62,7 +63,7 @@ export default function ResetPassword() {
       toast.success('Password reset successfully. You can now log in.');
       router.push('/auth/signin');
     } catch (error) {
-      console.error('Error during password reset:', error);
+      logger.error('Password reset failed', { error: error instanceof Error ? error.message : 'Unknown error' });
       toast.error(error instanceof Error ? error.message : 'Failed to reset password.');
     } finally {
       setLoading(false);

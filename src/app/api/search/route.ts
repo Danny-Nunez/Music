@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { youtube } from 'scrape-youtube';
+import { logger } from '@/lib/logger';
 
 interface SearchResultMetadata {
   id: string;
@@ -88,7 +89,7 @@ export async function GET(request: Request) {
 
     // Check if the query matches an ID format
     const isIdQuery = /^[0-9a-zA-Z_]+$/.test(query);
-    console.log('Query analysis:', { query, isIdQuery });
+    logger.debug('Query analysis', { query: query.substring(0, 50), isIdQuery }); // Truncate query for safety
 
     // Extract artist results
     const artistResults: ArtistResult[] = data[1]
@@ -142,7 +143,7 @@ export async function GET(request: Request) {
         link: `https://www.youtube.com/${live.channel.handle}`
       },
       type: 'live' as const
-    }))
+    }));
 
     // Combine results
     const results: SearchResults = {
@@ -151,8 +152,7 @@ export async function GET(request: Request) {
       live: liveResults
     };
 
-    console.log('Search results:', {
-      query,
+    logger.debug('Search completed', {
       artistCount: results.artists.length,
       videoCount: results.videos.length,
       liveCount: results.live.length
@@ -160,7 +160,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(results);
   } catch (error) {
-    console.error('Search error:', error);
+    logger.error('Search failed', error);
     return NextResponse.json(
       { error: 'Failed to search' },
       { status: 500 }
