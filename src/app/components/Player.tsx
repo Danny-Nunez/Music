@@ -51,6 +51,17 @@ export default function Player() {
     playPrevious
   } = usePlayerStore();
 
+  // Helper function to convert RGB to RGBA with opacity
+  const addOpacityToRgb = (rgbColor: string, opacity: number) => {
+    const match = rgbColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (match) {
+      const [, r, g, b] = match;
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+    // Fallback for any issues
+    return `rgba(17, 24, 39, ${opacity})`;
+  };
+
   // Check for 30-second limit for non-authenticated users
   useEffect(() => {
     if (!session && currentTime >= 30 && isPlaying) {
@@ -126,7 +137,8 @@ export default function Player() {
             const darkR = Math.round(r * darkenFactor);
             const darkG = Math.round(g * darkenFactor);
             const darkB = Math.round(b * darkenFactor);
-            setBackgroundColor(`rgb(${darkR}, ${darkG}, ${darkB})`);
+            const finalColor = `rgb(${darkR}, ${darkG}, ${darkB})`;
+            setBackgroundColor(finalColor);
           };
         } catch (error) {
           console.error('Error extracting color:', error);
@@ -457,19 +469,30 @@ export default function Player() {
   return (
     <div className="player-container fixed z-[99999] bottom-0 left-0 right-0 border-t border-gray-800">
       {isExpanded && (
-        <div
-          className="fixed inset-0 z-[-1]"
-          style={{
-            backgroundColor: backgroundColor,
-            backgroundImage: `linear-gradient(to bottom, ${backgroundColor} 0%, ${backgroundColor} 80%, rgb(17, 24, 39) 100%)`,
-            transition: 'all 0.5s ease-in-out'
-          }}
-        />
+        <>
+          {/* Black background for the expanded area above player */}
+          <div
+            className="fixed inset-0 z-[-1]"
+            style={{
+              backgroundColor: 'rgb(0, 0, 0)',
+            }}
+          />
+          {/* Dynamic color background only at player height */}
+          <div
+            className="fixed bottom-0 left-0 right-0 z-[-1]"
+            style={{
+              height: '140px', // Slightly increased for better coverage
+              backgroundColor: addOpacityToRgb(backgroundColor, 0.9),
+              backgroundImage: `linear-gradient(to top, ${addOpacityToRgb(backgroundColor, 0.95)} 0%, ${addOpacityToRgb(backgroundColor, 0.9)} 100%, rgb(0, 0, 0) 100%)`,
+              transition: 'all 0.5s ease-in-out'
+            }}
+          />
+        </>
       )}
       <div
         style={{
-          backgroundColor: 'rgb(17, 24, 39)',
-          backgroundImage: isExpanded ? 'none' : `linear-gradient(to bottom, ${backgroundColor} 0%, rgb(17, 24, 39) 90%)`,
+          backgroundColor: addOpacityToRgb(backgroundColor, 0.90),
+          backgroundImage: `linear-gradient(to top, ${addOpacityToRgb(backgroundColor, 0.90)} 0%, ${addOpacityToRgb(backgroundColor, 0.75)} 00%, rgb(0, 0, 0) 100%)`,
           transition: 'all 0.5s ease-in-out'
         }}
       >
@@ -505,14 +528,14 @@ export default function Player() {
                   <span className="ml-1 w-2 h-2 bg-red-500 rounded-full animate-pulse inline-block" />
                 </>
               ) : (
-                formatTime(currentTime)
+                formatTime(currentTime || 0)
               )}
             </span>
             <input
               type="range"
               min="0"
-              max={duration}
-              value={currentTime}
+              max={duration || 0}
+              value={currentTime || 0}
               onChange={handleSeek}
               onMouseDown={handleSeekMouseDown}
               onMouseUp={handleSeekMouseUp}
@@ -522,7 +545,7 @@ export default function Player() {
             <div className="flex items-center gap-2">
               {currentTrack?.artist !== 'Live Radio' && (
                 <span className="text-xs text-gray-400 w-12">
-                  {formatTime(duration)}
+                  {formatTime(duration || 0)}
                 </span>
               )}
               <button
