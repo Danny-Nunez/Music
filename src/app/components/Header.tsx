@@ -89,6 +89,20 @@ export default function Header() {
   // Helper function to check if a genre route is active
   const isGenreActive = (genre: string) => pathname.startsWith(`/genre/${genre}`);
 
+  // Control body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileNavOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileNavOpen]);
+
   useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) {
@@ -677,11 +691,11 @@ export default function Header() {
         </div>
 
         <div
-          className={`headernavSlider z-30 fixed bg-gradient-to-b from-black to-zinc-800 top-0 left-0 right-0 p-4 md:hidden transform transition-transform duration-300 ease-in-out ${
+          className={`headernavSlider z-30 fixed bg-gradient-to-b from-black to-zinc-800 top-0 left-0 right-0 p-4 md:hidden transform transition-transform duration-300 ease-in-out h-screen overflow-y-auto ${
             isMobileNavOpen ? 'translate-y-20' : '-translate-y-full'
           }`}
         >
-          <nav className="space-y-4">
+          <nav className="space-y-4 pb-20">
             <Link href="/" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colorse" onClick={handleNavLinkClick}>
               <svg
                 className="w-5 h-5"
