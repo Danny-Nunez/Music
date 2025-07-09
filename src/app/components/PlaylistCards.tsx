@@ -2,8 +2,10 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { useEffect, useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -33,6 +35,7 @@ export default function PlaylistCards() {
   const [musicCategories, setMusicCategories] = useState<MusicCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const swiperRefs = useRef<(SwiperType | null)[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -85,6 +88,18 @@ export default function PlaylistCards() {
 
   const handlePlaylistClick = (playlistId: string) => {
     router.push(`/playlist/${playlistId}`);
+  };
+
+  const handlePrevSlide = (categoryIndex: number) => {
+    if (swiperRefs.current[categoryIndex]) {
+      swiperRefs.current[categoryIndex]?.slidePrev();
+    }
+  };
+
+  const handleNextSlide = (categoryIndex: number) => {
+    if (swiperRefs.current[categoryIndex]) {
+      swiperRefs.current[categoryIndex]?.slideNext();
+    }
   };
 
   if (isLoading) {
@@ -149,13 +164,31 @@ export default function PlaylistCards() {
           <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl sm:text-2xl font-bold text-white">{category.title}</h2>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handlePrevSlide(categoryIndex)}
+                  className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                  aria-label="Previous"
+                >
+                  <ChevronLeftIcon className="h-4 w-4 text-white" />
+                </button>
+                <button
+                  onClick={() => handleNextSlide(categoryIndex)}
+                  className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                  aria-label="Next"
+                >
+                  <ChevronRightIcon className="h-4 w-4 text-white" />
+                </button>
+              </div>
             </div>
 
             <Swiper
               modules={[Navigation]}
               spaceBetween={12}
               slidesPerView={1.5}
-              navigation
+              onSwiper={(swiper) => {
+                swiperRefs.current[categoryIndex] = swiper;
+              }}
               breakpoints={{
                 330: { slidesPerView: 1.5, spaceBetween: 12 },
                 480: { slidesPerView: 2, spaceBetween: 16 },

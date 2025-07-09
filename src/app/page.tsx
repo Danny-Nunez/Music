@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
+import { PlayIcon, PauseIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { usePlayerStore } from '../store/playerStore';
 import AddToPlaylistButton from '../components/AddToPlaylistButton';
 import PopularArtists from './components/PopularArtists';
@@ -24,20 +24,8 @@ export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [cloudinaryUrl, setCloudinaryUrl] = useState<string | null>(null);
   const { currentTrack, isPlaying, setCurrentTrack, setQueue, setIsPlaying } = usePlayerStore();
-  const [focusedSong, setFocusedSong] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      // Only handle clicks outside song cards, but don't interfere with video player
-      if (!target.closest('.song-card') && !target.closest('.player-container')) {
-        setFocusedSong(null);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isSliding, setIsSliding] = useState(false);
 
   useEffect(() => {
     const fetchCloudinaryUrl = async () => {
@@ -190,121 +178,151 @@ export default function Home() {
 
         <div className="flex justify-between items-center mb-6" aria-label="Trending songs section">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Trending Songs</h2>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
-          {songs.map((song, index) => (
-            <div
-              key={song.id}
-              className="song-card bg-gray-800 rounded-lg overflow-hidden relative group w-full"
-              onClick={(e) => {
-                // Only set focus if clicking on the card itself, not on buttons
-                if (e.target === e.currentTarget || (e.target as HTMLElement).tagName === 'IMG') {
-                  setFocusedSong(song.encryptedVideoId);
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                if (currentPage > 0 && !isSliding) {
+                  setIsSliding(true);
+                  setTimeout(() => {
+                    setCurrentPage(currentPage - 1);
+                    setIsSliding(false);
+                  }, 150);
                 }
               }}
+              className={`p-2 rounded-full transition-colors ${
+                (currentPage > 0 && !isSliding)
+                  ? 'bg-gray-800 hover:bg-gray-700' 
+                  : 'bg-gray-800 opacity-50 cursor-not-allowed'
+              }`}
+              disabled={currentPage === 0 || isSliding}
+              aria-label="Previous"
             >
-              <div className="relative">
-                {song.thumbnail?.thumbnails[0]?.url && (
-                  <div className="relative">
-                      <img
-                      src={song.thumbnail.thumbnails[0].url}
-                      alt={`Album cover for ${song.name} by ${song.artists[0].name}`}
-                      className="w-full aspect-square object-cover"
-                    />
-                    {currentTrack?.videoId === song.encryptedVideoId ? (
-                      <div className="absolute inset-0 bg-black bg-opacity-50">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            const player = document.querySelector('iframe')?.contentWindow;
-                            if (player) {
-                              try {
-                                if (isPlaying) {
-                                  player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                                  setIsPlaying(false);
-                                } else {
-                                  player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                                  setIsPlaying(true);
-                                }
-                              } catch (error) {
-                                console.error('Error controlling video:', error);
-                              }
-                            }
-                          }}
-                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-2 sm:p-3 rounded-full hover:bg-red-700 transition-colors"
-                        >
-                          {isPlaying ? (
-                            <PauseIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+              <ChevronLeftIcon className="h-4 w-4 text-white" />
+            </button>
+            <button
+              onClick={() => {
+                const maxPage = Math.ceil(songs.length / 8) - 1;
+                if (currentPage < maxPage && !isSliding) {
+                  setIsSliding(true);
+                  setTimeout(() => {
+                    setCurrentPage(currentPage + 1);
+                    setIsSliding(false);
+                  }, 150);
+                }
+              }}
+              className={`p-2 rounded-full transition-colors ${
+                (currentPage < Math.ceil(songs.length / 8) - 1 && !isSliding)
+                  ? 'bg-gray-800 hover:bg-gray-700' 
+                  : 'bg-gray-800 opacity-50 cursor-not-allowed'
+              }`}
+              disabled={currentPage >= Math.ceil(songs.length / 8) - 1 || isSliding}
+              aria-label="Next"
+            >
+              <ChevronRightIcon className="h-4 w-4 text-white" />
+            </button>
+          </div>
+        </div>
+
+        <div className="overflow-hidden">
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ease-in-out ${isSliding ? 'transform -translate-x-4 opacity-80' : 'transform translate-x-0 opacity-100'}`}>
+            {(() => {
+              const songsPerPage = 8;
+              const startIndex = currentPage * songsPerPage;
+              const endIndex = startIndex + songsPerPage;
+              const currentSongs = songs.slice(startIndex, endIndex);
+              
+              // Split current songs into 2 columns of 4 each
+              const leftColumnSongs = currentSongs.slice(0, 4);
+              const rightColumnSongs = currentSongs.slice(4, 8);
+              
+              return [leftColumnSongs, rightColumnSongs].map((columnSongs, columnIndex) => (
+                <div key={columnIndex} className="space-y-2">
+                  {columnSongs.map((song, index) => {
+                    const globalIndex = startIndex + (columnIndex * 4) + index;
+                    return (
+                      <div
+                        key={`${song.id}-${globalIndex}`}
+                        className="song-row flex items-center gap-3 p-3 rounded-lg bg-gray-950 border border-gray-900 hover:bg-gray-800/50 transition-colors cursor-pointer"
+                        onClick={() => playSong(song, globalIndex)}
+
+                      >
+                        <div className="relative flex-shrink-0">
+                          <img
+                            src={song.thumbnail.thumbnails[0].url}
+                            alt={`Album cover for ${song.name}`}
+                            className="w-12 h-12 object-cover rounded"
+                          />
+                          {currentTrack?.videoId === song.encryptedVideoId ? (
+                            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const player = document.querySelector('iframe')?.contentWindow;
+                                  if (player) {
+                                    try {
+                                      if (isPlaying) {
+                                        player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                        setIsPlaying(false);
+                                      } else {
+                                        player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                        setIsPlaying(true);
+                                      }
+                                    } catch (error) {
+                                      console.error('Error controlling video:', error);
+                                    }
+                                  }
+                                }}
+                                className="text-white hover:text-red-400 transition-colors"
+                              >
+                                {isPlaying ? (
+                                  <PauseIcon className="h-4 w-4" />
+                                ) : (
+                                  <PlayIcon className="h-4 w-4" />
+                                )}
+                              </button>
+                            </div>
                           ) : (
-                            <PlayIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 flex items-center justify-center rounded transition-opacity hover:bg-opacity-50">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  playSong(song, globalIndex);
+                                }}
+                                className="text-white transition-opacity opacity-0 hover:opacity-100"
+                              >
+                                <PlayIcon className="h-4 w-4" />
+                              </button>
+                            </div>
                           )}
-                        </button>
-                        <AddToPlaylistButton
-                          track={{
-                            videoId: song.encryptedVideoId,
-                            title: song.name,
-                            thumbnail: song.thumbnail.thumbnails[0].url,
-                            artist: song.artists.map(a => a.name).join(', ')
-                          }}
-                          className="absolute top-2 right-2"
-                        />
+                        </div>
+                        
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-white font-medium text-sm truncate">{song.name}</h3>
+                          <p className="text-gray-400 text-xs truncate mt-0.5">
+                            {song.artists.map(a => a.name).join(', ')}
+                          </p>
+                        </div>
+                        
+                        <div className="flex items-center gap-2 flex-shrink-0 add-to-playlist-container">
+                          <div className="relative opacity-100 transition-all duration-200" key={`playlist-btn-${song.encryptedVideoId}-${globalIndex}`}>
+                            <AddToPlaylistButton
+                              track={{
+                                videoId: song.encryptedVideoId,
+                                title: song.name,
+                                thumbnail: song.thumbnail.thumbnails[0].url,
+                                artist: song.artists.map(a => a.name).join(', ')
+                              }}
+                              className="!relative !top-0 !right-0 !w-auto !h-auto p-2 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"
+                            />
+                          </div>
+                        </div>
                       </div>
-                    ) : focusedSong === song.encryptedVideoId ? (
-                      <div className="absolute inset-0 bg-black bg-opacity-50">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            playSong(song, index);
-                          }}
-                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-colors"
-                        >
-                          <PlayIcon className="h-6 w-6" />
-                        </button>
-                        <AddToPlaylistButton
-                          track={{
-                            videoId: song.encryptedVideoId,
-                            title: song.name,
-                            thumbnail: song.thumbnail.thumbnails[0].url,
-                            artist: song.artists.map(a => a.name).join(', ')
-                          }}
-                          className="absolute top-2 right-2"
-                        />
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            playSong(song, index);
-                          }}
-                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-colors"
-                        >
-                          <PlayIcon className="h-6 w-6" />
-                        </button>
-                        <AddToPlaylistButton
-                          track={{
-                            videoId: song.encryptedVideoId,
-                            title: song.name,
-                            thumbnail: song.thumbnail.thumbnails[0].url,
-                            artist: song.artists.map(a => a.name).join(', ')
-                          }}
-                          className="absolute top-2 right-2"
-                        />
-                      </div>
-                    )}
-                    <div className="bottom-0 left-0 right-0 bg-zinc-800 p-2 sm:p-3">
-                      <h3 className="text-white text-xs sm:text-sm font-medium truncate">{song.name}</h3>
-                      <p className="text-gray-400 text-xs truncate mt-0.5">{song.artists[0].name}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+                    );
+                  })}
+                </div>
+              ));
+            })()}
+          </div>
         </div>
       </div>
     </div>
