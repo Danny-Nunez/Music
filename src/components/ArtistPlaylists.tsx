@@ -24,9 +24,11 @@ interface Playlist {
 interface ArtistPlaylistsProps {
   artistName: string;
   headerImage: string;
+  onPlaylistCountChange?: (count: number) => void;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
-export default function ArtistPlaylists({ artistName, headerImage }: ArtistPlaylistsProps) {
+export default function ArtistPlaylists({ artistName, headerImage, onPlaylistCountChange, onLoadingChange }: ArtistPlaylistsProps) {
   const router = useRouter();
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,24 +36,28 @@ export default function ArtistPlaylists({ artistName, headerImage }: ArtistPlayl
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
+        onLoadingChange?.(true);
         const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artistName)}&type=playlist`);
         if (!response.ok) {
           throw new Error('Failed to fetch playlists');
         }
         const data = await response.json();
         console.log('Playlist data:', data);
-        setPlaylists(data.content || []);
+        const playlistsData = data.content || [];
+        setPlaylists(playlistsData);
+        onPlaylistCountChange?.(playlistsData.length);
       } catch (error) {
         console.error('Error fetching playlists:', error);
       } finally {
         setLoading(false);
+        onLoadingChange?.(false);
       }
     };
 
     if (artistName) {
       fetchPlaylists();
     }
-  }, [artistName]);
+  }, [artistName, onLoadingChange]);
 
   if (loading) {
     return (
@@ -117,7 +123,7 @@ export default function ArtistPlaylists({ artistName, headerImage }: ArtistPlayl
                           `/api/proxy-image?url=${encodeURIComponent(playlist.thumbnails[1].url)}` : 
                           headerImage}
                         alt={playlist.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-52 object-cover"
                         onError={(e) => {
                           const img = e.target as HTMLImageElement;
                           img.src = headerImage;
