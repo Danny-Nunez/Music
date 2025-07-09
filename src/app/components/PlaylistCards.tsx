@@ -2,8 +2,6 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { usePlayerStore } from '../../store/playerStore';
-import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
