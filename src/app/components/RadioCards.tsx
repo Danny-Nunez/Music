@@ -87,7 +87,7 @@ export default function RadioCards() {
         // Transform the API response to match our component's expected structure
         // Filter out null/undefined streams and ensure all required fields exist
         const transformedStreams: RadioStream[] = Object.entries(data)
-          .filter(([_, stream]) => stream && stream.id && stream.title)
+          .filter(([, stream]) => stream && stream.id && stream.title)
           .map(([streamKey, stream]) => ({
             id: streamKey,
             title: stream.title,
