@@ -6,7 +6,9 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT, SONG_ADDED_EVENT, emitPlaylistCreated } from '../../lib/events';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { PlusIcon, CheckIcon, XMarkIcon, QueueListIcon, PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
+import { Music, Mic, Drum, Dumbbell, Zap, Heart, Palmtree, Salad, PartyPopper, Smile } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SignInModal from '@/components/SignInModal';
 import ArtistPageAddToPlaylistButton from '@/components/ArtistPageAddToPlaylistButton';
@@ -82,6 +84,10 @@ export default function Header() {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Helper function to check if a genre route is active
+  const isGenreActive = (genre: string) => pathname.startsWith(`/genre/${genre}`);
 
   useEffect(() => {
     return () => {
@@ -692,6 +698,200 @@ export default function Header() {
               </svg>
               Home
             </Link>
+            
+            <div className="pt-4 border-t border-gray-800">
+              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Genres</h3>
+              
+              <Link
+                href="/genre/pop"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('pop') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('pop') 
+                    ? 'bg-purple-600/20 text-purple-400' 
+                    : ''
+                }`}>
+                  <Music className="w-5 h-5" />
+                </div>
+                Pop
+              </Link>
+              
+              <Link
+                href="/genre/hiphop"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('hiphop') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('hiphop') 
+                    ? 'bg-orange-600/20 text-orange-400' 
+                    : ''
+                }`}>
+                  <Mic className="w-5 h-5" />
+                </div>
+                Hip Hop
+              </Link>
+              
+              <Link
+                href="/genre/rock"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('rock') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('rock') 
+                    ? 'bg-red-600/20 text-red-400' 
+                    : ''
+                }`}>
+                  <Drum className="w-5 h-5" />
+                </div>
+                Rock
+              </Link>
+              
+              <Link
+                href="/genre/workout"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('workout') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('workout') 
+                    ? 'bg-green-600/20 text-green-400' 
+                    : ''
+                }`}>
+                  <Dumbbell className="w-5 h-5" />
+                </div>
+                Workout
+              </Link>
+              
+              <Link
+                href="/genre/electronic"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('electronic') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('electronic') 
+                    ? 'bg-blue-600/20 text-blue-400' 
+                    : ''
+                }`}>
+                  <Zap className="w-5 h-5" />
+                </div>
+                Electronic
+              </Link>
+              
+              <Link
+                href="/genre/rnb"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('rnb') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('rnb') 
+                    ? 'bg-pink-600/20 text-pink-400' 
+                    : ''
+                }`}>
+                  <Heart className="w-5 h-5" />
+                </div>
+                R&B
+              </Link>
+              
+              <Link
+                href="/genre/reggae"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('reggae') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('reggae') 
+                    ? 'bg-green-600/20 text-green-400' 
+                    : ''
+                }`}>
+                  <Palmtree className="w-5 h-5" />
+                </div>
+                Reggae
+              </Link>
+              
+              <Link
+                href="/genre/latin"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('latin') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('latin') 
+                    ? 'bg-yellow-600/20 text-yellow-400' 
+                    : ''
+                }`}>
+                  <Salad className="w-5 h-5" />
+                </div>
+                Latin
+              </Link>
+              
+              <Link
+                href="/genre/party"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('party') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('party') 
+                    ? 'bg-indigo-600/20 text-indigo-400' 
+                    : ''
+                }`}>
+                  <PartyPopper className="w-5 h-5" />
+                </div>
+                Party
+              </Link>
+              
+              <Link
+                href="/genre/goodvibe"
+                className={`flex items-center gap-3 transition-colors ${
+                  isGenreActive('goodvibe') 
+                    ? 'text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={handleNavLinkClick}
+              >
+                <div className={`p-2 rounded-lg transition-colors ${
+                  isGenreActive('goodvibe') 
+                    ? 'bg-cyan-600/20 text-cyan-400' 
+                    : ''
+                }`}>
+                  <Smile className="w-5 h-5" />
+                </div>
+                Good Vibes
+              </Link>
+            </div>
             {session?.user && (
               <div className="mt-4">
                 <div className="flex justify-between items-center mb-4 mt-8">

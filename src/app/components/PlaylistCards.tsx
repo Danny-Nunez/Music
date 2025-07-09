@@ -202,9 +202,9 @@ export default function PlaylistCards() {
                 <SwiperSlide key={playlistIndex}>
                   <div
                     onClick={() => handlePlaylistClick(playlist.playlistId)}
-                    className="block group text-center w-full cursor-pointer"
+                    className="block group text-center w-full cursor-pointer "
                   >
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center ">
                       <div className="relative mb-2">
                         <div className="relative w-full aspect-square overflow-hidden rounded-lg">
                           <img
