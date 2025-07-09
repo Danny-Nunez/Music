@@ -17,6 +17,10 @@ export default function Footer() {
           <Link
             href="/privacy"
             className="hover:text-white transition-colors"
+            onClick={(e) => {
+              // Prevent any interference with video playback
+              e.stopPropagation();
+            }}
           >
             Privacy Policy
           </Link>
@@ -24,6 +28,10 @@ export default function Footer() {
           <Link
             href="/terms"
             className="hover:text-white transition-colors"
+            onClick={(e) => {
+              // Prevent any interference with video playback
+              e.stopPropagation();
+            }}
           >
             Terms & Conditions
           </Link>

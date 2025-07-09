@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Providers from '../components/Providers';
 import { Toaster } from 'react-hot-toast';
+import Player from './components/Player';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -70,6 +71,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
+          <Player />
           <div className="fixed z-[99999999]">
           <Toaster
             position="bottom-center"

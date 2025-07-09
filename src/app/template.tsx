@@ -1,6 +1,5 @@
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import Player from './components/Player';
 import Footer from './components/Footer';
 
 export default function Template({
@@ -19,7 +18,6 @@ export default function Template({
           </main>
           <Footer />
         </div>
-        <Player />
       </div>
     </div>
   );

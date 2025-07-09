@@ -114,7 +114,14 @@ export default function Sidebar() {
   return (
     <div className="fixed top-0 left-0 w-64 h-screen bg-black text-white p-6 flex flex-col hidden md:flex">
       <div className="mb-8">
-        <Link href="/" className="text-2xl font-bold hover:text-white/90 transition-colors flex">
+        <Link 
+          href="/" 
+          className="text-2xl font-bold hover:text-white/90 transition-colors flex"
+          onClick={(e) => {
+            // Prevent any interference with video playback
+            e.stopPropagation();
+          }}
+        >
           <img
             src="/logo.png"
             alt="logo"
@@ -128,6 +135,10 @@ export default function Sidebar() {
         <Link
           href="/"
           className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"
+          onClick={(e) => {
+            // Prevent any interference with video playback
+            e.stopPropagation();
+          }}
         >
           <svg
             className="w-5 h-5"
@@ -206,6 +217,10 @@ export default function Sidebar() {
                 key={`${playlist.id}-${playlist.songs?.[0]?.thumbnail || 'default'}`}
                 href={`/playlists/${playlist.id}`}
                 className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"
+                onClick={(e) => {
+                  // Prevent any interference with video playback
+                  e.stopPropagation();
+                }}
               >
                 <img
                   src={playlist.songs?.[0]?.thumbnail || '/defaultcover.png'}

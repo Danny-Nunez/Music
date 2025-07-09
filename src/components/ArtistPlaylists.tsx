@@ -105,7 +105,7 @@ export default function ArtistPlaylists({ artistName, headerImage }: ArtistPlayl
                 onClick={() => {
                   // Extract the actual ID from the browseId (remove VLPLy prefix if present)
                   const cleanId = playlist.browseId.replace(/^VLPL/, 'PL');
-                  router.push(`/album/${cleanId}`);
+                  router.push(`/playlist/${cleanId}`);
                 }}
                 className="block group text-center w-full cursor-pointer"
               >
