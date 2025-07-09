@@ -2,9 +2,12 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { usePlayerStore } from '../../store/playerStore';
+import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -34,7 +37,7 @@ export default function PlaylistCards() {
   const [musicCategories, setMusicCategories] = useState<MusicCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const swiperRefs = useRef<any[]>([]);
+  const swiperRefs = useRef<(SwiperType | null)[]>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -91,13 +94,13 @@ export default function PlaylistCards() {
 
   const handlePrevSlide = (categoryIndex: number) => {
     if (swiperRefs.current[categoryIndex]) {
-      swiperRefs.current[categoryIndex].slidePrev();
+      swiperRefs.current[categoryIndex]?.slidePrev();
     }
   };
 
   const handleNextSlide = (categoryIndex: number) => {
     if (swiperRefs.current[categoryIndex]) {
-      swiperRefs.current[categoryIndex].slideNext();
+      swiperRefs.current[categoryIndex]?.slideNext();
     }
   };
 

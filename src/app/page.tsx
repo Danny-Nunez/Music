@@ -24,22 +24,8 @@ export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [cloudinaryUrl, setCloudinaryUrl] = useState<string | null>(null);
   const { currentTrack, isPlaying, setCurrentTrack, setQueue, setIsPlaying } = usePlayerStore();
-  const [focusedSong, setFocusedSong] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      // Only handle clicks outside song cards, but don't interfere with video player
-      if (!target.closest('.song-card') && !target.closest('.player-container')) {
-        setFocusedSong(null);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
 
   useEffect(() => {
     const fetchCloudinaryUrl = async () => {

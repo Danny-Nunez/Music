@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -39,7 +40,7 @@ export default function PopularArtists() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState<{[key: string]: boolean}>({});
-  const swiperRef = useRef<any>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     const fetchArtists = async () => {

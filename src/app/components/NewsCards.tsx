@@ -6,6 +6,7 @@ import { usePlayerStore } from '../../store/playerStore';
 import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState, useRef } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -54,7 +55,7 @@ export default function NewsCards() {
   const [newsStreams, setNewsStreams] = useState<NewsStream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const swiperRef = useRef<any>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     let isMounted = true;
