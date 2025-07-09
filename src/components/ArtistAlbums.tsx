@@ -25,9 +25,11 @@ interface Album {
 interface ArtistAlbumsProps {
   artistName: string;
   headerImage: string;
+  onAlbumCountChange?: (count: number) => void;
+  onLoadingChange?: (loading: boolean) => void;
 }
 
-export default function ArtistAlbums({ artistName, headerImage }: ArtistAlbumsProps) {
+export default function ArtistAlbums({ artistName, headerImage, onAlbumCountChange, onLoadingChange }: ArtistAlbumsProps) {
   const router = useRouter();
   const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,24 +37,28 @@ export default function ArtistAlbums({ artistName, headerImage }: ArtistAlbumsPr
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
+        onLoadingChange?.(true);
         const response = await fetch(`/api/youtubemusic?q=${encodeURIComponent(artistName)}&type=album`);
         if (!response.ok) {
           throw new Error('Failed to fetch albums');
         }
         const data = await response.json();
         console.log('Album data:', data);
-        setAlbums(data.content || []);
+        const albumsData = data.content || [];
+        setAlbums(albumsData);
+        onAlbumCountChange?.(albumsData.length);
       } catch (error) {
         console.error('Error fetching albums:', error);
       } finally {
         setLoading(false);
+        onLoadingChange?.(false);
       }
     };
 
     if (artistName) {
       fetchAlbums();
     }
-  }, [artistName]);
+  }, [artistName, onLoadingChange]);
 
   useEffect(() => {
     if (albums.length > 0) {
