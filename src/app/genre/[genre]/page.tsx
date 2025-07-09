@@ -160,7 +160,7 @@ export default function GenrePage() {
     }
   };
 
-     const renderSongsSection = (category: MusicCategory, categoryIndex: number) => {
+     const renderSongsSection = (category: MusicCategory) => {
      const songs = category.contents;
      const songsPerPage = 8; // Show 8 songs per page
      const maxPage = Math.ceil(songs.length / songsPerPage) - 1;
@@ -622,7 +622,7 @@ export default function GenrePage() {
           return (
             <div key={`category-${categoryIndex}-${category.title}`}>
               {isSongsCategory 
-                ? renderSongsSection(category, categoryIndex)
+                ? renderSongsSection(category)
                 : renderPlaylistSection(category, categoryIndex)}
             </div>
           );
