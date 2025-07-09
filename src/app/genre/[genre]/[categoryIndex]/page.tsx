@@ -219,6 +219,7 @@ export default function CategoryPage() {
   if (!category || category.contents.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen">
+
         <div className="text-center">
           <p className="text-white text-xl mb-4">No songs found in this category</p>
           <button 
