@@ -4,7 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { usePlayerStore } from '../../store/playerStore';
 import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState, useRef } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -53,6 +54,7 @@ export default function NewsCards() {
   const [newsStreams, setNewsStreams] = useState<NewsStream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const swiperRef = useRef<any>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -204,12 +206,40 @@ export default function NewsCards() {
     }
   };
 
+  const handlePrevSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev();
+    }
+  };
+
+  const handleNextSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slideNext();
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Previous"
+              >
+                <ChevronLeftIcon className="h-4 w-4 text-white" />
+              </button>
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Next"
+              >
+                <ChevronRightIcon className="h-4 w-4 text-white" />
+              </button>
+            </div>
           </div>
           <div className="flex space-x-4">
             {[...Array(4)].map((_, i) => (
@@ -230,6 +260,22 @@ export default function NewsCards() {
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Previous"
+              >
+                <ChevronLeftIcon className="h-4 w-4 text-white" />
+              </button>
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Next"
+              >
+                <ChevronRightIcon className="h-4 w-4 text-white" />
+              </button>
+            </div>
           </div>
           <div className="text-red-400 text-center py-8">
             <p>Error loading news streams: {error}</p>
@@ -251,6 +297,22 @@ export default function NewsCards() {
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Previous"
+              >
+                <ChevronLeftIcon className="h-4 w-4 text-white" />
+              </button>
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Next"
+              >
+                <ChevronRightIcon className="h-4 w-4 text-white" />
+              </button>
+            </div>
           </div>
           <div className="text-gray-400 text-center py-8">
             <p>No news streams available</p>
@@ -265,13 +327,31 @@ export default function NewsCards() {
       <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrevSlide}
+              className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Previous"
+            >
+              <ChevronLeftIcon className="h-4 w-4 text-white" />
+            </button>
+            <button
+              onClick={handleNextSlide}
+              className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Next"
+            >
+              <ChevronRightIcon className="h-4 w-4 text-white" />
+            </button>
+          </div>
         </div>
 
         <Swiper
           modules={[Navigation]}
           spaceBetween={12}
           slidesPerView={1.5}
-          navigation
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
           breakpoints={{
             330: { slidesPerView: 1.5, spaceBetween: 12 },
             480: { slidesPerView: 2, spaceBetween: 16 },
@@ -318,12 +398,14 @@ export default function NewsCards() {
                     <h3 className="text-white group-hover:text-gray-400 font-medium text-xs sm:text-sm truncate transition-colors">
                       {stream.title}
                     </h3>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {stream.channel.name}
+                    <div className="flex items-center justify-center gap-1 mt-1">
+                      <span className="text-gray-400 text-xs">{stream.channel.name}</span>
                       {stream.channel.verified && (
-                        <span className="ml-1 text-blue-400">✓</span>
+                        <svg className="w-3 h-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
                       )}
-                    </p>
+                    </div>
                     {stream.watching > 0 && (
                       <p className="text-gray-400 text-xs mt-1">
                         {stream.watching.toLocaleString()} watching

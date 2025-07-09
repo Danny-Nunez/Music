@@ -4,7 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { usePlayerStore } from '../../store/playerStore';
 import { PauseIcon, PlayIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState, useRef } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -53,6 +54,7 @@ export default function RadioCards() {
   const [radioStreams, setRadioStreams] = useState<RadioStream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const swiperRef = useRef<any>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -204,12 +206,40 @@ export default function RadioCards() {
     }
   };
 
+  const handlePrevSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev();
+    }
+  };
+
+  const handleNextSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slideNext();
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Previous"
+              >
+                <ChevronLeftIcon className="h-4 w-4 text-white" />
+              </button>
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Next"
+              >
+                <ChevronRightIcon className="h-4 w-4 text-white" />
+              </button>
+            </div>
           </div>
           <div className="flex space-x-4">
             {[...Array(4)].map((_, i) => (
@@ -230,6 +260,22 @@ export default function RadioCards() {
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Previous"
+              >
+                <ChevronLeftIcon className="h-4 w-4 text-white" />
+              </button>
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Next"
+              >
+                <ChevronRightIcon className="h-4 w-4 text-white" />
+              </button>
+            </div>
           </div>
           <div className="text-red-400 text-center py-8">
             <p>Error loading radio streams: {error}</p>
@@ -251,6 +297,22 @@ export default function RadioCards() {
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+            <div className="flex items-center gap-2">
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Previous"
+              >
+                <ChevronLeftIcon className="h-4 w-4 text-white" />
+              </button>
+              <button
+                disabled
+                className="p-2 rounded-full bg-gray-800 opacity-50 cursor-not-allowed"
+                aria-label="Next"
+              >
+                <ChevronRightIcon className="h-4 w-4 text-white" />
+              </button>
+            </div>
           </div>
           <div className="text-gray-400 text-center py-8">
             <p>No radio streams available</p>
@@ -265,13 +327,31 @@ export default function RadioCards() {
       <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrevSlide}
+              className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Previous"
+            >
+              <ChevronLeftIcon className="h-4 w-4 text-white" />
+            </button>
+            <button
+              onClick={handleNextSlide}
+              className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Next"
+            >
+              <ChevronRightIcon className="h-4 w-4 text-white" />
+            </button>
+          </div>
         </div>
 
         <Swiper
           modules={[Navigation]}
           spaceBetween={12}
           slidesPerView={1.5}
-          navigation
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
           breakpoints={{
             330: { slidesPerView: 1.5, spaceBetween: 12 },
             480: { slidesPerView: 2, spaceBetween: 16 },
