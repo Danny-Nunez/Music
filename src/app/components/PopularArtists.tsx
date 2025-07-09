@@ -29,6 +29,11 @@ interface Artist {
   alternativeImage?: string;
 }
 
+interface CachedArtistData {
+  artists: Artist[];
+  timestamp: number;
+}
+
 export default function PopularArtists() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +42,14 @@ export default function PopularArtists() {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
+        // Check localStorage for cached data
+        const cachedData = getCachedArtistData();
+        if (cachedData) {
+          setArtists(cachedData.artists);
+          setLoading(false);
+          return;
+        }
+
         const response = await fetch('/api/popular-artists', {
           method: 'POST'
         });
@@ -82,6 +95,8 @@ export default function PopularArtists() {
           })
         );
 
+        // Cache the results
+        setCachedArtistData(artistsWithImages);
         setArtists(artistsWithImages);
         setLoading(false);
       } catch (error) {
@@ -92,6 +107,41 @@ export default function PopularArtists() {
 
     fetchArtists();
   }, []);
+
+  // Cache management functions
+  const getCachedArtistData = (): CachedArtistData | null => {
+    try {
+      const cached = localStorage.getItem('beatinbox_popular_artists');
+      if (!cached) return null;
+      
+      const parsedData: CachedArtistData = JSON.parse(cached);
+      const now = Date.now();
+      const twoHours = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+      
+      if (now - parsedData.timestamp < twoHours) {
+        return parsedData;
+      }
+      
+      // Cache expired, remove it
+      localStorage.removeItem('beatinbox_popular_artists');
+      return null;
+    } catch (error) {
+      console.error('Error reading cached artist data:', error);
+      return null;
+    }
+  };
+
+  const setCachedArtistData = (artists: Artist[]): void => {
+    try {
+      const cacheData: CachedArtistData = {
+        artists,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('beatinbox_popular_artists', JSON.stringify(cacheData));
+    } catch (error) {
+      console.error('Error caching artist data:', error);
+    }
+  };
 
   const LoadingPlaceholder = () => (
     <div className="flex flex-col items-center">
@@ -141,6 +191,10 @@ export default function PopularArtists() {
                 <Link
                   href={`/artist${artist.id}`}
                   className="block group text-center w-full"
+                  onClick={(e) => {
+                    // Prevent any interference with video playback
+                    e.stopPropagation();
+                  }}
                 >
                   <div className="flex flex-col items-center">
                     <div className="relative mb-2">

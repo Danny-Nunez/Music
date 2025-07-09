@@ -6,6 +6,8 @@ import { usePlayerStore } from '../store/playerStore';
 import AddToPlaylistButton from '../components/AddToPlaylistButton';
 import PopularArtists from './components/PopularArtists';
 import RadioCards from './components/RadioCards';
+import NewsCards from './components/NewsCards';
+import PlaylistCards from './components/PlaylistCards';
 
 interface Song {
   id: string;
@@ -26,7 +28,9 @@ export default function Home() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest('.song-card')) {
+      const target = event.target as HTMLElement;
+      // Only handle clicks outside song cards, but don't interfere with video player
+      if (!target.closest('.song-card') && !target.closest('.player-container')) {
         setFocusedSong(null);
       }
     };
@@ -38,6 +42,18 @@ export default function Home() {
   useEffect(() => {
     const fetchCloudinaryUrl = async () => {
       try {
+        // Check for cached Cloudinary URL
+        const cachedData = localStorage.getItem('trending-songs-cache');
+        if (cachedData) {
+          const parsed = JSON.parse(cachedData);
+          const isExpired = Date.now() - parsed.timestamp > 2 * 60 * 60 * 1000; // 2 hours
+          
+          if (!isExpired && parsed.cloudinaryUrl) {
+            setCloudinaryUrl(parsed.cloudinaryUrl);
+            return;
+          }
+        }
+
         const response = await fetch('/api/get-latest-cloudinary-url?folder=top100-songs');
         if (!response.ok) {
           throw new Error(`Failed to fetch Cloudinary URL: ${response.statusText}`);
@@ -56,7 +72,26 @@ export default function Home() {
   useEffect(() => {
     const fetchSongs = async () => {
       if (!cloudinaryUrl) return; // Wait until Cloudinary URL is available
+      
       try {
+        // Check for cached songs data
+        const cachedData = localStorage.getItem('trending-songs-cache');
+        if (cachedData) {
+          try {
+            const parsed = JSON.parse(cachedData);
+            const isExpired = Date.now() - parsed.timestamp > 2 * 60 * 60 * 1000; // 2 hours
+            
+            if (!isExpired && parsed.songs && parsed.cloudinaryUrl === cloudinaryUrl) {
+              console.log('Loading songs from cache...');
+              setSongs(parsed.songs);
+              return;
+            }
+          } catch (parseError) {
+            console.warn('Failed to parse cached data:', parseError);
+            localStorage.removeItem('trending-songs-cache');
+          }
+        }
+
         console.log('Fetching trending songs...');
         const response = await fetch(cloudinaryUrl);
         if (!response.ok) {
@@ -70,8 +105,22 @@ export default function Home() {
         }
         const songList =
           data.contents.sectionListRenderer.contents[0].musicAnalyticsSectionRenderer.content.trackTypes[0].trackViews;
+        
         console.log('Songs loaded:', songList.length);
         setSongs(songList);
+
+        // Cache the data
+        try {
+          const cacheData = {
+            timestamp: Date.now(),
+            cloudinaryUrl,
+            songs: songList
+          };
+          localStorage.setItem('trending-songs-cache', JSON.stringify(cacheData));
+          console.log('Songs cached successfully');
+        } catch (cacheError) {
+          console.warn('Failed to cache songs data:', cacheError);
+        }
       } catch (error) {
         console.error('Error loading songs:', error);
         setSongs([]);
@@ -131,7 +180,13 @@ export default function Home() {
           <RadioCards />
         </div> 
 
-        
+        <div className="mb-10">
+          <NewsCards />
+        </div>
+
+        <div className="mb-10">
+          <PlaylistCards />
+        </div>
 
         <div className="flex justify-between items-center mb-6" aria-label="Trending songs section">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Trending Songs</h2>
@@ -141,7 +196,13 @@ export default function Home() {
           {songs.map((song, index) => (
             <div
               key={song.id}
-              className="bg-gray-800 rounded-lg overflow-hidden relative group w-full"
+              className="song-card bg-gray-800 rounded-lg overflow-hidden relative group w-full"
+              onClick={(e) => {
+                // Only set focus if clicking on the card itself, not on buttons
+                if (e.target === e.currentTarget || (e.target as HTMLElement).tagName === 'IMG') {
+                  setFocusedSong(song.encryptedVideoId);
+                }
+              }}
             >
               <div className="relative">
                 {song.thumbnail?.thumbnails[0]?.url && (
@@ -156,6 +217,7 @@ export default function Home() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
+                            e.preventDefault();
                             const player = document.querySelector('iframe')?.contentWindow;
                             if (player) {
                               try {
@@ -192,7 +254,11 @@ export default function Home() {
                     ) : focusedSong === song.encryptedVideoId ? (
                       <div className="absolute inset-0 bg-black bg-opacity-50">
                         <button
-                          onClick={() => playSong(song, index)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            playSong(song, index);
+                          }}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-colors"
                         >
                           <PlayIcon className="h-6 w-6" />
@@ -210,7 +276,11 @@ export default function Home() {
                     ) : (
                       <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100">
                         <button
-                          onClick={() => playSong(song, index)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            playSong(song, index);
+                          }}
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-colors"
                         >
                           <PlayIcon className="h-6 w-6" />

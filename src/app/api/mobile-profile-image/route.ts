@@ -11,14 +11,11 @@ cloudinary.config({
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept, Content-Length, multipart/form-data',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept, Content-Length',
   'Access-Control-Allow-Credentials': 'true'
 };
 
 export async function POST(request: Request): Promise<Response> {
-  console.log('Received upload request');
-  console.log('Request headers:', Object.fromEntries(request.headers.entries()));
-
   // Handle preflight request
   if (request.method === 'OPTIONS') {
     return new Response(null, {
@@ -28,25 +25,15 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   try {
-    // Get the form data from the request
-    const formData = await request.formData();
-    console.log('FormData received');
+    // Get the request body
+    const body = await request.json();
+    console.log('Request body:', body);
 
-    // Log all form data entries
-    const entries = Array.from(formData.entries());
-    entries.forEach(([key, value]) => {
-      console.log(`Form data entry - ${key}:`, value);
-    });
-
-    const file = formData.get('file');
-    console.log('File from form:', file);
-
-    if (!file) {
-      console.log('No file provided');
+    if (!body.assets?.[0]?.uri) {
       return new Response(
         JSON.stringify({ 
           success: false,
-          error: 'No file provided'
+          error: 'No image URI provided'
         }),
         { 
           status: 400,
@@ -58,29 +45,20 @@ export async function POST(request: Request): Promise<Response> {
       );
     }
 
-    // Convert the file data to a buffer
-    let buffer: Buffer;
-    try {
-      // Get the raw file data
-      const rawData = await request.arrayBuffer();
-      buffer = Buffer.from(rawData);
-    } catch (error) {
-      console.error('Error processing file:', error);
-      throw new Error(`Failed to process file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-
-    console.log('File processed, uploading to Cloudinary...');
+    const imageData = body.assets[0];
+    console.log('Processing image:', imageData);
 
     // Upload to Cloudinary
     const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
+      cloudinary.uploader.upload(
+        imageData.uri,
         {
           folder: 'profile-images',
           resource_type: 'image',
-          allowed_formats: ['jpg', 'jpeg'], // Restrict to JPEG since that's what the app sends
+          allowed_formats: ['jpg', 'jpeg'],
           transformation: [
-            { width: 500, height: 500, crop: 'fill' }, // Match app's 1:1 aspect ratio
-            { quality: 80 } // Match app's quality setting
+            { width: 500, height: 500, crop: 'fill' },
+            { quality: 80 }
           ]
         },
         (error, result) => {
@@ -93,14 +71,10 @@ export async function POST(request: Request): Promise<Response> {
           }
         }
       );
-
-      // Write buffer to stream
-      uploadStream.end(buffer);
     });
 
     console.log('Upload complete, returning response');
 
-    // Return the Cloudinary URL with CORS headers
     return new Response(
       JSON.stringify({
         success: true,
@@ -137,19 +111,11 @@ export async function POST(request: Request): Promise<Response> {
   }
 }
 
-// Handle OPTIONS preflight request
-export async function OPTIONS(): Promise<Response> {
-  return new Response(null, {
-    status: 200,
-    headers: corsHeaders
-  });
-}
-
 // Configure max file size
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: '4mb' // Max file size
+      sizeLimit: '4mb'
     }
   }
 };
