@@ -8,7 +8,7 @@ import { PLAYLIST_UPDATED_EVENT, PLAYLIST_CREATED_EVENT, SONG_ADDED_EVENT, emitP
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { PlusIcon, CheckIcon, XMarkIcon, QueueListIcon, PlayIcon, PauseIcon } from '@heroicons/react/24/outline';
-import { Music, Mic, Drum, Dumbbell, Zap, Heart, Palmtree, Salad, PartyPopper, Smile } from 'lucide-react';
+import { Music, Mic, Drum, Dumbbell, Zap, Heart, Palmtree, Salad, PartyPopper, Smile, Home } from 'lucide-react';
 import toast from 'react-hot-toast';
 import SignInModal from '@/components/SignInModal';
 import ArtistPageAddToPlaylistButton from '@/components/ArtistPageAddToPlaylistButton';
@@ -86,6 +86,8 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
+  // Helper function to check if a route is active
+  const isActive = (path: string) => pathname === path;
   // Helper function to check if a genre route is active
   const isGenreActive = (genre: string) => pathname.startsWith(`/genre/${genre}`);
 
@@ -696,20 +698,22 @@ export default function Header() {
           }`}
         >
           <nav className="space-y-4 pb-20">
-            <Link href="/" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colorse" onClick={handleNavLinkClick}>
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
+            <Link
+              href="/"
+              className={`flex items-center gap-3 transition-colors ${
+                isActive('/') 
+                  ? 'text-white' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
+              onClick={handleNavLinkClick}
+            >
+              <div className={`p-2 rounded-lg transition-colors ${
+                isActive('/') 
+                  ? 'bg-red-600/20 text-red-400' 
+                  : ''
+              }`}>
+                <Home className="w-5 h-5" />
+              </div>
               Home
             </Link>
             
