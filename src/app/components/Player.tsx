@@ -311,7 +311,12 @@ export default function Player() {
       // Check if player is still valid
       if (playerRef.current === player && isPlaying) {
         try {
+          // iOS FIX: Quick pause/play cycle to trick iOS autoplay restrictions
           await player.playVideo();
+          await new Promise(resolve => setTimeout(resolve, 100)); // Brief delay
+          await player.pauseVideo();
+          await new Promise(resolve => setTimeout(resolve, 100)); // Brief delay
+          await player.playVideo(); // Now play for real
         } catch {} // Silently handle any player initialization errors
       }
     } catch (error) {
@@ -323,6 +328,11 @@ export default function Player() {
         if (playerRef.current === player && player?.cueVideoById) {
           await player.cueVideoById(currentTrack.videoId);
           if (isPlaying && player?.playVideo) {
+            // iOS FIX: Apply the same pause/play cycle to retry
+            await player.playVideo();
+            await new Promise(resolve => setTimeout(resolve, 100));
+            await player.pauseVideo();
+            await new Promise(resolve => setTimeout(resolve, 100));
             await player.playVideo();
           }
         }
