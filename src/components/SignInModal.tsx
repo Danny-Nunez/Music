@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import AnimatedLogo from '../app/components/AnimatedLogo';
 
 interface SignInModalProps {
   onClose: () => void;
@@ -99,11 +100,12 @@ export default function SignInModal({ onClose }: SignInModalProps) {
           </button>
           <div className="flex justify-between items-center mb-6">
             <div className="text-center flex-1">
-              <img
-                src="/logo.png"
-                alt="logo"
-                className="w-12 h-12 mx-auto mb-2"
-              />
+              <div className="flex justify-center mb-2">
+                <AnimatedLogo
+                  width={48}
+                  height={48}
+                />
+              </div>
               <h1 className="text-3xl font-bold text-white">{isRegistering ? 'BeatInbox' : 'BeatInbox'}</h1>
               <p className="text-gray-400">{isRegistering ? 'Sign up to continue' : ''}</p>
             </div>
