@@ -308,17 +308,19 @@ export default function Player() {
       // Add a small delay for mobile devices
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      // Check if player is still valid
-      if (playerRef.current === player && isPlaying) {
-        try {
-          // iOS FIX: Quick pause/play cycle to trick iOS autoplay restrictions
-          await player.playVideo();
-          await new Promise(resolve => setTimeout(resolve, 100)); // Brief delay
-          await player.pauseVideo();
-          await new Promise(resolve => setTimeout(resolve, 100)); // Brief delay
-          await player.playVideo(); // Now play for real
-        } catch {} // Silently handle any player initialization errors
-      }
+      // ALWAYS do pause/play toggle to ensure iOS compatibility
+      try {
+        // Universal iOS/Mobile FIX: Always do pause/play cycle for any device
+        await player.playVideo();
+        await new Promise(resolve => setTimeout(resolve, 150)); // Brief delay
+        await player.pauseVideo();
+        await new Promise(resolve => setTimeout(resolve, 150)); // Brief delay
+        
+        // Now check if we should actually be playing
+        if (playerRef.current === player && isPlaying) {
+          await player.playVideo(); // Play for real if supposed to be playing
+        }
+      } catch {} // Silently handle any player initialization errors
     } catch (error) {
       console.error('Initial playback failed:', error);
       try {
@@ -327,12 +329,14 @@ export default function Player() {
         // Check if player is still valid
         if (playerRef.current === player && player?.cueVideoById) {
           await player.cueVideoById(currentTrack.videoId);
+          
+          // ALWAYS apply the pause/play cycle to retry as well
+          await player.playVideo();
+          await new Promise(resolve => setTimeout(resolve, 150));
+          await player.pauseVideo();
+          await new Promise(resolve => setTimeout(resolve, 150));
+          
           if (isPlaying && player?.playVideo) {
-            // iOS FIX: Apply the same pause/play cycle to retry
-            await player.playVideo();
-            await new Promise(resolve => setTimeout(resolve, 100));
-            await player.pauseVideo();
-            await new Promise(resolve => setTimeout(resolve, 100));
             await player.playVideo();
           }
         }
