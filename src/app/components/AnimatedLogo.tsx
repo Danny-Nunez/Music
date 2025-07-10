@@ -21,7 +21,11 @@ export default function AnimatedLogo({ width = 32, height = 32, className = '' }
       className={`${className} inline-block`}
       style={{ width: `${width}px`, height: `${height}px` }}
     >
-      {RiveComponent && React.createElement(RiveComponent as any, {
+      {RiveComponent && React.createElement(RiveComponent as React.ComponentType<{
+        width?: number;
+        height?: number;
+        style?: React.CSSProperties;
+      }>, {
         width,
         height,
         style: { 
