@@ -19,6 +19,7 @@ import {
   PartyPopper, 
   Smile 
 } from 'lucide-react';
+import AnimatedLogo from './AnimatedLogo';
 import toast from 'react-hot-toast';
 
 interface Song {
@@ -142,10 +143,10 @@ export default function Sidebar() {
             e.stopPropagation();
           }}
         >
-          <img
-            src="/logo.png"
-            alt="logo"
-            className="w-8 h-8 mr-2"
+          <AnimatedLogo
+            width={32}
+            height={32}
+            className="mr-2"
           />
           Beatinbox
         </Link>

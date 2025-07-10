@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
+import AnimatedLogo from '../app/components/AnimatedLogo';
 
 interface ResetPasswordModalProps {
   onClose: () => void;
@@ -69,11 +70,12 @@ export default function ResetPasswordModal({ onClose }: ResetPasswordModalProps)
             </svg>
           </button>
           <div className="text-center mb-6">
-            <img
-              src="/logo.png"
-              alt="logo"
-              className="w-12 h-12 mx-auto mb-2"
-            />
+            <div className="flex justify-center mb-2">
+              <AnimatedLogo
+                width={48}
+                height={48}
+              />
+            </div>
             <h1 className="text-3xl font-bold text-white">Reset Password</h1>
             <p className="text-gray-400">
               Enter your email to receive a password reset link

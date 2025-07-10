@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AnimatedLogo from '@/app/components/AnimatedLogo';
 
 export default function ResetPassword() {
   const router = useRouter();
@@ -77,7 +77,12 @@ export default function ResetPassword() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-black">
       <div className="bg-zinc-900 p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="text-center mb-6">
-          <Image src="/logo.png" alt="Beatinbox Logo" width={50} height={50} className="mx-auto mb-4" />
+          <div className="flex justify-center mb-4">
+            <AnimatedLogo
+              width={50}
+              height={50}
+            />
+          </div>
           <h1 className="text-3xl font-bold text-white">Reset Password</h1>
           <p className="text-gray-400">Enter your new password below.</p>
         </div>
