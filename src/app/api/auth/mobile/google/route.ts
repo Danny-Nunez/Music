@@ -46,57 +46,62 @@ export async function POST(request: Request) {
       );
     }
 
-    // Find or create user
-    const user = await prisma.user.upsert({
-      where: { email },
-      update: {
-        name: name || null,
-        image: image || null,
-        accounts: {
-          upsert: {
-            where: {
-              provider_providerAccountId: {
-                provider: 'google',
-                providerAccountId: googleId
-              }
-            },
-            update: {},
-            create: {
-              type: 'oauth',
-              provider: 'google',
-              providerAccountId: googleId
-            }
-          }
-        }
-      },
-      create: {
-        email,
-        name: name || null,
-        image: image || null,
-        accounts: {
-          create: {
-            type: 'oauth',
+// Find or create user
+const user = await prisma.user.upsert({
+  where: { email },
+  update: {
+    name: name || null,
+    // Only update image if user doesn't have a custom image (not from Google)
+    image: {
+      set: (await prisma.user.findUnique({ where: { email } }))?.image?.includes('googleusercontent.com') 
+        ? (image || null) 
+        : undefined
+    },
+    accounts: {
+      upsert: {
+        where: {
+          provider_providerAccountId: {
             provider: 'google',
             providerAccountId: googleId
           }
+        },
+        update: {},
+        create: {
+          type: 'oauth',
+          provider: 'google',
+          providerAccountId: googleId
         }
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        image: true,
-        playlists: {
+      }
+    }
+  },
+  create: {
+    email,
+    name: name || null,
+    image: image || null,
+    accounts: {
+      create: {
+        type: 'oauth',
+        provider: 'google',
+        providerAccountId: googleId
+      }
+    }
+  },
+  select: {
+    id: true,
+    email: true,
+    name: true,
+    image: true,
+    playlists: {
+      include: {
+        songs: {
           include: {
-            songs: {
-              include: {
-                song: true
-              }
-            }
+            song: true
           }
         }
       }
-    });
+    }
+  }
+});
 
     // Generate session token
     const sessionToken = crypto.randomBytes(32).toString('hex');
