@@ -40,7 +40,7 @@ export default function SupportPage() {
         const error = await response.json();
         toast.error(error.error || 'Failed to send support request');
       }
-    } catch (error) {
+    } catch {
       toast.error('An error occurred while sending your request');
     } finally {
       setIsSubmitting(false);
@@ -55,7 +55,7 @@ export default function SupportPage() {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-4">Support</h1>
             <p className="text-gray-400 text-lg">
-              Need help? We're here to assist you with any questions or issues you might have.
+              Need help? We&apos;re here to assist you with any questions or issues you might have.
             </p>
           </div>
 
@@ -149,7 +149,7 @@ export default function SupportPage() {
                   We typically respond within 24 hours during business days.
                 </p>
                 <p className="text-sm mt-2">
-                  For urgent issues, please include "URGENT" in your subject line.
+                  For urgent issues, please include &quot;URGENT&quot; in your subject line.
                 </p>
               </div>
             </div>
