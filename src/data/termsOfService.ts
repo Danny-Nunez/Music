@@ -241,7 +241,7 @@ export const termsOfServiceData: TermsOfServiceData = {
       content: "For any questions, concerns, or support needs regarding these Terms or the App, please contact us at:",
       items: [
         "Email: info@beatinbox.com",
-        "Support website: [Your support website]",
+        "Support website: https://beatinbox.com/support",
         "We will respond to legitimate inquiries within a reasonable timeframe"
       ]
     },

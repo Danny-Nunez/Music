@@ -66,6 +66,18 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <StructuredData />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VK1C88KF9X"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-VK1C88KF9X');
+            `,
+          }}
+        />
       </head>
       <body className={inter.className}>
         <Providers>
