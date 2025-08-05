@@ -37,6 +37,17 @@ export default function Footer() {
           >
             Terms & Conditions
           </Link>
+          <span className=" text-gray-600">-</span>
+          <Link
+            href="/support"
+            className="hover:text-white transition-colors"
+            onClick={(e) => {
+              // Prevent any interference with video playback
+              e.stopPropagation();
+            }}
+          >
+            Support
+          </Link>
         </div>
         <span className="hidden md:inline text-gray-600">-</span>
         <span className="text-center md:text-left">
