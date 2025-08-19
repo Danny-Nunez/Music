@@ -1,0 +1,36 @@
+name: Keep Supabase DB Alive (Simple)
+
+on:
+  schedule:
+    # Run every 8 hours (3 times daily)
+    - cron: '0 */8 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Ping Supabase REST API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase database at $(date)"
+          
+          # Ping the REST API with a simple request to users table
+          response=$(curl -s -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            "$SUPABASE_URL/rest/v1/users?select=id&limit=1" \
+            -o /dev/null)
+          
+          if [ "$response" -eq 200 ] || [ "$response" -eq 404 ]; then
+            echo "✅ Supabase pinged successfully (HTTP $response)"
+          else
+            echo "❌ Failed to ping Supabase (HTTP $response)"
+            exit 1
+          fi
+          
+          echo "Keep-alive completed at $(date)" 
