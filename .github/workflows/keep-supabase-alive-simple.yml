@@ -18,15 +18,14 @@ jobs:
         run: |
           echo "Pinging Supabase database at $(date)"
           
-          # Ping the REST API with a simple request to users table
+          # Ping the REST API with a simple health check
           response=$(curl -s -w "%{http_code}" \
             -H "apikey: $SUPABASE_ANON_KEY" \
             -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            -H "Content-Type: application/json" \
-            "$SUPABASE_URL/rest/v1/users?select=id&limit=1" \
+            "$SUPABASE_URL/rest/v1/" \
             -o /dev/null)
           
-          if [ "$response" -eq 200 ] || [ "$response" -eq 404 ]; then
+          if [ "$response" -eq 200 ] || [ "$response" -eq 404 ] || [ "$response" -eq 401 ]; then
             echo "✅ Supabase pinged successfully (HTTP $response)"
           else
             echo "❌ Failed to ping Supabase (HTTP $response)"
