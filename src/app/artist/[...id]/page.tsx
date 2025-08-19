@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { PauseIcon, PlayIcon } from '@heroicons/react/24/outline';
+import { PauseIcon, PlayIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import ArtistPageAddToPlaylistButton from '../../../components/ArtistPageAddToPlaylistButton';
 import { usePlayerStore } from '../../../store/playerStore';
 import ArtistAlbums from '../../../components/ArtistAlbums';
@@ -77,6 +77,12 @@ export default function ArtistPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [artistImage, setArtistImage] = useState<string | null>(null);
+  const [albumCount, setAlbumCount] = useState<number>(0);
+  const [playlistCount, setPlaylistCount] = useState<number>(0);
+  const [albumLoading, setAlbumLoading] = useState<boolean>(true);
+  const [playlistLoading, setPlaylistLoading] = useState<boolean>(true);
+  const [currentSongsPage, setCurrentSongsPage] = useState(0);
+  const [isSongsSliding, setIsSongsSliding] = useState(false);
 
   const fetchArtistSongs = async (artistName: string) => {
     try {
@@ -229,132 +235,268 @@ export default function ArtistPage() {
         </div>
         {/* Artist Info */}
         <div className="flex flex-col justify-center md:justify-end h-full w-full text-center md:text-left">
+          <div className="text-gray-300 text-lg md:text-xl mb-2">Artist</div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4">{artistName}</h1>
-          <div className="text-gray-300 text-lg md:text-xl">Artist</div>
+          <div className="flex flex-wrap gap-4 justify-center md:justify-start text-gray-300 text-sm md:text-base">
+            <div className="flex items-center gap-1">
+              <span className="text-white font-semibold">{topSongs.length}</span>
+              <span>Songs</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {playlistLoading ? (
+                <div className="w-4 h-4 border-2 border-gray-400 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <span className="text-white font-semibold">{playlistCount}</span>
+              )}
+              <span>Playlists</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {albumLoading ? (
+                <div className="w-4 h-4 border-2 border-gray-400 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <span className="text-white font-semibold">{albumCount}</span>
+              )}
+              <span>Albums</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="p-8">
-        <h2 className="text-2xl font-bold mb-6">Top Songs</h2>
-        <div className="grid grid-cols-1 gap-4">
-          {topSongs.map((song) => {
-            const thumbnail = song.thumbnails?.[1]?.url ? 
-              `/api/proxy-image?url=${encodeURIComponent(song.thumbnails[1].url)}` : 
-              '/defaultcover.png';
-            const title = song.name || 'Unknown Title';
-            const artist = song.artist?.name || 'Unknown Artist';
-            const videoId = song.videoId;
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white">Top Songs</h2>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                if (currentSongsPage > 0 && !isSongsSliding) {
+                  setIsSongsSliding(true);
+                  setTimeout(() => {
+                    setCurrentSongsPage(currentSongsPage - 1);
+                    setIsSongsSliding(false);
+                  }, 150);
+                }
+              }}
+              className={`p-2 rounded-full transition-colors ${
+                (currentSongsPage > 0 && !isSongsSliding)
+                  ? 'bg-gray-800 hover:bg-gray-700' 
+                  : 'bg-gray-800 opacity-50 cursor-not-allowed'
+              }`}
+              disabled={currentSongsPage === 0 || isSongsSliding}
+              aria-label="Previous"
+            >
+              <ChevronLeftIcon className="h-4 w-4 text-white" />
+            </button>
+            <button
+              onClick={() => {
+                const maxPage = Math.ceil(topSongs.length / 8) - 1;
+                if (currentSongsPage < maxPage && !isSongsSliding) {
+                  setIsSongsSliding(true);
+                  setTimeout(() => {
+                    setCurrentSongsPage(currentSongsPage + 1);
+                    setIsSongsSliding(false);
+                  }, 150);
+                }
+              }}
+              className={`p-2 rounded-full transition-colors ${
+                (currentSongsPage < Math.ceil(topSongs.length / 8) - 1 && !isSongsSliding)
+                  ? 'bg-gray-800 hover:bg-gray-700' 
+                  : 'bg-gray-800 opacity-50 cursor-not-allowed'
+              }`}
+              disabled={currentSongsPage >= Math.ceil(topSongs.length / 8) - 1 || isSongsSliding}
+              aria-label="Next"
+            >
+              <ChevronRightIcon className="h-4 w-4 text-white" />
+            </button>
+          </div>
+        </div>
+        
+        <div className="overflow-hidden">
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ease-in-out ${isSongsSliding ? 'transform -translate-x-4 opacity-80' : 'transform translate-x-0 opacity-100'}`}>
+            {(() => {
+              // Split songs into 2 columns of 4 each (8 total) with pagination
+              const songsPerPage = 8;
+              const startIndex = currentSongsPage * songsPerPage;
+              const endIndex = startIndex + songsPerPage;
+              const currentPageSongs = topSongs.slice(startIndex, endIndex);
+              
+              const leftColumnSongs = currentPageSongs.slice(0, 4);
+              const rightColumnSongs = currentPageSongs.slice(4, 8);
             
-            return (
-              <div
-                key={videoId}
-                className="flex items-center gap-4 p-4 rounded-lg hover:bg-white/10 transition-colors group"
-              >
-                <div className="relative w-16 h-16 flex-shrink-0">
-                  <Image
-                    src={thumbnail}
-                    alt={title}
-                    fill
-                    sizes="64px"
-                    className="object-cover rounded"
-                  />
-                  {currentTrack?.videoId === videoId && isPlaying ? (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const player = document.querySelector('iframe')?.contentWindow;
-                          if (player) {
-                            try {
-                              player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                              setIsPlaying(false);
-                            } catch (error) {
-                              console.error('Error pausing video:', error);
-                            }
+            return [leftColumnSongs, rightColumnSongs].map((columnSongs, columnIndex) => (
+              <div key={columnIndex} className="space-y-2">
+                {columnSongs.map((song, index) => {
+                  const thumbnail = song.thumbnails?.[1]?.url ? 
+                    `/api/proxy-image?url=${encodeURIComponent(song.thumbnails[1].url)}` : 
+                    '/defaultcover.png';
+                  const title = song.name || 'Unknown Title';
+                  const artist = song.artist?.name || 'Unknown Artist';
+                  const videoId = song.videoId;
+                  const globalIndex = (columnIndex * 4) + index;
+                  
+                  return (
+                    <div
+                      key={`${videoId}-${globalIndex}`}
+                      className="song-row flex items-center gap-3 p-3 rounded-lg bg-gray-950 border border-gray-900 hover:bg-gray-800/50 transition-colors cursor-pointer"
+                      onClick={() => {
+                        // Format all tracks
+                        const formattedTracks = topSongs.map((s) => ({
+                          id: s.videoId,
+                          videoId: s.videoId,
+                          title: s.name || 'Unknown Title',
+                          artist: s.artist?.name || 'Unknown Artist',
+                          thumbnail: s.thumbnails?.[1]?.url ? 
+                            `/api/proxy-image?url=${encodeURIComponent(s.thumbnails[1].url)}` : 
+                            '/defaultcover.png'
+                        }));
+
+                        // Find current track index
+                        const currentIndex = formattedTracks.findIndex(
+                          t => t.videoId === videoId
+                        );
+
+                        // Set queue first
+                        const reorderedQueue = [
+                          ...formattedTracks.slice(currentIndex),
+                          ...formattedTracks.slice(0, currentIndex)
+                        ];
+                        setQueue(reorderedQueue);
+                        
+                        // Set current track and play
+                        setCurrentTrack(formattedTracks[currentIndex]);
+                        const player = document.querySelector('iframe')?.contentWindow;
+                        if (player) {
+                          try {
+                            player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                            setIsPlaying(true);
+                          } catch (error) {
+                            console.error('Error playing video:', error);
                           }
-                        }}
-                        className="z-10"
-                      >
-                        <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
-                          <PauseIcon className="h-5 w-5 text-white" />
-                        </div>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // Format all tracks
-                            const formattedTracks = topSongs.map((s) => ({
-                              id: s.videoId,
-                              videoId: s.videoId,
-                              title: s.name || 'Unknown Title',
-                              artist: s.artist?.name || 'Unknown Artist',
-                              thumbnail: s.thumbnails?.[1]?.url ? 
-                                `/api/proxy-image?url=${encodeURIComponent(s.thumbnails[1].url)}` : 
-                                '/defaultcover.png'
-                            }));
-
-                            // Find current track index
-                            const currentIndex = formattedTracks.findIndex(
-                              t => t.videoId === videoId
-                            );
-
-                            // Set queue first
-                            const reorderedQueue = [
-                              ...formattedTracks.slice(currentIndex),
-                              ...formattedTracks.slice(0, currentIndex)
-                            ];
-                            setQueue(reorderedQueue);
-                            
-                            // Set current track and play
-                            setCurrentTrack(formattedTracks[currentIndex]);
-                            const player = document.querySelector('iframe')?.contentWindow;
-                            if (player) {
-                              try {
-                                player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                                setIsPlaying(true);
-                              } catch (error) {
-                                console.error('Error playing video:', error);
-                              }
-                            }
-                          }}
-                          className="z-10"
-                        >
-                          <div className="bg-red-600 p-1.5 rounded-full hover:bg-red-700 transition-colors">
-                            <PlayIcon className="h-5 w-5 text-white" />
+                        }
+                      }}
+                    >
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={thumbnail}
+                          alt={`Album cover for ${title}`}
+                          className="w-12 h-12 object-cover rounded"
+                        />
+                        {currentTrack?.videoId === videoId ? (
+                          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const player = document.querySelector('iframe')?.contentWindow;
+                                if (player) {
+                                  try {
+                                    if (isPlaying) {
+                                      player.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                      setIsPlaying(false);
+                                    } else {
+                                      player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                      setIsPlaying(true);
+                                    }
+                                  } catch (error) {
+                                    console.error('Error controlling video:', error);
+                                  }
+                                }
+                              }}
+                              className="text-white hover:text-red-400 transition-colors"
+                            >
+                              {isPlaying ? (
+                                <PauseIcon className="h-4 w-4" />
+                              ) : (
+                                <PlayIcon className="h-4 w-4" />
+                              )}
+                            </button>
                           </div>
-                        </button>
+                        ) : (
+                          <div className="absolute inset-0 bg-black bg-opacity-0 flex items-center justify-center rounded transition-opacity hover:bg-opacity-50">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Same logic as clicking the row
+                                const formattedTracks = topSongs.map((s) => ({
+                                  id: s.videoId,
+                                  videoId: s.videoId,
+                                  title: s.name || 'Unknown Title',
+                                  artist: s.artist?.name || 'Unknown Artist',
+                                  thumbnail: s.thumbnails?.[1]?.url ? 
+                                    `/api/proxy-image?url=${encodeURIComponent(s.thumbnails[1].url)}` : 
+                                    '/defaultcover.png'
+                                }));
+
+                                const currentIndex = formattedTracks.findIndex(
+                                  t => t.videoId === videoId
+                                );
+
+                                const reorderedQueue = [
+                                  ...formattedTracks.slice(currentIndex),
+                                  ...formattedTracks.slice(0, currentIndex)
+                                ];
+                                setQueue(reorderedQueue);
+                                
+                                setCurrentTrack(formattedTracks[currentIndex]);
+                                const player = document.querySelector('iframe')?.contentWindow;
+                                if (player) {
+                                  try {
+                                    player.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                                    setIsPlaying(true);
+                                  } catch (error) {
+                                    console.error('Error playing video:', error);
+                                  }
+                                }
+                              }}
+                              className="text-white transition-opacity opacity-0 hover:opacity-100"
+                            >
+                              <PlayIcon className="h-4 w-4" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-white font-medium text-sm truncate">{title}</h3>
+                        <p className="text-gray-400 text-xs truncate mt-0.5">{artist}</p>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 flex-shrink-0 add-to-playlist-container">
+                        <div className="relative opacity-100 transition-all duration-200">
+                          <ArtistPageAddToPlaylistButton
+                            track={{
+                              id: videoId,
+                              videoId: videoId,
+                              title: title,
+                              thumbnail: thumbnail,
+                              artist: artist
+                            }}
+                            className="!relative !top-0 !right-0 !w-auto !h-auto p-2 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"
+                          />
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-medium truncate">{title}</h3>
-                  <p className="text-gray-400 text-sm truncate">{artist}</p>
-                </div>
-                <ArtistPageAddToPlaylistButton
-                  track={{
-                    id: videoId,
-                    videoId: videoId,
-                    title: title,
-                    thumbnail: thumbnail,
-                    artist: artist
-                  }}
-                  className="opacity-0 group-hover:opacity-100"
-                />
+                  );
+                })}
               </div>
-            );
-          })}
+            ));
+          })()}
+          </div>
         </div>
       </div>
 
       {/* Artist Albums */}
       <div className="ml-2">
-        <ArtistAlbums artistName={artistName} headerImage={headerImage} />
-        <ArtistPlaylists artistName={artistName} headerImage={headerImage} />
+        <ArtistAlbums 
+          artistName={artistName} 
+          headerImage={headerImage} 
+          onAlbumCountChange={setAlbumCount}
+          onLoadingChange={setAlbumLoading}
+        />
+        <ArtistPlaylists 
+          artistName={artistName} 
+          headerImage={headerImage} 
+          onPlaylistCountChange={setPlaylistCount}
+          onLoadingChange={setPlaylistLoading}
+        />
       </div>
     </div>
   );

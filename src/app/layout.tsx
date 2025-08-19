@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Providers from '../components/Providers';
 import { Toaster } from 'react-hot-toast';
+import Player from './components/Player';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -43,7 +44,6 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
-  manifest: '/site.webmanifest',
 };
 
 export const viewport = {
@@ -66,10 +66,23 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <StructuredData />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VK1C88KF9X"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-VK1C88KF9X');
+            `,
+          }}
+        />
       </head>
       <body className={inter.className}>
         <Providers>
           {children}
+          <Player />
           <div className="fixed z-[99999999]">
           <Toaster
             position="bottom-center"

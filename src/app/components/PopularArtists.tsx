@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import type { Swiper as SwiperType } from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -29,14 +31,28 @@ interface Artist {
   alternativeImage?: string;
 }
 
+interface CachedArtistData {
+  artists: Artist[];
+  timestamp: number;
+}
+
 export default function PopularArtists() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState<{[key: string]: boolean}>({});
+  const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     const fetchArtists = async () => {
       try {
+        // Check localStorage for cached data
+        const cachedData = getCachedArtistData();
+        if (cachedData) {
+          setArtists(cachedData.artists);
+          setLoading(false);
+          return;
+        }
+
         const response = await fetch('/api/popular-artists', {
           method: 'POST'
         });
@@ -82,6 +98,8 @@ export default function PopularArtists() {
           })
         );
 
+        // Cache the results
+        setCachedArtistData(artistsWithImages);
         setArtists(artistsWithImages);
         setLoading(false);
       } catch (error) {
@@ -92,6 +110,53 @@ export default function PopularArtists() {
 
     fetchArtists();
   }, []);
+
+  // Cache management functions
+  const getCachedArtistData = (): CachedArtistData | null => {
+    try {
+      const cached = localStorage.getItem('beatinbox_popular_artists');
+      if (!cached) return null;
+      
+      const parsedData: CachedArtistData = JSON.parse(cached);
+      const now = Date.now();
+      const twoHours = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+      
+      if (now - parsedData.timestamp < twoHours) {
+        return parsedData;
+      }
+      
+      // Cache expired, remove it
+      localStorage.removeItem('beatinbox_popular_artists');
+      return null;
+    } catch (error) {
+      console.error('Error reading cached artist data:', error);
+      return null;
+    }
+  };
+
+  const setCachedArtistData = (artists: Artist[]): void => {
+    try {
+      const cacheData: CachedArtistData = {
+        artists,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('beatinbox_popular_artists', JSON.stringify(cacheData));
+    } catch (error) {
+      console.error('Error caching artist data:', error);
+    }
+  };
+
+  const handlePrevSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev();
+    }
+  };
+
+  const handleNextSlide = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slideNext();
+    }
+  };
 
   const LoadingPlaceholder = () => (
     <div className="flex flex-col items-center">
@@ -111,13 +176,33 @@ export default function PopularArtists() {
       <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl sm:text-2xl font-bold text-white">Popular Artists</h2>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrevSlide}
+              className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Previous"
+              disabled={loading}
+            >
+              <ChevronLeftIcon className="h-4 w-4 text-white" />
+            </button>
+            <button
+              onClick={handleNextSlide}
+              className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Next"
+              disabled={loading}
+            >
+              <ChevronRightIcon className="h-4 w-4 text-white" />
+            </button>
+          </div>
         </div>
 
         <Swiper
           modules={[Navigation, Pagination]}
           spaceBetween={8}
           slidesPerView={2}
-          navigation
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+          }}
           breakpoints={{
             330: { slidesPerView: 2, spaceBetween: 12 },
             480: { slidesPerView: 2.5, spaceBetween: 16 },
@@ -141,6 +226,10 @@ export default function PopularArtists() {
                 <Link
                   href={`/artist${artist.id}`}
                   className="block group text-center w-full"
+                  onClick={(e) => {
+                    // Prevent any interference with video playback
+                    e.stopPropagation();
+                  }}
                 >
                   <div className="flex flex-col items-center">
                     <div className="relative mb-2">

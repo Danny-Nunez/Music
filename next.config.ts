@@ -51,7 +51,7 @@ const nextConfig: NextConfig = {
   },
   // Allow images from external domains
   images: {
-    domains: ['lh3.googleusercontent.com', 'i.ytimg.com', 'www.youtube.com', 'img.youtube.com'], // Added YouTube domain
+    domains: ['lh3.googleusercontent.com', 'i.ytimg.com', 'www.youtube.com', 'img.youtube.com', 'res.cloudinary.com'], // Added YouTube domain and Cloudinary
   },
   // Allow YouTube as a video source
   async headers() {

@@ -119,7 +119,7 @@ export default function AlbumPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-zinc-900 to-black text-white pt-20 rounded-lg">
+      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-zinc-900 to-black text-white pt-20 rounded-lg max-w-screen-lg">
         <div className="p-8">
           <div className="flex items-center gap-8 mb-8">
             <div className="md:w-48 md:h-48 w-32 h-32 bg-white/10 rounded animate-pulse"></div>
@@ -224,7 +224,7 @@ export default function AlbumPage() {
   console.log('Items to display:', items);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gradient-to-b from-[#121212] to-black text-white mx-4 rounded-xl">
+    <div className="flex-1 overflow-y-auto bg-gradient-to-b from-[#121212] to-black text-white mx-4 rounded-xl max-w-screen-lg">
       {/* Album Header */}
       <div className="p-8">
         <div className="flex items-start gap-8 mb-8">

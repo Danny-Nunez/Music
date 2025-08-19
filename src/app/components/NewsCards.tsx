@@ -11,7 +11,7 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-interface RadioStream {
+interface NewsStream {
   id: string;
   title: string;
   videoId: string;
@@ -45,14 +45,14 @@ interface ApiResponse {
   };
 }
 
-interface CachedRadioData {
-  streams: RadioStream[];
+interface CachedNewsData {
+  streams: NewsStream[];
   timestamp: number;
 }
 
-export default function RadioCards() {
+export default function NewsCards() {
   const { currentTrack, isPlaying, setCurrentTrack, setIsPlaying } = usePlayerStore();
-  const [radioStreams, setRadioStreams] = useState<RadioStream[]>([]);
+  const [newsStreams, setNewsStreams] = useState<NewsStream[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -61,26 +61,26 @@ export default function RadioCards() {
     let isMounted = true;
     const controller = new AbortController();
 
-    const fetchRadioStreams = async () => {
+    const fetchNewsStreams = async () => {
       try {
         if (!isMounted) return;
         setIsLoading(true);
         setError(null);
         
         // Check localStorage for cached data
-        const cachedData = getCachedRadioData();
+        const cachedData = getCachedNewsData();
         if (cachedData) {
-          setRadioStreams(cachedData.streams);
+          setNewsStreams(cachedData.streams);
           setIsLoading(false);
           return;
         }
 
-        const response = await fetch('/api/music-live', {
+        const response = await fetch('/api/news', {
           signal: controller.signal
         });
         
         if (!response.ok) {
-          throw new Error(`Failed to fetch radio streams: ${response.status}`);
+          throw new Error(`Failed to fetch news streams: ${response.status}`);
         }
         
         const data: ApiResponse = await response.json();
@@ -89,7 +89,7 @@ export default function RadioCards() {
         
         // Transform the API response to match our component's expected structure
         // Filter out null/undefined streams and ensure all required fields exist
-        const transformedStreams: RadioStream[] = Object.entries(data)
+        const transformedStreams: NewsStream[] = Object.entries(data)
           .filter(([, stream]) => stream && stream.id && stream.title)
           .map(([streamKey, stream]) => ({
             id: streamKey,
@@ -109,16 +109,16 @@ export default function RadioCards() {
         
         if (isMounted) {
           // Cache the results
-          setCachedRadioData(transformedStreams);
-          setRadioStreams(transformedStreams);
+          setCachedNewsData(transformedStreams);
+          setNewsStreams(transformedStreams);
         }
       } catch (err) {
         if (!isMounted) return;
         if (err instanceof Error && err.name === 'AbortError') {
           return;
         }
-        console.error('Error fetching radio streams:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load radio streams');
+        console.error('Error fetching news streams:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load news streams');
       } finally {
         if (isMounted) {
           setIsLoading(false);
@@ -126,7 +126,7 @@ export default function RadioCards() {
       }
     };
 
-    fetchRadioStreams();
+    fetchNewsStreams();
 
     return () => {
       isMounted = false;
@@ -135,12 +135,12 @@ export default function RadioCards() {
   }, []);
 
   // Cache management functions
-  const getCachedRadioData = (): CachedRadioData | null => {
+  const getCachedNewsData = (): CachedNewsData | null => {
     try {
-      const cached = localStorage.getItem('beatinbox_radio_streams');
+      const cached = localStorage.getItem('beatinbox_news_streams');
       if (!cached) return null;
       
-      const parsedData: CachedRadioData = JSON.parse(cached);
+      const parsedData: CachedNewsData = JSON.parse(cached);
       const now = Date.now();
       const twoHours = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
       
@@ -149,27 +149,27 @@ export default function RadioCards() {
       }
       
       // Cache expired, remove it
-      localStorage.removeItem('beatinbox_radio_streams');
+      localStorage.removeItem('beatinbox_news_streams');
       return null;
     } catch (error) {
-      console.error('Error reading cached radio data:', error);
+      console.error('Error reading cached news data:', error);
       return null;
     }
   };
 
-  const setCachedRadioData = (streams: RadioStream[]): void => {
+  const setCachedNewsData = (streams: NewsStream[]): void => {
     try {
-      const cacheData: CachedRadioData = {
+      const cacheData: CachedNewsData = {
         streams,
         timestamp: Date.now()
       };
-      localStorage.setItem('beatinbox_radio_streams', JSON.stringify(cacheData));
+      localStorage.setItem('beatinbox_news_streams', JSON.stringify(cacheData));
     } catch (error) {
-      console.error('Error caching radio data:', error);
+      console.error('Error caching news data:', error);
     }
   };
 
-  const handlePlayPause = (stream: RadioStream, e?: React.MouseEvent) => {
+  const handlePlayPause = (stream: NewsStream, e?: React.MouseEvent) => {
     if (e) {
       e.stopPropagation();
     }
@@ -193,7 +193,7 @@ export default function RadioCards() {
         id: stream.videoId,
         videoId: stream.videoId,
         title: stream.title,
-        artist: 'Live Radio',
+        artist: 'Live News',
         thumbnail: stream.thumbnail
       });
       if (player) {
@@ -224,7 +224,7 @@ export default function RadioCards() {
       <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
             <div className="flex items-center gap-2">
               <button
                 disabled
@@ -260,7 +260,7 @@ export default function RadioCards() {
       <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
             <div className="flex items-center gap-2">
               <button
                 disabled
@@ -279,7 +279,7 @@ export default function RadioCards() {
             </div>
           </div>
           <div className="text-red-400 text-center py-8">
-            <p>Error loading radio streams: {error}</p>
+            <p>Error loading news streams: {error}</p>
             <button 
               onClick={() => window.location.reload()} 
               className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
@@ -292,12 +292,12 @@ export default function RadioCards() {
     );
   }
 
-  if (radioStreams.length === 0) {
+  if (newsStreams.length === 0) {
     return (
       <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
         <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
             <div className="flex items-center gap-2">
               <button
                 disabled
@@ -316,7 +316,7 @@ export default function RadioCards() {
             </div>
           </div>
           <div className="text-gray-400 text-center py-8">
-            <p>No radio streams available</p>
+            <p>No news streams available</p>
           </div>
         </div>
       </div>
@@ -327,7 +327,7 @@ export default function RadioCards() {
     <div className="relative px-0 sm:px-0 py-2 -mx-4 sm:mx-6 overflow-hidden scrollbar-hide">
       <div className="max-w-[380px] sm:max-w-[580px] md:max-w-[780px] lg:max-w-[980px] xl:max-w-[1280px] mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-white">Live Radio</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Live News</h2>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrevSlide}
@@ -360,9 +360,9 @@ export default function RadioCards() {
             768: { slidesPerView: 3, spaceBetween: 24 },
             1024: { slidesPerView: 4, spaceBetween: 28 },
           }}
-          className="radio-cards-swiper"
+          className="news-cards-swiper"
         >
-          {radioStreams.map((stream) => (
+          {newsStreams.map((stream) => (
             <SwiperSlide key={stream.id}>
               <div
                 onClick={() => handlePlayPause(stream)}
@@ -399,6 +399,14 @@ export default function RadioCards() {
                     <h3 className="text-white group-hover:text-gray-400 font-medium text-xs sm:text-sm truncate transition-colors">
                       {stream.title}
                     </h3>
+                    <div className="flex items-center justify-center gap-1 mt-1">
+                      <span className="text-gray-400 text-xs">{stream.channel.name}</span>
+                      {stream.channel.verified && (
+                        <svg className="w-3 h-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
                     {stream.watching > 0 && (
                       <p className="text-gray-400 text-xs mt-1">
                         {stream.watching.toLocaleString()} watching
@@ -413,4 +421,4 @@ export default function RadioCards() {
       </div>
     </div>
   );
-}
+} 

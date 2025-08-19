@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
 
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -51,7 +50,7 @@ export async function POST(request: Request) {
       where: { email },
       update: {
         name: name || null,
-        image: image || null,
+        // Don't update image - keep existing image (whether Google or custom)
         accounts: {
           upsert: {
             where: {

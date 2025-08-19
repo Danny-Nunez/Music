@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import AnimatedLogo from '@/app/components/AnimatedLogo';
 
 export default function SignIn() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -63,7 +64,12 @@ export default function SignIn() {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="bg-[#282828] p-8 rounded-lg shadow-lg max-w-sm w-full">
         <div className="text-center mb-8">
-          <Image src="/logo.png" alt="Beatinbox Logo" width={50} height={50} className="mx-auto mb-2" />
+          <div className="flex justify-center mb-2">
+            <AnimatedLogo
+              width={50}
+              height={50}
+            />
+          </div>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome to Beatinbox</h1>
           <p className="text-gray-400">{isRegistering ? 'Create an account' : 'Sign in to continue'}</p>
         </div>
