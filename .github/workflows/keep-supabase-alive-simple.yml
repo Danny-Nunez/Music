@@ -2,8 +2,8 @@ name: Keep Supabase DB Alive
 
 on:
   schedule:
-    # Every 12 hours (2x daily)
-    - cron: '0 */12 * * *'
+    # Every 8 hours
+    - cron: '0 */8 * * *'
   workflow_dispatch:
 
 jobs:
@@ -11,24 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ping Supabase Database (keep alive)
+      - name: Keep Supabase database alive
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           echo "🔄 Pinging Supabase database at $(date)"
 
-          response=$(curl -s -w "%{http_code}" \
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "apikey: $SUPABASE_ANON_KEY" \
             -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            "$SUPABASE_URL/rest/v1/keep_alive?select=id&limit=1" \
-            -o /dev/null)
+            "$SUPABASE_URL/rest/v1/keep_alive?select=id&limit=1")
 
-          if [ "$response" -eq 200 ]; then
-            echo "✅ Supabase database kept alive (HTTP $response)"
-          else
-            echo "❌ Supabase ping failed (HTTP $response)"
+          echo "HTTP response: $RESPONSE"
+
+          if [ "$RESPONSE" != "200" ]; then
+            echo "❌ Supabase DB keep-alive failed"
             exit 1
           fi
 
-          echo "✅ Keep-alive completed at $(date)"
+          echo "✅ Supabase database kept alive successfully"
