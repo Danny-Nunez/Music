@@ -8,32 +8,50 @@ on:
 jobs:
   ping-supabase:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Keep Supabase database alive
+      - name: Ping Supabase (debug + keep alive)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          set -e
+          set -euo pipefail
 
-          # Trim any accidental newline/CR from secrets
-          SUPABASE_URL="$(echo -n "$SUPABASE_URL" | tr -d '\r\n' | sed 's:/*$::')"
-          SUPABASE_ANON_KEY="$(echo -n "$SUPABASE_ANON_KEY" | tr -d '\r\n')"
+          # Normalize secrets
+          SUPABASE_URL="$(printf "%s" "$SUPABASE_URL" | tr -d '\r\n' | sed 's:/*$::')"
+          SUPABASE_ANON_KEY="$(printf "%s" "$SUPABASE_ANON_KEY" | tr -d '\r\n')"
 
-          echo "🔄 Pinging Supabase database at $(date)"
-          echo "🔎 URL: ${SUPABASE_URL}/rest/v1/keep_alive?select=id&limit=1"
+          echo "🔄 $(date)"
+          echo "🔎 URL: $SUPABASE_URL"
           echo "🔎 Key length: ${#SUPABASE_ANON_KEY}"
+          echo "🔎 Key prefix: $(printf "%s" "$SUPABASE_ANON_KEY" | cut -c1-12)..."
 
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+          AUTH_HEADER="Authorization: Bearer $SUPABASE_ANON_KEY"
+          API_HEADER="apikey: $SUPABASE_ANON_KEY"
+
+          # Show only the start of the header so we can confirm 'Authorization: Bearer' is present
+          echo "🔎 Auth header prefix: $(printf "%s" "$AUTH_HEADER" | cut -c1-22)..."
+
+          echo "➡️ Test 1: Auth service health (verifies URL/key are sane)"
+          HEALTH_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "$API_HEADER" \
+            "$SUPABASE_URL/auth/v1/health")
+
+          echo "auth/v1/health => HTTP $HEALTH_CODE"
+
+          echo "➡️ Test 2: PostgREST keep_alive table"
+          REST_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "$API_HEADER" \
+            -H "$AUTH_HEADER" \
             "$SUPABASE_URL/rest/v1/keep_alive?select=id&limit=1")
 
-          echo "HTTP response: $RESPONSE"
+          echo "rest/v1/keep_alive => HTTP $REST_CODE"
 
-          if [ "$RESPONSE" != "200" ]; then
-            echo "❌ Supabase DB keep-alive failed"
+          if [ "$REST_CODE" != "200" ]; then
+            echo "❌ keep_alive failed. Printing response body for clues:"
+            curl -s \
+              -H "$API_HEADER" \
+              -H "$AUTH_HEADER" \
+              "$SUPABASE_URL/rest/v1/keep_alive?select=id&limit=1" || true
             exit 1
           fi
 
