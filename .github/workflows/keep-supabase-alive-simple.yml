@@ -2,8 +2,7 @@ name: Keep Supabase DB Alive
 
 on:
   schedule:
-    # Every 8 hours
-    - cron: '0 */8 * * *'
+    - cron: "0 */8 * * *"
   workflow_dispatch:
 
 jobs:
@@ -16,7 +15,15 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
+          set -e
+
+          # Trim any accidental newline/CR from secrets
+          SUPABASE_URL="$(echo -n "$SUPABASE_URL" | tr -d '\r\n' | sed 's:/*$::')"
+          SUPABASE_ANON_KEY="$(echo -n "$SUPABASE_ANON_KEY" | tr -d '\r\n')"
+
           echo "🔄 Pinging Supabase database at $(date)"
+          echo "🔎 URL: ${SUPABASE_URL}/rest/v1/keep_alive?select=id&limit=1"
+          echo "🔎 Key length: ${#SUPABASE_ANON_KEY}"
 
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "apikey: $SUPABASE_ANON_KEY" \
