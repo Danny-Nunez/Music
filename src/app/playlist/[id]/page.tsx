@@ -35,11 +35,20 @@ export default function PlaylistPage() {
       try {
         const playlistUrl = `https://www.youtube.com/playlist?list=${params.id}`;
         const response = await fetch(`/api/getplaylist?url=${encodeURIComponent(playlistUrl)}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch playlist data');
+        let data: unknown;
+        try {
+          data = await response.json();
+        } catch {
+          if (!response.ok) throw new Error(`Failed to fetch playlist (${response.status})`);
+          throw new Error('Invalid response from server');
         }
-        const data = await response.json();
-        setPlaylistData(data);
+        if (!response.ok) {
+          const message = (data && typeof (data as { error?: string }).error === 'string')
+            ? (data as { error: string }).error
+            : `Failed to fetch playlist (${response.status})`;
+          throw new Error(message);
+        }
+        setPlaylistData(data as PlaylistData);
       } catch (err) {
         console.error('Error fetching playlist data:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');

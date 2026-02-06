@@ -37,8 +37,19 @@ declare module 'youtube-music-api' {
     initialize(): Promise<void>;
     initalize(): Promise<void>; // Include the typo to match the package's actual method
     search(query: string, type?: string): Promise<SearchResult>;
-    getAlbum(albumId: string): Promise<Record<string, unknown>>; // Use `Record` for generic objects
-    // Add other methods as needed
+    getAlbum(albumId: string): Promise<Record<string, unknown>>;
+    getPlaylist(browseId: string, contentLimit?: number): Promise<{
+      title?: string;
+      thumbnails?: Array<{ url: string }>;
+      content: Array<{
+        videoId: string;
+        name: string;
+        author?: { name: string } | Array<{ name: string }>;
+        duration?: number;
+        thumbnails?: Array<{ url: string }>;
+      }>;
+      error?: string;
+    }>;
   }
 
   export = YoutubeMusicApi;
