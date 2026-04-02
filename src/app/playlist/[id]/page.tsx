@@ -23,43 +23,77 @@ interface PlaylistData {
   videos: PlaylistVideo[];
 }
 
+type PlaylistFetchError =
+  | { kind: 'unsupported_mix'; listId: string }
+  | { kind: 'other'; message: string };
+
 export default function PlaylistPage() {
   const params = useParams();
   const { currentTrack, isPlaying, setIsPlaying, setCurrentTrack, setQueue } = usePlayerStore();
   const [playlistData, setPlaylistData] = useState<PlaylistData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [fetchError, setFetchError] = useState<PlaylistFetchError | null>(null);
 
   useEffect(() => {
+    const raw = params?.id;
+    const id =
+      typeof raw === 'string'
+        ? raw
+        : Array.isArray(raw) && typeof raw[0] === 'string'
+          ? raw[0]
+          : '';
+    if (!id) {
+      setLoading(false);
+      setFetchError({ kind: 'other', message: 'Missing playlist id' });
+      return;
+    }
+
+    setPlaylistData(null);
+    setFetchError(null);
+    setLoading(true);
+
     const fetchPlaylistData = async () => {
       try {
-        const playlistUrl = `https://www.youtube.com/playlist?list=${params.id}`;
+        const playlistUrl = `https://www.youtube.com/playlist?list=${id}`;
         const response = await fetch(`/api/getplaylist?url=${encodeURIComponent(playlistUrl)}`);
         let data: unknown;
         try {
           data = await response.json();
         } catch {
-          if (!response.ok) throw new Error(`Failed to fetch playlist (${response.status})`);
-          throw new Error('Invalid response from server');
+          setFetchError({
+            kind: 'other',
+            message: !response.ok
+              ? `Failed to fetch playlist (${response.status})`
+              : 'Invalid response from server',
+          });
+          return;
         }
         if (!response.ok) {
-          const message = (data && typeof (data as { error?: string }).error === 'string')
-            ? (data as { error: string }).error
-            : `Failed to fetch playlist (${response.status})`;
-          throw new Error(message);
+          const code = (data as { code?: string }).code;
+          if (code === 'UNSUPPORTED_PLAYLIST_TYPE') {
+            setFetchError({ kind: 'unsupported_mix', listId: id });
+            return;
+          }
+          const message =
+            data && typeof (data as { error?: string }).error === 'string'
+              ? (data as { error: string }).error
+              : `Failed to fetch playlist (${response.status})`;
+          setFetchError({ kind: 'other', message });
+          return;
         }
         setPlaylistData(data as PlaylistData);
       } catch (err) {
         console.error('Error fetching playlist data:', err);
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setFetchError({
+          kind: 'other',
+          message: err instanceof Error ? err.message : 'An error occurred',
+        });
       } finally {
         setLoading(false);
       }
     };
 
-    if (params?.id) {
-      fetchPlaylistData();
-    }
+    void fetchPlaylistData();
   }, [params?.id]);
 
   if (loading) {
@@ -89,10 +123,34 @@ export default function PlaylistPage() {
     );
   }
 
-  if (error) {
+  if (fetchError) {
+    if (fetchError.kind === 'unsupported_mix') {
+      const ytPlaylistUrl = `https://www.youtube.com/playlist?list=${encodeURIComponent(fetchError.listId)}`;
+      return (
+        <div className="flex flex-1 items-center justify-center min-h-[50vh] px-6 py-16">
+          <div className="max-w-md text-center space-y-4">
+            <p className="text-lg font-medium text-amber-400">This mix cannot be played inside Beatinbox</p>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              The link works on YouTube because only YouTube can load this personalized stream. We cannot list or stream those tracks here. Use a saved playlist (starts with <span className="text-zinc-300">PL…</span>) to play it in the app.
+            </p>
+            <a
+              href={ytPlaylistUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full bg-white text-black px-5 py-2.5 text-sm font-medium hover:bg-zinc-200 transition-colors"
+            >
+              Open on YouTube
+            </a>
+          </div>
+        </div>
+      );
+    }
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-red-500">{error}</div>
+      <div className="flex flex-1 items-center justify-center min-h-[50vh] px-6 py-16">
+        <div className="max-w-md text-center space-y-3">
+          <p className="text-lg font-medium text-red-400">Could not load playlist</p>
+          <p className="text-zinc-400 text-sm leading-relaxed">{fetchError.message}</p>
+        </div>
       </div>
     );
   }

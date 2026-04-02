@@ -3,16 +3,16 @@ import { prisma } from '@/lib/prisma';
 import { randomBytes } from 'crypto';
 import { MailerSend, EmailParams, Sender, Recipient } from 'mailersend';
 
-const mailerSend = new MailerSend({
-  apiKey: process.env.MAILERSEND_API_KEY!,
-});
-
-const verifiedSender = process.env.MAILERSEND_API_KEY;
-if (!verifiedSender) {
-  throw new Error('MAILERSEND_VERIFIED_SENDER environment variable is required');
-}
-
 export async function POST(request: Request) {
+  const apiKey = process.env.MAILERSEND_API_KEY;
+  const verifiedSenderEmail = process.env.MAILERSEND_VERIFIED_SENDER;
+  if (!apiKey || !verifiedSenderEmail) {
+    return NextResponse.json(
+      { error: 'Email service is not configured' },
+      { status: 503 }
+    );
+  }
+
   const { email } = await request.json();
 
   if (!email) {
@@ -40,11 +40,9 @@ export async function POST(request: Request) {
     );
   }
 
-  // Generate reset token
   const resetToken = randomBytes(32).toString('hex');
-  const resetTokenExp = new Date(Date.now() + 3600000); // 1 hour from now
+  const resetTokenExp = new Date(Date.now() + 3600000);
 
-  // Update user with reset token
   await prisma.user.update({
     where: { id: user.id },
     data: {
@@ -53,8 +51,8 @@ export async function POST(request: Request) {
     },
   });
 
-  // Send email with reset link
-  const sentFrom = new Sender('no-reply@beatinbox.com', 'Beat Inbox Music');
+  const mailerSend = new MailerSend({ apiKey });
+  const sentFrom = new Sender(verifiedSenderEmail, 'Beat Inbox Music');
   const recipients = [new Recipient(user.email, user.name || 'User')];
 
   const emailParams = new EmailParams()

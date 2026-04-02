@@ -1,5 +1,14 @@
 import { NextRequest } from 'next/server';
 import { playlist_info, yt_validate } from 'play-dl';
+import { Client, MixPlaylist, Playlist } from 'youtubei';
+import type { VideoCompact } from 'youtubei';
+import { isUnsupportedPlaylistType } from '@/lib/youtubePlaylistSupport';
+import { fetchPlaylistViaRapidApi138 } from '@/lib/rapidApiYoutube138';
+import {
+  getCachedPlaylistJson,
+  isPlaylistCacheEnabled,
+  setCachedPlaylistJson,
+} from '@/lib/redisPlaylistCache';
 import YoutubeMusicApi from 'youtube-music-api';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const ytlist = require('youtube-playlist') as (
@@ -38,25 +47,175 @@ const TIMEOUT = 15000;
 // Maximum videos to return
 const MAX_VIDEOS = 65;
 
-// YouTube auto-generated / Mix / Radio playlists use different IDs and aren't supported by play-dl
-const UNSUPPORTED_PLAYLIST_PREFIXES = ['RD', 'RDCL', 'OL', 'LL', 'FL'];
-function isUnsupportedPlaylistType(playlistId: string): boolean {
-  return UNSUPPORTED_PLAYLIST_PREFIXES.some((prefix) =>
-    playlistId.toUpperCase().startsWith(prefix)
-  );
+async function fetchPlaylistViaYoutubei(cleanPlaylistUrl: string): Promise<(NormalizedPlaylist & { totalVideos?: number }) | null> {
+  console.log('[getplaylist] youtubei request:', cleanPlaylistUrl);
+  const client = new Client();
+  let playlist: Playlist | MixPlaylist | undefined;
+  try {
+    playlist = (await Promise.race([
+      client.getPlaylist(cleanPlaylistUrl),
+      new Promise<undefined>((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT)),
+    ])) as Playlist | MixPlaylist | undefined;
+  } catch (e) {
+    console.log('[getplaylist] youtubei getPlaylist threw:', e instanceof Error ? e.message : String(e));
+    if (e instanceof Error && e.stack) console.log('[getplaylist] youtubei stack:', e.stack);
+    return null;
+  }
+
+  if (!playlist) {
+    console.log('[getplaylist] youtubei getPlaylist returned undefined');
+    return null;
+  }
+
+  const isMix = playlist instanceof MixPlaylist;
+  const isPl = playlist instanceof Playlist;
+  let rawSummary: Record<string, unknown> = {
+    constructorName: playlist.constructor?.name,
+    instanceofMixPlaylist: isMix,
+    instanceofPlaylist: isPl,
+    id: playlist.id,
+    title: playlist.title,
+    videoCount: playlist.videoCount,
+  };
+  if (playlist instanceof MixPlaylist) {
+    rawSummary = { ...rawSummary, mixVideosArrayLength: playlist.videos?.length ?? 0 };
+  } else if (playlist instanceof Playlist) {
+    rawSummary = {
+      ...rawSummary,
+      continuableItemsLength: playlist.videos.items.length,
+      continuation: playlist.videos.continuation ?? null,
+    };
+  } else {
+    rawSummary = {
+      ...rawSummary,
+      note: 'not Playlist or MixPlaylist — instanceof check failed (possible bundle duplicate)',
+    };
+  }
+  console.log('[getplaylist] youtubei raw playlist:', JSON.stringify(rawSummary, null, 2));
+
+  let videoItems: VideoCompact[] = [];
+
+  if (playlist instanceof MixPlaylist) {
+    const raw = playlist.videos ?? [];
+    const priv = raw.filter((v) => v.isPrivateOrDeleted);
+    videoItems = raw.filter((v) => !v.isPrivateOrDeleted);
+    console.log(
+      '[getplaylist] youtubei MixPlaylist videos:',
+      'raw',
+      raw.length,
+      'after dropping private/deleted',
+      videoItems.length,
+      'privateOrDeleted',
+      priv.length
+    );
+    if (raw[0]) {
+      console.log('[getplaylist] youtubei first mix item sample:', {
+        id: raw[0].id,
+        title: raw[0].title,
+        isPrivateOrDeleted: raw[0].isPrivateOrDeleted,
+      });
+    }
+  } else if (playlist instanceof Playlist) {
+    let pages = 0;
+    console.log(
+      '[getplaylist] youtubei Playlist initial continuable length:',
+      playlist.videos.items.length,
+      'continuation:',
+      playlist.videos.continuation ?? 'none'
+    );
+    while (playlist.videos.items.length < MAX_VIDEOS && pages < 12) {
+      const before = playlist.videos.items.length;
+      try {
+        await playlist.videos.next(1);
+      } catch (nextErr) {
+        console.log(
+          '[getplaylist] youtubei playlist.videos.next(1) stopped:',
+          nextErr instanceof Error ? nextErr.message : String(nextErr)
+        );
+        break;
+      }
+      pages += 1;
+      console.log(
+        '[getplaylist] youtubei after next page',
+        pages,
+        'items:',
+        playlist.videos.items.length,
+        'continuation:',
+        playlist.videos.continuation ?? 'none'
+      );
+      if (playlist.videos.items.length <= before) break;
+    }
+    const raw = playlist.videos.items;
+    videoItems = raw.filter((v) => !v.isPrivateOrDeleted);
+    console.log(
+      '[getplaylist] youtubei Playlist final items:',
+      raw.length,
+      'usable (not private/deleted):',
+      videoItems.length
+    );
+    if (raw[0]) {
+      console.log('[getplaylist] youtubei first playlist item sample:', {
+        id: raw[0].id,
+        title: raw[0].title,
+        isPrivateOrDeleted: raw[0].isPrivateOrDeleted,
+      });
+    }
+  } else {
+    console.log('[getplaylist] youtubei unknown type; keys:', Object.keys(playlist as object));
+    return null;
+  }
+
+  if (videoItems.length === 0) {
+    console.log('[getplaylist] youtubei bailing: zero usable videos after filters');
+    return null;
+  }
+
+  const limited = videoItems.slice(0, MAX_VIDEOS);
+  const playlistThumbnail =
+    playlist instanceof Playlist
+      ? playlist.thumbnails?.best ?? playlist.thumbnails?.min
+      : limited[0]?.thumbnails?.best ?? limited[0]?.thumbnails?.min;
+
+  const normalized: NormalizedPlaylist = {
+    title: playlist.title || 'Playlist',
+    thumbnail: playlistThumbnail,
+    videos: limited.map((video) => ({
+      id: video.id,
+      title: video.title,
+      url: `https://www.youtube.com/watch?v=${video.id}`,
+      thumbnail: video.thumbnails?.best ?? video.thumbnails?.min,
+      duration: typeof video.duration === 'number' ? video.duration : 0,
+      channel: { name: video.channel?.name ?? '', url: video.channel?.url },
+    })),
+  };
+  return { ...normalized, totalVideos: playlist.videoCount };
 }
 
-function buildJsonResponse(payload: NormalizedPlaylist & { totalVideos?: number; returnedVideos?: number; limited?: boolean; source?: string }) {
+async function respondPlaylistSuccess(
+  playlistId: string,
+  payload: NormalizedPlaylist & { totalVideos?: number; source?: string }
+): Promise<Response> {
   const body = {
     ...payload,
     totalVideos: payload.totalVideos ?? payload.videos.length,
     returnedVideos: payload.videos.length,
     limited: (payload.totalVideos ?? payload.videos.length) > payload.videos.length,
   };
-  console.log('[getplaylist] response:', JSON.stringify(body, null, 2));
-  return new Response(JSON.stringify(body), {
+  const json = JSON.stringify(body);
+  console.log(
+    '[getplaylist] success source=',
+    body.source,
+    'videos=',
+    body.returnedVideos,
+    process.env.REDIS_URL ? '(caching)' : '(no REDIS_URL)'
+  );
+  await setCachedPlaylistJson(playlistId, json);
+  return new Response(json, {
     status: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Playlist-Cache': 'MISS',
+    },
   });
 }
 
@@ -92,49 +251,139 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // 1) Try play-dl first (skip for known unsupported types to save time)
-    if (!isUnsupportedPlaylistType(playlistId)) {
-      try {
-        const playlistInfo = await Promise.race([
-          playlist_info(cleanPlaylistUrl, { incomplete: true }),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT))
-        ]) as Awaited<ReturnType<typeof playlist_info>>;
-
-        let videos: PlayDLVideo[] = [];
-        try {
-          videos = await Promise.race([
-            playlistInfo.all_videos(),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Quick timeout')), 5000))
-          ]) as PlayDLVideo[];
-        } catch {
-          const firstPage = await Promise.race([
-            playlistInfo.next(),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT))
-          ]) as PlayDLVideo[];
-          videos = firstPage || [];
-        }
-
-        const limitedVideos = videos.slice(0, MAX_VIDEOS);
-        const normalized: NormalizedPlaylist = {
-          title: playlistInfo.title ?? 'Playlist',
-          thumbnail: playlistInfo.thumbnail?.url,
-          videos: limitedVideos.map((video) => ({
-            id: video.id,
-            title: video.title,
-            url: `https://www.youtube.com/watch?v=${video.id}`,
-            thumbnail: video.thumbnails[0]?.url,
-            duration: video.durationInSec,
-            channel: { name: video.channel?.name ?? '', url: video.channel?.url }
-          }))
-        };
-        console.log('[getplaylist] source=play-dl raw playlistInfo.title:', playlistInfo.title, 'videosCount:', limitedVideos.length);
-        return buildJsonResponse({ ...normalized, totalVideos: playlistInfo.total_videos ?? videos.length, source: 'play-dl' });
-      } catch (playDlError) {
-        console.log('[getplaylist] play-dl failed:', playDlError instanceof Error ? playDlError.message : String(playDlError));
-      }
+    if (isPlaylistCacheEnabled()) {
+      console.log('[getplaylist] redis: GET beatinbox:playlist:v1:' + playlistId);
+    }
+    const cachedJson = await getCachedPlaylistJson(playlistId);
+    if (cachedJson) {
+      console.log('[getplaylist] redis: HIT (served from cache)');
+      return new Response(cachedJson, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Playlist-Cache': 'HIT',
+        },
+      });
+    }
+    if (isPlaylistCacheEnabled()) {
+      console.log('[getplaylist] redis: MISS — resolving playlist upstream');
     }
 
-    // 2) Fallback: youtube-music-api
+    // Mix/Radio/etc.: try RapidAPI youtube138 (works on Vercel; needs RAPIDAPI_KEY).
+    if (isUnsupportedPlaylistType(playlistId)) {
+      try {
+        const fromRapid = await fetchPlaylistViaRapidApi138(playlistId, MAX_VIDEOS, TIMEOUT);
+        if (fromRapid) {
+          console.log(
+            '[getplaylist] source=rapidapi-youtube138 (mix/special) title:',
+            fromRapid.title,
+            'videos:',
+            fromRapid.videos.length
+          );
+          return respondPlaylistSuccess(playlistId, {
+            title: fromRapid.title,
+            thumbnail: fromRapid.thumbnail,
+            videos: fromRapid.videos,
+            totalVideos: fromRapid.totalVideos,
+            source: 'rapidapi-youtube138',
+          });
+        }
+      } catch (e) {
+        console.log('[getplaylist] rapidapi (mix/special) error:', e instanceof Error ? e.message : String(e));
+      }
+      return new Response(
+        JSON.stringify({
+          error:
+            'This mix/radio playlist could not be loaded. Add RAPIDAPI_KEY for youtube138 (RapidAPI), or save the mix as a normal playlist on YouTube and open that link.',
+          code: 'UNSUPPORTED_PLAYLIST_TYPE',
+        }),
+        { status: 422, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // 1) youtubei (InnerTube)
+    try {
+      const fromYoutubei = await fetchPlaylistViaYoutubei(cleanPlaylistUrl);
+      if (fromYoutubei) {
+        console.log(
+          '[getplaylist] source=youtubei title:',
+          fromYoutubei.title,
+          'videos:',
+          fromYoutubei.videos.length
+        );
+        return respondPlaylistSuccess(playlistId, { ...fromYoutubei, source: 'youtubei' });
+      }
+    } catch (e) {
+      console.log('[getplaylist] youtubei fallback failed:', e instanceof Error ? e.message : String(e));
+    }
+
+    // 2) RapidAPI youtube138
+    try {
+      const fromRapid = await fetchPlaylistViaRapidApi138(playlistId, MAX_VIDEOS, TIMEOUT);
+      if (fromRapid) {
+        console.log(
+          '[getplaylist] source=rapidapi-youtube138 title:',
+          fromRapid.title,
+          'videos:',
+          fromRapid.videos.length
+        );
+        return respondPlaylistSuccess(playlistId, {
+          title: fromRapid.title,
+          thumbnail: fromRapid.thumbnail,
+          videos: fromRapid.videos,
+          totalVideos: fromRapid.totalVideos,
+          source: 'rapidapi-youtube138',
+        });
+      }
+    } catch (e) {
+      console.log('[getplaylist] rapidapi fallback failed:', e instanceof Error ? e.message : String(e));
+    }
+
+    // 3) play-dl
+    try {
+      const playlistInfo = await Promise.race([
+        playlist_info(cleanPlaylistUrl, { incomplete: true }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT))
+      ]) as Awaited<ReturnType<typeof playlist_info>>;
+
+      let videos: PlayDLVideo[] = [];
+      try {
+        videos = await Promise.race([
+          playlistInfo.all_videos(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Quick timeout')), 5000))
+        ]) as PlayDLVideo[];
+      } catch {
+        const firstPage = await Promise.race([
+          playlistInfo.next(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), TIMEOUT))
+        ]) as PlayDLVideo[];
+        videos = firstPage || [];
+      }
+
+      const limitedVideos = videos.slice(0, MAX_VIDEOS);
+      const normalized: NormalizedPlaylist = {
+        title: playlistInfo.title ?? 'Playlist',
+        thumbnail: playlistInfo.thumbnail?.url,
+        videos: limitedVideos.map((video) => ({
+          id: video.id,
+          title: video.title,
+          url: `https://www.youtube.com/watch?v=${video.id}`,
+          thumbnail: video.thumbnails[0]?.url,
+          duration: video.durationInSec,
+          channel: { name: video.channel?.name ?? '', url: video.channel?.url }
+        }))
+      };
+      console.log('[getplaylist] source=play-dl raw playlistInfo.title:', playlistInfo.title, 'videosCount:', limitedVideos.length);
+      return respondPlaylistSuccess(playlistId, {
+        ...normalized,
+        totalVideos: playlistInfo.total_videos ?? videos.length,
+        source: 'play-dl',
+      });
+    } catch (playDlError) {
+      console.log('[getplaylist] play-dl failed:', playDlError instanceof Error ? playDlError.message : String(playDlError));
+    }
+
+    // 4) Fallback: youtube-music-api
     try {
       const api = new YoutubeMusicApi();
       await api.initalize();
@@ -158,13 +407,13 @@ export async function GET(req: NextRequest) {
             };
           })
         };
-        return buildJsonResponse({ ...normalized, source: 'youtube-music-api' });
+        return respondPlaylistSuccess(playlistId, { ...normalized, source: 'youtube-music-api' });
       }
     } catch (e) {
       console.log('[getplaylist] youtube-music-api fallback failed:', e instanceof Error ? e.message : String(e));
     }
 
-    // 3) Fallback: youtube-playlist (scraper) – use clean URL
+    // 5) Fallback: youtube-playlist (scraper) – use clean URL
     try {
       const result = await ytlist(cleanPlaylistUrl, ['id', 'name', 'url', 'duration']);
       console.log('[getplaylist] source=youtube-playlist raw response:', JSON.stringify(result, null, 2));
@@ -180,13 +429,13 @@ export async function GET(req: NextRequest) {
             channel: { name: '' }
           }))
         };
-        return buildJsonResponse({ ...normalized, source: 'youtube-playlist' });
+        return respondPlaylistSuccess(playlistId, { ...normalized, source: 'youtube-playlist' });
       }
     } catch (e) {
       console.log('[getplaylist] youtube-playlist fallback failed:', e instanceof Error ? e.message : String(e));
     }
 
-    // 4) Fallback: ytmusic-api
+    // 6) Fallback: ytmusic-api
     try {
       const ytmusic = new YTMusic();
       await ytmusic.initialize();
@@ -210,15 +459,18 @@ export async function GET(req: NextRequest) {
             channel: { name: v.artist?.name ?? '' }
           }))
         };
-        return buildJsonResponse({ ...normalized, totalVideos: meta.videoCount, source: 'ytmusic-api' });
+        return respondPlaylistSuccess(playlistId, {
+          ...normalized,
+          totalVideos: meta.videoCount,
+          source: 'ytmusic-api',
+        });
       }
     } catch (e) {
       console.log('[getplaylist] ytmusic-api fallback failed:', e instanceof Error ? e.message : String(e));
     }
 
-    // All sources failed
     const fallbackError =
-      "Could not load playlist with play-dl or fallbacks (youtube-music-api, youtube-playlist, ytmusic-api). If this is a Mix/Radio playlist, try a regular playlist.";
+      'Could not load this playlist (youtubei, RapidAPI, play-dl, and other sources failed). Check RAPIDAPI_KEY, or the playlist may be private or unavailable.';
     return new Response(JSON.stringify({ error: fallbackError }), {
       status: 422,
       headers: { 'Content-Type': 'application/json' }

@@ -63,19 +63,6 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: "frame-src 'self' https://www.youtube.com",
           },
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET, POST, PUT, DELETE, OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization, X-Session-Token' },
-          { key: 'Access-Control-Allow-Credentials', value: 'true' },
-        ],
-      },
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET, POST, PUT, DELETE, OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization, X-Session-Token' },
-          { key: 'Access-Control-Allow-Credentials', value: 'true' },
         ],
       },
     ];

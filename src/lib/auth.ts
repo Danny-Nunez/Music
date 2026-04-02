@@ -7,6 +7,24 @@ import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { DbUser } from "../types/user";
 
+/**
+ * JWT sessions are encrypted with this secret. If it changes, existing cookies
+ * cannot be decrypted → JWT_SESSION_ERROR. Set NEXTAUTH_SECRET in .env (e.g.
+ * `openssl rand -base64 32`) and clear site cookies once after changing it.
+ */
+const DEV_AUTH_SECRET_FALLBACK =
+  "local-dev-nextauth-secret-min-32-chars-do-not-use-in-prod";
+
+const authSecret =
+  process.env.NEXTAUTH_SECRET ||
+  (process.env.NODE_ENV !== "production" ? DEV_AUTH_SECRET_FALLBACK : undefined);
+
+if (process.env.NODE_ENV === "production" && !process.env.NEXTAUTH_SECRET) {
+  console.warn(
+    "[auth] NEXTAUTH_SECRET is not set. Sessions will be insecure or broken. Set it in your environment."
+  );
+}
+
 // Add resetPassword function
 export async function resetPassword(email: string): Promise<void> {
   const response = await fetch('/api/auth/reset-password', {
@@ -96,5 +114,5 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin',
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: authSecret,
 };
