@@ -2,11 +2,11 @@
  * YouTube138 on RapidAPI — playlist videos.
  * https://rapidapi.com/Glavier/api/youtube138
  *
- * Env: RAPIDAPI_KEY (or RAPID_API_KEY)
+ * Env: RAPID_API_KEY or RAPIDAPI_KEY (albums use RAPID_YT_MUSIC_KEY in rapidYoutubeMusic3Album).
  */
 
 function getRapidApiKey(): string | undefined {
-  return process.env.RAPIDAPI_KEY || process.env.RAPID_API_KEY;
+  return process.env.RAPID_API_KEY || process.env.RAPIDAPI_KEY;
 }
 
 function extractText(field: unknown): string {
@@ -167,7 +167,7 @@ export async function fetchPlaylistViaRapidApi138(
 ): Promise<RapidPlaylistResult | null> {
   const key = getRapidApiKey();
   if (!key) {
-    console.log('[getplaylist] rapidapi: set RAPIDAPI_KEY (RapidAPI → youtube138)');
+    console.log('[getplaylist] rapidapi: set RAPID_API_KEY or RAPIDAPI_KEY (RapidAPI → youtube138)');
     return null;
   }
 

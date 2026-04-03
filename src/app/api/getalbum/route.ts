@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import YTMusic from 'ytmusic-api';
+import { fetchAlbumViaRapidYoutubeMusic3 } from '@/lib/rapidYoutubeMusic3Album';
 
 interface Thumbnail {
   url: string;
@@ -48,30 +49,35 @@ interface AlbumResponse {
 }
 
 export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const albumId = url.searchParams.get('albumId');
+
+  if (!albumId) {
+    return NextResponse.json(
+      { error: 'Missing albumId query parameter' },
+      { status: 400 }
+    );
+  }
+
+  const isPlaylist = albumId.startsWith('PL') || albumId.startsWith('VLPL');
+  const cleanId = albumId;
+
+  if (!isPlaylist) {
+    const rapidAlbum = await fetchAlbumViaRapidYoutubeMusic3(albumId);
+    if (rapidAlbum) {
+      console.log('[getalbum] source: rapid youtube-music-api3', albumId);
+      return NextResponse.json(rapidAlbum, { status: 200 });
+    }
+  }
+
   const ytmusic = new YTMusic();
 
   try {
     console.log('Initializing YTMusic API...');
-    await ytmusic.initialize(); // Initialize the API (add cookies if needed)
-
-    // Get query parameters
-    const url = new URL(req.url);
-    const albumId = url.searchParams.get('albumId'); // Fetch the albumId from query parameters
-
-    if (!albumId) {
-      return NextResponse.json(
-        { error: 'Missing albumId query parameter' },
-        { status: 400 }
-      );
-    }
+    await ytmusic.initialize();
 
     console.log(`Fetching details for ID: ${albumId}`);
-    
-    // Check if it's a playlist ID (starts with PL or VLPL)
-    const isPlaylist = albumId.startsWith('PL') || albumId.startsWith('VLPL');
-    // Don't remove the VL prefix as it's needed for the API
-    const cleanId = albumId;
-    
+
     let result: AlbumResponse;
     if (isPlaylist) {
       // Add VL prefix if not present for playlist fetch

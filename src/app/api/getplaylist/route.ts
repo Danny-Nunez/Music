@@ -269,7 +269,7 @@ export async function GET(req: NextRequest) {
       console.log('[getplaylist] redis: MISS — resolving playlist upstream');
     }
 
-    // Mix/Radio/etc.: try RapidAPI youtube138 (works on Vercel; needs RAPIDAPI_KEY).
+    // Mix/Radio/etc.: try RapidAPI youtube138 (needs RAPID_API_KEY or RAPIDAPI_KEY).
     if (isUnsupportedPlaylistType(playlistId)) {
       try {
         const fromRapid = await fetchPlaylistViaRapidApi138(playlistId, MAX_VIDEOS, TIMEOUT);
@@ -294,7 +294,7 @@ export async function GET(req: NextRequest) {
       return new Response(
         JSON.stringify({
           error:
-            'This mix/radio playlist could not be loaded. Add RAPIDAPI_KEY for youtube138 (RapidAPI), or save the mix as a normal playlist on YouTube and open that link.',
+            'This mix/radio playlist could not be loaded. Add RAPID_API_KEY (or RAPIDAPI_KEY) for youtube138 (RapidAPI), or save the mix as a normal playlist on YouTube and open that link.',
           code: 'UNSUPPORTED_PLAYLIST_TYPE',
         }),
         { status: 422, headers: { 'Content-Type': 'application/json' } }
@@ -470,7 +470,7 @@ export async function GET(req: NextRequest) {
     }
 
     const fallbackError =
-      'Could not load this playlist (youtubei, RapidAPI, play-dl, and other sources failed). Check RAPIDAPI_KEY, or the playlist may be private or unavailable.';
+      'Could not load this playlist (youtubei, RapidAPI, play-dl, and other sources failed). Check RAPID_API_KEY / RAPIDAPI_KEY, or the playlist may be private or unavailable.';
     return new Response(JSON.stringify({ error: fallbackError }), {
       status: 422,
       headers: { 'Content-Type': 'application/json' }
